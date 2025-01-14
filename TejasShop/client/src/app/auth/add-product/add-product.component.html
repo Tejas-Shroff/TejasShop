@@ -1,0 +1,45 @@
+<p>add-product works!</p>
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4
+ mb-3 bg-white border-bottom shadow-sm fixed-top">
+    <span class="fs-4">Admin Dashboard</span>
+    <nav class="my-2 my-md-0 mr-md-3 text-uppercase" styles="font-size: larger;">
+    </nav>
+    <div class="d-flex align-items-center">
+        <a routerLink="/account/login" class=" btn btn-outline-secondary mr-2">logout</a>
+    </div>
+</div>
+<br><br><br><br><br><div class="container">
+
+
+
+
+<div class="container">
+    <h2>Add Product</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div>
+    <label for="Name">Product Name:</label>
+    <input id="Name" formControlName="Name" type="text" />
+    </div>
+    <div>
+    <label for="Description">Description:</label>
+    <textarea id="Description" formControlName="Description"></textarea>
+    </div>
+    <div>
+    <label for="OriginalPrice">Original Price:</label>
+    <input id="OriginalPrice" formControlName="OriginalPrice" type="number" />
+    </div>
+    <div>
+    <label for="StockQuantity">Stock Quantity:</label>
+    <input id="StockQuantity" formControlName="StockQuantity" type="number" />
+    </div>
+    <div>
+    <label for="CategoryId">Category ID:</label>
+    <input id="CategoryId" formControlName="CategoryId" type="number" />
+    </div>
+    <div>
+    <label for="BrandId">Brand ID:</label>
+    <input id="BrandId" formControlName="BrandId" type="number" />
+    </div>
+    <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+    </form>
+    </div> 
