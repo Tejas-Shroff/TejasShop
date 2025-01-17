@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server.Data;
 using server.Dto;
 using server.Dto.Order;
 using server.Entities;
@@ -17,16 +19,15 @@ namespace server.Controllers
         private readonly IOrderService orderService;
         private readonly IPaymentService paymentService;
         private readonly IMapper mapper;
+        private readonly DataContex _context;
 
-        public OrderController(
-            IOrderService orderService,
-            IPaymentService paymentService,
-            IMapper mapper
+        public OrderController(IOrderService orderService, IPaymentService paymentService,IMapper mapper,DataContex context
         )
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.mapper = mapper;
+            _context = context;
         }
 
         [HttpPost("CreateOrder")]

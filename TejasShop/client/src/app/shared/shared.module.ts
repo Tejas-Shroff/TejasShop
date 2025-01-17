@@ -9,17 +9,17 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { MatCardModule } from '@angular/material/card';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule} from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { RenderimgPipe } from './pipes/renderimg.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatInputModule} from '@angular/material/input';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatRadioModule} from '@angular/material/radio';
+import { MatInputModule} from '@angular/material/input';
+import { MatDividerModule} from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule} from '@angular/material/chips';
 
 
 

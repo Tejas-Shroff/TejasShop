@@ -65,6 +65,31 @@ namespace server.Service
 
            return await this.productRepository.AddAsync(newProduct);
         }
+         public async Task<Product> UpdateProduct(int productId, UpdateProductReq updatedProduct)
+    {
+        Product? existingProduct = await GetProductById(productId);
+        if (existingProduct == null)
+        {
+            throw new Exception($"Product with ID {productId} not found.");
+        }
+
+        existingProduct.Name = updatedProduct.Name;
+        existingProduct.Description = updatedProduct.Description;
+        existingProduct.OriginalPrice = updatedProduct.OriginalPrice;
+        existingProduct.StockQuantity = updatedProduct.StockQuantity;
+        existingProduct.CategoryId = updatedProduct.CategoryId;
+        existingProduct.BrandId = updatedProduct.BrandId;
+
+        if (updatedProduct.Thumbnail != null)
+        {
+            Image newImage = await imageService.SaveImageAsync(updatedProduct.Thumbnail);
+            existingProduct.Thumbnail = newImage;
+        }
+
+        await productRepository.UpdateAsync(existingProduct);
+
+        return existingProduct;
+    }
 
         public async Task DeleteBrand(int brandId)
         {

@@ -4,12 +4,14 @@ import { Pagination } from "./pagination";
 export interface CategoryResDto {
     id: number;
     name: string;
+
     image: ImageDtoRes | null;
 }
 
 export interface BrandResDto {
     id: number;
     name: string;
+
     image: ImageDtoRes | null;
 }
 
@@ -26,9 +28,12 @@ export interface ProductResDto {
     averageRating: number;
     totalReviews: number;
     inStock: boolean;
+
     isFeatured: boolean;
     category: CategoryResDto;
     brand: BrandResDto;
+    
+
     thumbnail: ImageDtoRes | null;
 }
 
@@ -49,4 +54,16 @@ export interface ProductFilters {
 export interface ProductPaginationRes extends Pagination<ProductResDto>{
     minPrice?: number ;
     maxPrice?: number ;
+}
+
+
+export interface addProductDTO {
+    thumbnailFile(arg0: string, thumbnailFile: any): unknown;
+    name: string;
+    description: string;
+    originalPrice: number;
+    stockQuantity: number;
+    categoryId: number; 
+    brandId: number;  
+    thumbnail: ImageDtoRes | null;
 }

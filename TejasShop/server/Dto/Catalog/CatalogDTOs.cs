@@ -81,6 +81,16 @@ namespace server.Dto
         public ImageDtoRes? Thumbnail { get; set; }
     }
 
+    public class UpdateProductReq
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public int StockQuantity { get; set; }
+        public int CategoryId { get; set; }
+        public int BrandId { get; set; }
+        public IFormFile? Thumbnail { get; set; }
+    }
     public class ProductPagination:Pagination<Product>
     {
         public decimal? MinPrice { get; set; }

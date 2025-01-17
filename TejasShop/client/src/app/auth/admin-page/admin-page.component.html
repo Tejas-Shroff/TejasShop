@@ -1,65 +1,69 @@
 
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4
- mb-3 bg-white border-bottom shadow-sm fixed-top">
-    <span class="fs-4">Admin Dashboard</span>
-    <nav class="my-2 my-md-0 mr-md-3 text-uppercase" styles="font-size: larger;">
-    </nav>
-    <div class="d-flex align-items-center">
-        <a routerLink="/account/login" class=" btn btn-outline-secondary mr-2">logout</a>
+<br><br>
+
+
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
+    <img src="/assets/amazon-logo.png" alt="Logo">
+    <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+    <div class="d-flex align-items-center ml-auto">
+      <a (click)="logout()" class="btn btn-outline-secondary mr-2">
+        <i class="material-icons">logout</i>
+      </a>
     </div>
+  </div>
+
+<div class="sidebar">
+  <br><br><br><br><br>
+  <a routerLink="/auth/admin-page/add-product">Add Product</a>
+  <a routerLink="/auth/admin-page/delete-product"> Products</a>
+  <a routerLink="/auth/admin-page/order-history">Order History</a>
 </div>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
-  
-  <div style="  margin: auto;width: 100%;padding: 10px;background-position: center center;background-attachment: fixed;"> 
-  <div class="row"  >
-    <div class="column">
-     
-      <div class="card" id="">
-        <h3>ADD Product</h3>
-        <p>You can add new products from here!</p>
-        <button type="button" routerLink="/auth/admin-page/add-product" class="btn btn-primary">Add Product</button>
+
+<div class="main-content">
+  <div class="admin-dashboard-container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">ADD PRODUCT</h3>
+            <p class="card-text">You can add new products from here!</p>
+            <button type="button" routerLink="/auth/admin-page/add-product" class="btn btn-custom">Click here</button>
+          </div>
+        </div>
       </div>
-    </div>
-  
-    <div class="column" >
-      <div class="card">
-        <h3>VIEW Order history</h3>
-        <p>You can view the order history of last 6 months here!</p>
-        
-            <button type="button" routerLink="/auth/admin-page/order-history" class="btn btn-primary">View Order history</button>
-       
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">VIEW ORDER HISTORY</h3>
+            <p class="card-text">You can view the order history of last 6 months here!</p>
+            <button type="button" routerLink="/auth/admin-page/order-history" class="btn btn-custom">Click here</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">VIEW PRODUCTS</h3>
+            <p class="card-text">You can delete the product here!</p>
+            <button type="button" routerLink="/auth/admin-page/delete-product" class="btn btn-custom">Click here</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">VIEW PRODUCTS</h3>
+            <p class="card-text">You can delete the product here!</p>
+            <button type="button" routerLink="/auth/admin-page/delete-product" class="btn btn-custom">Click here</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <br>
-  
-    <div class="row" >
-        <div class="column" > 
-            <div class="card">
-                <h3>DELETE PRODUCT</h3>
-                <p>You can delete the product here!</p>
-                 <button type="button" routerLink="/auth/admin-page/delete-product" class="btn btn-primary">Edit product</button>
-              </div>      
-        </div>
-
-        <div class="column" >
-
-          <div class="card">
-            <h3>EDIT PRODUCT</h3>
-            <p>You can edit the product information here! </p>
-             <button type="button" routerLink="/auth/admin-page/edit-product" class="btn btn-primary">Edit product</button>
-          </div>
-        </div>
-    </div>
-  
-  
- </div>
+</div>

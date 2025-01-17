@@ -1,0 +1,121 @@
+
+.go-back {
+    margin-top: -40px; /* Adjust this value as needed to position below the navbar */
+    margin-left: 40px; /* Adjust this value for spacing from the left */
+    display: flex;
+    position: absolute;
+    align-items: center;
+    font-size: 2em;
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .go-back a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  .go-back i {
+    margin-right: auto;
+  }
+
+
+// order history container
+
+
+  .order-history-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .order-history-table th, .order-history-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .order-history-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .order-history-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .order-history-table ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .order-history-table ul li {
+    padding: 5px 0;
+  }
+  
+  .order-history-container h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .order-history-table th, .order-history-table td {
+    text-align: center;
+  }
+  
+  .order-history-table th {
+    background-color: #dbdddd;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  .order-history-table td {
+    background-color: #f9f9f9;
+  }
+  
+  .order-history-table tr:hover td {
+    background-color: #e0e0e0;
+  }
+  
+  
+  .material-icons {
+    vertical-align: middle;
+  }
+
+  // navbar admin dashboard container.
+  .navbar-custom {
+    background-color: #f4f4f4; /* Black background */
+    border-bottom: 2px solid #000000; /* Border at the downside */
+  }
+  .navbar-custom .navbar-text {
+    margin-left: 30px; /* Adjust this value as needed */
+    color: #000000; /* Black text */
+    font-weight: bold; /* Text bold */
+  }
+  .navbar-custom .navbar-text {
+    color: #000000; /* Black text */
+    font-weight: bold; /* text bold */
+  }
+  .navbar-custom img {
+    height: 80px; /* Adjust height */
+    width: 150px; /* Adjust width to be more than height */
+  }
+  .admin-dashboard-container {
+    margin-top: 70px;
+  }
+
+
+  

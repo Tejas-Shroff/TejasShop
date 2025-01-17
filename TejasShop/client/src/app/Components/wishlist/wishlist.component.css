@@ -12,7 +12,7 @@ table {
   
   .badge-success {
     color: white;
-    background-color: green;
+    background-color: rgb(33, 163, 61);
     padding: 4px;
     border-radius: 4px;
   }

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server.Data;
 using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
+
 
 namespace server.Controllers
 {
@@ -12,14 +15,35 @@ namespace server.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
+
         private readonly ICatalogService catalogService;
         private readonly IMapper mapper;
+        private readonly DataContex _context;
 
-        public CatalogController(ICatalogService catalogService,IMapper mapper)
+        public CatalogController(ICatalogService catalogService,IMapper mapper, DataContex context)
+        
         {
+
             this.catalogService = catalogService;
             this.mapper = mapper;
+            _context = context;
+            
         }
+        
+        [HttpGet]
+        [Route("GetAllProducts")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            //return await _context.products.ToListAsync();
+              var products = await _context.products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Thumbnail)  
+                .ToListAsync();
+
+            return Ok(products);
+        }
+
         [HttpPost]
         [Route("product/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllProducts(CatalogSpec req)
@@ -37,12 +61,11 @@ namespace server.Controllers
                 MinPrice=res.MinPrice,
                 MaxPrice=res.MaxPrice,
             };
-                
-                
-                
+
 
             return Ok(response);
         }
+
         [HttpGet("{productId}")]
         public async Task<ActionResult<ResponseDto>> GetProduct(int productId)
         {
@@ -146,6 +169,28 @@ namespace server.Controllers
             await catalogService.DeleteBrand(brandId);
             return Ok(response);
         }
+
+
+        [HttpPut("product/edit/{productId}")]
+        public async Task<ActionResult> UpdateProduct(int productId, UpdateProductReq updatedProduct)
+        {
+            try
+            {
+                Product updatedProductEntity = await catalogService.UpdateProduct(productId, updatedProduct);
+                ResponseDto response = new ResponseDto
+                {
+                    Data = mapper.Map<ProductResDto>(updatedProductEntity)
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {   
+            return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+
+        
 
         #endregion
     }

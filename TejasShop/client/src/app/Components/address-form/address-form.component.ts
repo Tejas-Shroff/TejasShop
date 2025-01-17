@@ -69,7 +69,7 @@ export class AddressFormComponent implements OnInit {
         else {
           this.notification.Error(res.message);
         }
-      });
+      }); 
     }
   }
 

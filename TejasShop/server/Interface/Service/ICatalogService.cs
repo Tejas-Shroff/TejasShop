@@ -21,5 +21,6 @@ namespace server.Interface.Service
         Task<IEnumerable<Category>> GetAllCategery();
         Task<Category> CreateCategery(CreateCategoryReq inData);
         Task DeleteCategery(int categeryId);
+        Task<Product> UpdateProduct(int productId, UpdateProductReq updatedProduct);
     }
 }

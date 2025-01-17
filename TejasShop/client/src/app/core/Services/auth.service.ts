@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, interval, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { LoginReq, LoginResData, RegisterUserData } from '../Models/Auth';
@@ -7,6 +7,8 @@ import { ResponseDto } from '../Models/response';
 import { UserDto } from '../Models/user';
 import { Router } from '@angular/router';
 
+import { addProductDTO, ProductResDto } from '../Models/catalog';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +16,12 @@ export class AuthService {
   private isUserLoggedIn:BehaviorSubject<boolean>= new BehaviorSubject(false);
   private userDetail=new BehaviorSubject<UserDto|null|undefined>(undefined);
   private refreshTokenSubscription: Subscription | null = null;
-  private addproducturl = 'http://localhost:5129/api/Catalog/product/create';
+  private addproducturl = 'http://localhost:5129/api/Catalog/product';
+  private apiUrl = 'http://localhost:5129/api/Catalog/GetAllProducts';
+  private deleteproductUrl = 'http://localhost:5129/api/Catalog/product/delete';
+  private baseUrl = 'http://localhost:5129/api/Catalog';
+  private orderhistoryURL = 'http://localhost:5129/api/OrderHistory/get-All_Users-Orders';
+  
 
   constructor(
     private http:HttpClient,
@@ -70,6 +77,19 @@ export class AuthService {
 
   }
 
+  LogOutAdminSide(){
+    return this.http.get<ResponseDto<null>>('auth/revoke').pipe(
+      map((res)=>{
+        if(res.isSuccessed){
+          this.removeUser();
+          this.router.navigateByUrl('/auth/login');
+        }
+        return res;
+      })
+    );
+
+  }
+
   refreshUser() {
     var accessToken = localStorage.getItem('accestoken');
     var refreshToken = localStorage.getItem('refreshtoken');
@@ -102,7 +122,7 @@ export class AuthService {
 
   startTokenRefresh() {
     if (!this.refreshTokenSubscription && this.UserLoggedIn()) {
-      this.refreshTokenSubscription = interval(5 * 60 * 1000) // Refresh every 5 minutes
+      this.refreshTokenSubscription = interval(1000 * 60 * 1000) // Refresh every 1000 minutes
         .pipe(
           switchMap(() => this.refreshUser())
         )
@@ -145,7 +165,57 @@ export class AuthService {
     localStorage.setItem('userRole', role);
   }
 
-  addProduct(product: any) : Observable<any> {
-    return this.http.post(this.addproducturl, product);
+  // addProduct(product: addProductDTO): Observable<ResponseDto<null>> {
+  //   return this.http.post<ResponseDto<null>>(this.addproducturl, product);
+  
+  // addProduct(product: addProductDTO): Observable<ProductResDto> {
+  //   const params = new HttpParams()
+  //     .set('Name', product.name)
+  //     .set('Description', product.description)
+  //     .set('OriginalPrice', product.originalPrice.toString())
+  //     .set('StockQuantity', product.stockQuantity.toString())
+  //     .set('CategoryId', product.categoryId.toString())
+  //     .set('BrandId', product.brandId.toString());
+  //   return this.http.post<ProductResDto>(`${this.addproducturl}/create`, null, { params });
+  // }
+
+  // addProduct(product: addProductDTO, thumbnailFile: File) : Observable<any> {
+  //   const formData = new FormData();
+  //   formData.append('Name', product.name);
+  //   formData.append('Description', product.description);
+  //   formData.append('OrginalPrice', product.originalPrice.toString());
+  //   formData.append('StockQuantity',product.stockQuantity.toString());
+  //   formData.append('CategoryId', product.categoryId.toString());
+  //   formData.append('BrandId', product.brandId.toString());
+  //   formData.append('Thumbnail', thumbnailFile);
+
+  //   return this.http.post<ProductResDto>(`${this.addproducturl}/create`, formData);
+
+  // }
+
+
+  addProduct(productData: FormData): Observable<any> {
+    return this.http.post(`${this.addproducturl}/create`, productData);
   }
+
+  getAllProducts(): Observable<ProductResDto[]> {
+    return this.http.get<ProductResDto[]>(this.apiUrl);
+  }
+
+  deleteProduct(productId: number): Observable<any> {
+    return this.http.delete(`${this.deleteproductUrl}/${productId}`);
+  }
+
+  updateProduct(productId: number, product: addProductDTO): Observable<ProductResDto> {
+    return this.http.put<ProductResDto>(`${this.addproducturl}/edit/${productId}`, product);
+  }
+
+  getOrderHistory(): Observable<any> {
+    return this.http.get<any>(this.orderhistoryURL);
+  }
+
+
+
+
+  
 }
