@@ -1,0 +1,54 @@
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
+       <img src="/assets/amazon-logo.png" alt="Logo">
+              <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+                     <div class="d-flex align-items-center ml-auto">
+                            <a (click)="logout()" class="btn btn-outline-secondary mr-2">
+                                   <i class="material-icons">logout</i>
+                            </a>
+                     </div>
+</div>
+<div class="sidebar">
+    <br><br><br><br><br>
+    </div>
+    <br><br><br><br>
+    <div class="go-back">
+           <a [routerLink]="['/auth/admin-page']">
+             <i class="material-icons">arrow_back</i>
+           </a>
+         </div>
+
+
+<div class="order-history-container">
+    <h2>Order History</h2>
+    <table class="order-history-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+         
+          <th>Order Date</th>
+          <th>TotalPrice after Discount </th>
+          <th>Quantity</th>
+          <th>Original Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orderHistory">
+          <td>{{ order.id }}</td>
+          
+          <td>{{ order.orderDate }}</td>
+          <td>{{ order.totalPriceAfterDiscount }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let item of order.orderItems">{{ item.quantity }}</li>
+            </ul>
+          </td>
+          <td>{{ order.orderDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,84 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
+<img src="/assets/amazon-logo.png" alt="Logo">
+<span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+<div class="d-flex align-items-center ml-auto">
+<a (click)="logout()" class="btn btn-outline-secondary mr-2">
+<i class="material-icons">logout</i>
+</a>
+</div>
+</div>
+<div class="sidebar">
+<br><br><br><br><br>
+</div>
+<br><br><br><br>
+<div class="go-back">
+<a [routerLink]="['/auth/admin-page']">
+<i class="material-icons">arrow_back</i>
+</a>
+</div>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title class="justify-content-center">Product List</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="product-list-container">
+    <h2>Product List</h2>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Product</th>
+          <th>Name</th>
+          <th>Stock Quantity</th>
+          <th>Original Price</th>
+          <th>Category Id</th>
+          <th>Brand Id</th>
+          <th>Actions Figures</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of AllProducts">
+          <td>{{ product.id }}</td>
+          <td>
+            <img [src]=" imageUrl+ 'image/' + product.thumbnail?.imageUrl" width="50">
+            </td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.stockQuantity }}</td>
+          <td>{{ product.originalPrice }}</td>
+          <td>{{ product.category ? product.category.id : 'No Category' }}</td>
+          <td>{{ product.brand ? product.brand.id : 'No Brand' }}</td>
+          <td>
+            <button mat-icon-button aria-label="Edit" (click)="openEditDialog(product)">
+                <mat-icon>edit</mat-icon>
+            </button>
+
+            <button class="delete-button" (click)="openConfirmDialog(product.id)">
+                <i class="material-icons">delete</i>
+            </button>
+            
+          </td>
+         
+        </tr>
+      </tbody>
+
+      <ng-template #confirmDialog let-dialogRef="dialogRef">
+        <div class="dialog-container">
+          <h1 mat-dialog-title>Are you sure?</h1>
+          <div mat-dialog-content class="text-dark">
+            <span>Do you really want to delete this product? This process cannot be undone.</span>
+          </div>
+          <div mat-dialog-actions class="center-buttons">
+           
+            <button mat-button (click)="dialogRef.close(true)" class="confirm-button">Yes</button>
+            <button mat-button (click)="dialogRef.close(false)" class="cancel-button">No</button>
+          </div>
+        </div>
+      </ng-template>
+    </table>
+  </div>

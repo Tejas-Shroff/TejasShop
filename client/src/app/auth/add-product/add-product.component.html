@@ -1,0 +1,92 @@
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
+       <img src="/assets/amazon-logo.png" alt="Logo">
+              <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+                     <div class="d-flex align-items-center ml-auto">
+                            <a (click)="logout()" class="btn btn-outline-secondary mr-2">
+                                   <i class="material-icons">logout</i>
+                            </a>
+                     </div>
+</div>
+<div class="sidebar">
+<br><br><br><br><br>
+</div>
+<br><br><br>
+<div class="go-back">
+       <a [routerLink]="['/auth/admin-page']">
+             
+         <i class="material-icons">arrow_back</i>
+       </a>
+</div>
+
+<div class="header-container">
+       <h2>Fill the Product Information and all fields are required.</h2>
+</div>
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+       <div class="form-row">
+              <div class="form-group">
+                     <label for="name">Name:</label>
+                     <input id="name" formControlName="name" type="text" />
+                            <div *ngIf="addProductForm.get('name')?.invalid && addProductForm.get('name')?.touched" class="error-message">
+                                   Name is required.
+                            </div>
+              </div>
+              <div class="form-group">
+                         <label for="originalPrice">Original Price:</label>
+                         <input id="originalPrice" formControlName="originalPrice" type="number" min="0" (input)="onInput($event)" />
+                         <div *ngIf="addProductForm.get('originalPrice')?.invalid && addProductForm.get('originalPrice')?.touched" class="error-message">
+                           Original Price is required and must be non-negative.
+                         </div>
+              </div>
+              </div>
+              <div class="form-row">
+                       <div class="form-group">
+                         <label for="stockQuantity">Stock Quantity:</label>
+                         <input id="stockQuantity" formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)" />
+                         <div *ngIf="addProductForm.get('stockQuantity')?.invalid && addProductForm.get('stockQuantity')?.touched" class="error-message">
+                           Stock Quantity is required and must be non-negative.
+                         </div>
+                       </div>
+              <div class="form-group">
+                         <label for="categoryId">Category ID:</label>
+                         <input id="categoryId" formControlName="categoryId" type="number" min="0" (input)="onInput($event)"  />
+                         <div *ngIf="addProductForm.get('categoryId')?.invalid && addProductForm.get('categoryId')?.touched" class="error-message">
+                           Category ID is required and must be non-negative.
+                         </div>
+                       </div>
+                     </div>
+              <div class="form-row">
+                       <div class="form-group">
+                         <label for="brandId">Brand ID:</label>
+                         <input id="brandId" formControlName="brandId" type="number" min="0" (input)="onInput($event)" />
+                         <div *ngIf="addProductForm.get('brandId')?.invalid && addProductForm.get('brandId')?.touched" class="error-message">
+                           Brand ID is required and must be non-negative.
+                         </div>
+                            </div>
+                       <div class="form-group">
+                            <label for="thumbnail">Thumbnail:</label>
+                            <input id="thumbnail" type="file" (change)="onFileChange($event)" />
+                            <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched" class="error-message">
+                              Thumbnail is required.
+                            </div>
+                          </div>
+                     </div>
+                     <div class="form-group">
+                       <label for="description">Description:</label>
+                       <textarea id="description" formControlName="description"></textarea>
+                       <div *ngIf="addProductForm.get('description')?.invalid && addProductForm.get('description')?.touched" class="error-message">
+                         Description is required.
+                       </div>
+                     </div>
+                     <br>
+                     <div class="button-container">
+                       <button type="submit" [disabled]="addProductForm.invalid">Add Product</button>
+                     </div>
+                     <br>
+                     <!-- Add this line to check if the form is invalid -->
+                     <p *ngIf="addProductForm.invalid" class="error-message">Form is invalid. Please fill out all required fields.</p>
+                   </form>
