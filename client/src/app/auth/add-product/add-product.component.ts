@@ -17,7 +17,7 @@ export class AddProductComponent implements OnInit{
   addProductForm: FormGroup;
   
   ngOnInit(): void {}
-    constructor(private fb: FormBuilder, public authservcie: AuthService, private notification : NotificationService) {
+    constructor(private fb: FormBuilder, public authservcie: AuthService, public notification : NotificationService) {
       this.addProductForm = this.fb.group({
         // name: ['', Validators.required],
         // description: ['', Validators.required],
@@ -80,12 +80,17 @@ export class AddProductComponent implements OnInit{
       formData.append('brandId', this.addProductForm.get('brandId')?.value);
       formData.append('thumbnail', this.addProductForm.get('thumbnail')?.value);
   
-      this.authservcie.addProduct(formData).subscribe(response => {
-        
- 
-        console.log('Product added successfully', response);  
-        alert("product ADDED")
-      });
+      this.authservcie.addProduct(formData).subscribe(
+        response => {
+          this.notification.Success("Product Added");
+          console.log('Product added successfully', response);
+          // alert("product ADDED")
+        },
+        error => {
+          this.notification.Error(error.message);
+          console.log('Error adding product', error);
+        }
+      );
     }
     
     logout(){

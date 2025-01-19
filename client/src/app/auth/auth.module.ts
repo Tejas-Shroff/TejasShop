@@ -20,6 +20,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { NotificationService } from '../notification/notification.service';
 
 
 
@@ -51,6 +52,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDividerModule
 
  
-  ]
+  ],
+  providers:[NotificationService]
 })
 export class AuthModule { }

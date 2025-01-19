@@ -2,7 +2,7 @@ import { Component, Inject, inject, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CarouselModule as owlCarouselModule } from 'ngx-owl-carousel-o';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
@@ -37,7 +37,8 @@ export class HomePageComponent implements OnInit {
     private store: Store<AppState>,
     @Inject(BASE_IMAGE_API) public serveApi:string,
     private catalogService: CatalogService
-  ) {
+  ) 
+  {
     this.categories$ = this.store.select(selectCategories);
     this.products$= this.catalogService.getProducts({pageSize:8,pageIndex:1,sort:'rating'}).pipe(
       map((res)=>res.data?.data!==undefined? res.data?.data:[])
@@ -72,7 +73,7 @@ export class HomePageComponent implements OnInit {
     },
     nav: false,
     autoplay:true,
-    autoplaySpeed:2500
+    autoplaySpeed:2000
   }
   bannerStore:any[]=[
     {
@@ -83,10 +84,6 @@ export class HomePageComponent implements OnInit {
       id:'2',
       src:'assets/laptop-banner.png'
     },
-    // {
-    //   id:'3',
-    //   src:'assets/Banner_3.png'
-    // },
   ]
 
   customOptions: OwlOptions = {
@@ -116,41 +113,13 @@ export class HomePageComponent implements OnInit {
     autoplaySpeed:1000
   }
   slidesStore:any[]=[
+   
     {
       id:'1',
-      src:'assets/Audio & Home Theater.png',
-      alt:'Audio & Home Theater',
-      title:'Audio & Home Theater'
-    },
-    {
-      id:'2',
-      src:'assets/Camera.png',
-      alt:'Camera',
-      title:'Camera'
-    },
-    {
-      id:'3',
-      src:'assets/Computers.png',
-      alt:'Computers',
-      title:'Computers'
-    },
-    {
-      id:'4',
       src:'assets/mobile.png',
       alt:'Mobile',
       title:'Mobile'
-    },
-    {
-      id:'5',
-      src:'assets/TV & Video.png',
-      alt:'TV & Video',
-      title:'TV & Video'
-    },
-    {
-      id:'6',
-      src:'assets/Wearable Technology.png',
-      alt:'Wearable Technology',
-      title:'Wearable Technology'
     }
+  
   ]
 }

@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { selectWishlistItems, selectWishlistLoading } from '../../redux/wishlist/wishlist.selector';
 import { AddToCart } from '../../redux/cart/cart.action';
 
-
 @Component({
   standalone:true,
   selector: 'app-wishlist',
@@ -23,29 +22,22 @@ export class WishlistComponent implements OnInit {
   wishlistItems$:Observable<WishlistItem[]|null>;
   loading$: Observable<boolean>;
 
-
   constructor(
     private service:WishlistService,
     @Inject(BASE_IMAGE_API) public imageUrl: string,
     private store:Store<AppState>
-  ){
+  )
+  {
     this.wishlistItems$=this.store.select(selectWishlistItems);
     this.loading$ = this.store.select(selectWishlistLoading);
   }
 
   ngOnInit(): void {
-
     this.store.dispatch(loadWishList());
-
-
     this.store.select(selectWishlistItems).subscribe(res=>{
       this.wishlistItems=res;
     })
   }
-
-  
-
-
 
   addToCart(productId: number) {
     this.store.dispatch(AddToCart({productId,quantity:1}));

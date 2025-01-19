@@ -11,10 +11,41 @@
   <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
     <img src="/assets/amazon-logo.png" alt="Logo">
     <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+    
+   
     <div class="d-flex align-items-center ml-auto">
-      <a (click)="logout()" class="btn btn-outline-secondary mr-2">
-        <i class="material-icons">logout</i>
-      </a>
+      <button *ngIf="!(authservcie.isUserLogInObservable()|async) else userLoggedIn;" mat-icon-button routerLink="/auth/login">
+        <mat-icon>
+            login
+        </mat-icon>
+      </button>
+     
+        <ng-template #userLoggedIn>
+          <button [matMenuTriggerFor]="loginMenu"  mat-icon-button>
+            <mat-icon class="mat-icon-account-cicle">
+              account_circle
+            </mat-icon>
+          </button>
+          <mat-menu #loginMenu="matMenu" class="username"> 
+            <div class="px-3">
+             <strong>{{authservcie.getLoggedInUserDetail()?.userName}}</strong> 
+            </div>  
+            <mat-divider></mat-divider>  
+            <div class="d-flex flex-column">
+              
+              <mat-divider></mat-divider>        
+              <button mat-button (click)="logout()" >
+                <mat-icon>
+                  logout
+                </mat-icon>
+                Logout
+              </button>
+            </div> 
+    
+        </mat-menu>
+        </ng-template>
+    
+     
     </div>
   </div>
 

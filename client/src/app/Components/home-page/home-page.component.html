@@ -1,4 +1,7 @@
 <div class="home container">
+  <div class="marquee">
+    <span>🚨 Unbelievable Deal Alert! Get 50% OFF on all items! Limited time offer! 🚨</span>
+</div>
     <section class="carousel mt-5">
       <owl-carousel-o [options]="bannerOptions">
         <ng-container *ngFor="let slide of bannerStore">
@@ -8,7 +11,7 @@
         </ng-container>
       </owl-carousel-o>
     </section>
-    <section class="categories mt-5">
+    <!-- <section class="categories mt-5">
          <div class="row">
           <div class="col-12 mb-2">
             <h1>Categories</h1>
@@ -44,5 +47,5 @@
           <app-product-card *ngFor="let p of products$|async" [product]="p"></app-product-card>
       </div>
        </div>
-    </section>
+    </section> -->
 </div>

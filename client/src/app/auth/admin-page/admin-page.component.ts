@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/Services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/redux/store';
 
 @Component({
   selector: 'app-admin-page',
@@ -8,8 +10,8 @@ import { AuthService } from 'src/app/core/Services/auth.service';
 })
 export class AdminPageComponent implements OnInit {
 
-  constructor(private authservcie: AuthService) {
-    
+  constructor(public authservcie: AuthService,  private store: Store<AppState>,) {
+
   }
 
   ngOnInit(): void {

@@ -93,7 +93,7 @@
   .navbar-custom {
     background-color: #f4f4f4; /* Black background */
     border-bottom: 2px solid #000000; /* Border at the downside */
-  
+    z-index: 1;
     
    
   }
@@ -112,4 +112,11 @@
   }
   .admin-dashboard-container {
     margin-top: 70px;
+  }
+
+  
+.mat-icon-account-cicle {
+    font-size: 1.6rem;
+    z-index: 2;
+  
   }

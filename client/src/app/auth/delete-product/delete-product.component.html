@@ -7,9 +7,37 @@
 <img src="/assets/amazon-logo.png" alt="Logo">
 <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
 <div class="d-flex align-items-center ml-auto">
-<a (click)="logout()" class="btn btn-outline-secondary mr-2">
-<i class="material-icons">logout</i>
-</a>
+    <button *ngIf="!(authservice.isUserLogInObservable()|async) else userLoggedIn;" mat-icon-button routerLink="/auth/login">
+        <mat-icon>
+            login
+        </mat-icon>
+      </button>
+     
+        <ng-template #userLoggedIn>
+          <button [matMenuTriggerFor]="loginMenu"  mat-icon-button>
+            <mat-icon class="mat-icon-account-cicle">
+              account_circle
+            </mat-icon>
+          </button>
+          <mat-menu #loginMenu="matMenu" class="username"> 
+            <div class="px-3">
+             <strong>{{authservice.getLoggedInUserDetail()?.userName}}</strong> 
+            </div>  
+            <mat-divider></mat-divider>  
+            <div class="d-flex flex-column">
+              
+              <mat-divider></mat-divider>        
+              <button mat-button (click)="logout()" >
+                <mat-icon>
+                  logout
+                </mat-icon>
+                Logout
+              </button>
+            </div> 
+    
+        </mat-menu>
+        </ng-template>
+
 </div>
 </div>
 <div class="sidebar">
@@ -75,8 +103,8 @@
           </div>
           <div mat-dialog-actions class="center-buttons">
            
-            <button mat-button (click)="dialogRef.close(true)" class="confirm-button">Yes</button>
-            <button mat-button (click)="dialogRef.close(false)" class="cancel-button">No</button>
+            <button mat-button (click)="dialogRef.close(true)" class="confirm-button">Ok</button>
+            <button mat-button (click)="dialogRef.close(false)" class="cancel-button">Cancel</button>
           </div>
         </div>
       </ng-template>

@@ -24,7 +24,7 @@ export class DeleteProductComponent implements OnInit{
 
   constructor(
 
-    private authservice: AuthService,
+    public authservice: AuthService,
     private route: Router,
     public dialog: MatDialog, 
     public aactivatedRoute : ActivatedRoute, 
