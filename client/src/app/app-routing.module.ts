@@ -9,7 +9,7 @@ import { authGuard } from './core/gaurds/auth.guard';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { PaymentstatusComponent } from './Components/paymentstatus/paymentstatus.component';
 import { UserOrdersComponent } from './order/user-orders/user-orders.component';
-import { ToastComponent } from './Components/toast/toast.component';
+// import { ToastComponent } from './Components/toast/toast.component';
 import { OrderDetailsComponent } from './order/order-details/order-details.component';
 
 const routes: Routes = [

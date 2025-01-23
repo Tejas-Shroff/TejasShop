@@ -11,7 +11,7 @@
 }
 
 .current-price {
-    color:red;
+    color:rgb(2, 38, 156);
     font-size: 16px;
     font-weight: 500;
 }
@@ -45,3 +45,4 @@
 .summary {
     max-width: 450px;
 }
+

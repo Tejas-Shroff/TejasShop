@@ -1,0 +1,15 @@
+.footer {
+    background-color: #ececec;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+
+  }
+  
+
+  
+  h2 {
+    font-size: 1rem;
+  }

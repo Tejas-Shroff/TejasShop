@@ -47,55 +47,47 @@
                         </li>
                     </ul>
                 </div>
-                
-                
-                <div class="summary">
-                    <br>
-                    <mat-card-header class="fw-bold mb-9">
-                        <h2>Summary</h2>
-                      
-                    </mat-card-header>
-                    <br>
-                    <mat-card-content>
-                        <div>
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="me-auto">
-                                       <div>Item Subtotal</div>
-                                    </div>
-                                    <span>{{cart.totalPrice|currency:'INR'}}</span>
-                                 </li>
-                                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="me-auto">
-                                       <div>Total Discount</div>
-                                    </div>
-                                    <span>{{cart.totalDiscount|currency:'INR'}}</span>
-                                 </li>
-                                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="me-auto">
-                                       <div class="fw-bold">Subtotal</div>
-                                    </div>
-                                    <span class="fw-bold">{{cart.totalPriceAfterDiscount|currency:'INR'}}</span>
-                                 </li>
-                            </ul>
-                        </div>
-                        <button class="btn my-3 app-btn-primary w-100 checkout-btn" [routerLink]="['/checkout']" >Go To CheckOut <span>{{cart.totalPriceAfterDiscount|currency:'INR'}}</span></button>
-                        <p>
-                            <small>
-                               By placing your order, you agree to be bound by the AmazonShop-2024
-                               <a href="">Terms of Service</a>
-                               and
-                               <a href="">Privacy Policy.</a>
-                            </small>
-                         </p>
-
-                    </mat-card-content>
-                </div>
-                <!-- <div class="col-4">
+                <div class="col-4">
                     <mat-card>
-                        
+                        <mat-card-header class="fw-bold mb-3">
+                            Summary
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div>
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="me-auto">
+                                           <div>Item Subtotal</div>
+                                        </div>
+                                        <span>{{cart.totalPrice|currency:'INR'}}</span>
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="me-auto">
+                                           <div>Total Discount</div>
+                                        </div>
+                                        <span>{{cart.totalDiscount|currency:'INR'}}</span>
+                                     </li>
+                                     <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="me-auto">
+                                           <div class="fw-bold">Subtotal</div>
+                                        </div>
+                                        <span class="fw-bold">{{cart.totalPriceAfterDiscount|currency:'INR'}}</span>
+                                     </li>
+                                </ul>
+                            </div>
+                            <button class="btn my-3 app-btn-primary w-100 checkout-btn" [routerLink]="['/checkout']" >Go To CheckOut <span>{{cart.totalPriceAfterDiscount|currency:'INR'}}</span></button>
+                            <p>
+                                <small>
+                                   By placing your order, you agree to be bound by the AmazonShop-2024
+                                   <a href="">Terms of Service</a>
+                                   and
+                                   <a href="">Privacy Policy.</a>
+                                </small>
+                             </p>
+
+                        </mat-card-content>
                     </mat-card>
-                </div> -->
+                </div>
             </div>
         </ng-container>
         <ng-template #noProductTemplate>
