@@ -25,15 +25,17 @@ import { WindowRefService } from '../../core/Services/window-ref.service';
   providers: [BsModalService]
 })
 export class CheckoutComponent {
-  cart$:Observable<ShoppingCart|null>;
+  cart$:Observable<ShoppingCart|null>;   
   userId!:number|undefined;
   shipToAddress!:AddressDto;
 
   constructor(
     @Inject(BASE_IMAGE_API) public imageUrl: string,
     private modalService: BsModalService, 
+
     private store:Store<AppState>,
     private authService:AuthService,
+
     public addressService:UserAddressService,
     private notification:NotificationService,
     private paymentService:PaymentService,
@@ -62,6 +64,7 @@ export class CheckoutComponent {
   // unsubscribe() {
   //   this.subscriptions.unsubscribe();
   // }
+  
   removeAddress(id:number|null){
     if(id)
       this.addressService.deleteAddress(id).subscribe(res=>{

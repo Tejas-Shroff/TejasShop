@@ -6,6 +6,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderTrackerComponent } from './order-tracker/order-tracker.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -18,7 +19,8 @@ import { MatStepperModule } from '@angular/material/stepper';
   imports: [
     SharedModule,
     OrderRoutingModule,
-    MatStepperModule
+    MatStepperModule,
+    MatPaginatorModule
   ],
   exports:[
     UserOrdersComponent,

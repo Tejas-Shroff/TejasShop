@@ -34,7 +34,6 @@ namespace server.Controllers
         [Route("GetAllProducts")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            //return await _context.products.ToListAsync();
               var products = await _context.products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
@@ -58,13 +57,18 @@ namespace server.Controllers
                 PageSize=res.PageSize,
                 Data= mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
                 Count=res.Count,
-                MinPrice=res.MinPrice,
-                MaxPrice=res.MaxPrice,
+               
             };
 
 
             return Ok(response);
         }
+
+
+
+
+
+
 
         [HttpGet("{productId}")]
         public async Task<ActionResult<ResponseDto>> GetProduct(int productId)
@@ -86,6 +90,8 @@ namespace server.Controllers
             ResponseDto response = new ResponseDto();
             response.Data = product;
             return Ok(response);
+
+
         }
 
 
@@ -99,7 +105,7 @@ namespace server.Controllers
         }
 
 
-        #region category api
+       
         [HttpGet]
         [Route("category/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllCategories()
@@ -119,6 +125,7 @@ namespace server.Controllers
         {
             Category category = await catalogService.CreateCategery(newCategory);
             ResponseDto response = new ResponseDto();
+
             response.Data = category;
             return Ok(response);
         }
@@ -130,13 +137,15 @@ namespace server.Controllers
         {
             ResponseDto response = new ResponseDto();
             await catalogService.DeleteCategery(categorytId);
+
+
             return Ok(response);
         }
 
-        #endregion
 
 
-        #region Brand api
+
+
         [HttpGet]
         [Route("brand/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllBrands()
@@ -156,6 +165,7 @@ namespace server.Controllers
         {
             Brand brand = await catalogService.CreateBrand(newBrand);
             ResponseDto response = new ResponseDto();
+
             response.Data = brand;
             return Ok(response);
         }
@@ -167,6 +177,7 @@ namespace server.Controllers
         {
             ResponseDto response = new ResponseDto();
             await catalogService.DeleteBrand(brandId);
+
             return Ok(response);
         }
 
@@ -182,6 +193,9 @@ namespace server.Controllers
                     Data = mapper.Map<ProductResDto>(updatedProductEntity)
                 };
                 return Ok(response);
+
+
+
             }
             catch (Exception ex)
             {   
@@ -192,6 +206,6 @@ namespace server.Controllers
 
         
 
-        #endregion
+
     }
 }

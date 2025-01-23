@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ShoppingCart } from '../../core/Models/Cart';
 import { loadCart, RemoveCartItem, UpdateCartItem } from '../../redux/cart/cart.action';
 import { SharedModule } from '../../shared/shared.module';
+import { NotificationService } from 'src/app/notification/notification.service';
 
 @Component({
   standalone:true,
@@ -20,7 +21,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     @Inject(BASE_IMAGE_API) public imageUrl: string,
-    private store:Store<AppState>
+    private store:Store<AppState>,
+    private notification: NotificationService
   ){
     this.cart$=this.store.select(selectCartProperty);
     //this.loading$ = this.store.select(selectWishlistLoading);
@@ -28,8 +30,12 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadCart());
   }
-  updateCartItem(cartItemId:number,quantity:number){
-     this.store.dispatch(UpdateCartItem({cartItemId,quantity}))
+  updateCartItem(cartItemId: number, quantity: number) {
+    if (quantity > 3) {
+      this.notification.Error('You can only add a maximum of 3 quantities per item.');
+      return;
+    }
+    this.store.dispatch(UpdateCartItem({ cartItemId, quantity }));
   }
 
   removeCartItem(cartItemId:number){

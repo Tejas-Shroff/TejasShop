@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/core/Services/auth.service';
+import { NotificationService } from 'src/app/notification/notification.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -13,7 +14,7 @@ export class EditProductComponent implements OnInit{
 
   constructor(private authService:AuthService,  private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private notification: NotificationService) {
 
       this.editProductForm = this.fb.group({
         name: [data.name ],
@@ -59,8 +60,11 @@ export class EditProductComponent implements OnInit{
       formData.append('thumbnail', this.editProductForm.get('thumbnail')?.value);
   
       console.log('Form data to be sent:', formData);
-      alert('data updated ')
-      this.dialogRef.close(formData);
+      this.notification.Success('Product updated!')
+
+      setTimeout(() => {
+        this.dialogRef.close(formData);
+      }, 1000);
     } else {
       console.log('Form is invalid', this.editProductForm.errors);
     }

@@ -1,4 +1,62 @@
 th,td{
     text-align: center;
     vertical-align: middle;
+    padding: 10px 5px;
+  
+    border-bottom: 1px solid #000000;
 }
+.view-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    max-width: 200px;
+    height: 40px;
+    margin-right: 100px;
+    margin-left: 1120px;
+  }
+  
+  .view-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .view-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+
+  .no-orders-message {
+    font-size: 1.1rem;
+    margin-top: -10px;
+  }
+
+  .filter-orders {
+
+    padding: 5px 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-orders-label {
+   margin-left: 1400px;
+
+    font-weight: bold;
+    margin-top: 60px;
+
+  
+  }
+
+  
+  .selection-option {
+ 
+    color: #000000;
+  }

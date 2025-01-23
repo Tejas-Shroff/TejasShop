@@ -30,3 +30,8 @@ export interface OrderDetailDTO {
     paymentDetails: PaymentDetails;
     shippingAddress:AddressDto;
 }
+
+export interface updateOrderStatusDTO {
+    orderId: number;
+    Status:string;
+}

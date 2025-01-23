@@ -29,14 +29,14 @@ namespace server.Repository
                 productQuery= productQuery.Where(p=>p.Name.Contains(inData.Search));
             }
 
-            if (inData.MinPrice.HasValue) 
-            {
-                productQuery = productQuery.Where(p => p.OriginalPrice >= inData.MinPrice);
-            }
-            if (inData.MaxPrice.HasValue)
-            {
-                productQuery = productQuery.Where(p => p.OriginalPrice <= inData.MaxPrice);
-            }
+            // if (inData.MinPrice.HasValue) 
+            // {
+            //     productQuery = productQuery.Where(p => p.OriginalPrice >= inData.MinPrice);
+            // }
+            // if (inData.MaxPrice.HasValue)
+            // {
+            //     productQuery = productQuery.Where(p => p.OriginalPrice <= inData.MaxPrice);
+            // }
             if (inData.InStock.HasValue)
             {
                 if (inData.InStock==true)
@@ -97,7 +97,7 @@ namespace server.Repository
             };
 
 
-            //return await productQuery
+            // return await productQuery
             //            .Skip((inData.pageIndex-1)* inData.pageSize)
             //            .Take(inData.pageSize)
             //            .ToListAsync();

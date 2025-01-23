@@ -25,24 +25,23 @@ export class PaymentService {
       tap(res => {
         if (res.isSuccessed) {
           const options: any = {
-            key: environment.razorPayKey, // Enter the Key ID generated from the Dashboard
+            key: environment.razorPayKey, // Key ID retriving from the environment.
             amount: res.data.amount * 100, // Amount in paise
             currency: 'INR',
             name: 'AmazonShop',//Your Company Name
             description: 'Purchase Description',
             order_id: res.data.razorPayOrderId,
             modal: {
-              // We should prevent closing of the form when esc key is pressed.
-              escape: false,
+              
+              escape: false,  // this is for the payment form should not be cloased when esc is placed.
             },
             handler: (paymentRes: any) => {
               console.log(paymentRes);
-              //alert('Payment successful!');
               this.updatePayment(paymentRes.razorpay_order_id, paymentRes.razorpay_payment_id, paymentRes.razorpay_signature).subscribe(() => {
                 this.router.navigateByUrl('/orders/detail/' + res.data.orderId)
               });
             },
-            prefill: {
+            prefill: {   // this infromation is prefilled in payemnt form.
               name: shipToAddress.firstName + ' ' + shipToAddress.lastName,
               email: 'youremail@example.com',
               contact: '',
@@ -52,12 +51,12 @@ export class PaymentService {
             }
           };
           options.modal.ondismiss = (() => {
-            // handle the case when user closes the form while transaction is in progress
-            this.notification.Error('Transaction cancelled.');
+           
+            this.notification.Error('Transaction cancelled.'); // when user closes the payment gateway when transaction is in progress then this will give Error toastr as trasaction cancelled like that.
           });
 
-          const rzp = new this.winRef.nativeWindow.Razorpay(options);
-          rzp.open();
+          const r = new this.winRef.nativeWindow.Razorpay(options);   // referes to windows-ref services.
+          r.open();   // opens the razorpay window.
         }
       })
     );

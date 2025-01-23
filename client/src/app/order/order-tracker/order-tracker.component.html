@@ -5,27 +5,27 @@
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div [ngClass]="paymentStatus.toLowerCase()=='failed'?'failed':'confirmed'">
+    <div [ngClass]="paymentStatus.toLowerCase() === 'failed' ? 'failed' : 'confirmed'">
         <mat-icon>payments</mat-icon><strong> Payments {{paymentStatus}}</strong>
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div>
+    <div [ngClass]="orderStatus === 'confirmed' || orderStatus === 'shipped' || orderStatus === 'outForDelivery' || orderStatus === 'delivered' ? 'confirmed' : ''">
         <mat-icon>check_circle</mat-icon><strong> Order Confirmed</strong>
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div>
+    <div [ngClass]="orderStatus === 'shipped' || orderStatus === 'outForDelivery' || orderStatus === 'delivered' ? 'confirmed' : ''">
         <mat-icon>local_shipping</mat-icon><strong> Shipped</strong>
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div>
+    <div [ngClass]="orderStatus === 'outForDelivery' || orderStatus === 'delivered' ? 'confirmed' : ''">
         <mat-icon>local_shipping</mat-icon><strong> Out For Delivery</strong>
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div>
+    <div [ngClass]="orderStatus === 'delivered' ? 'confirmed' : ''">
         <mat-icon>home</mat-icon><strong> Delivered</strong>
     </div>
 </div>

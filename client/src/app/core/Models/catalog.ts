@@ -52,6 +52,7 @@ export interface ProductFilters {
 }
 
 export interface ProductPaginationRes extends Pagination<ProductResDto>{
+    length: number;
     minPrice?: number ;
     maxPrice?: number ;
 }

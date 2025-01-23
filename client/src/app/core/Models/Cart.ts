@@ -19,4 +19,5 @@ export interface ShoppingCart {
     totalDiscount: number;
     totalPriceAfterDiscount: number;
     totalItems: number;
+    items: { productId: number, quantity: number }[];
 }

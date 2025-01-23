@@ -46,7 +46,7 @@ namespace server.Dto
         public string SortOrder { get; set; } = "asc";
     }
 
-    public class CategoryResDto
+    public class CategoryResDto   // for category reponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

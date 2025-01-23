@@ -11,6 +11,9 @@ import { SharedModule } from '../../shared/shared.module';
   styleUrls: ['./toast.component.css']
 })
 export class ToastComponent {
+  
   duration=10000;
-constructor(public toast:NotificationService){}
+  
+  constructor(public toast:NotificationService){}
+
 }

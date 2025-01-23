@@ -27,7 +27,7 @@ export class ApiInterceptor implements HttpInterceptor {
       // Pass the cloned request instead of the original request
       return next.handle(apiReq).pipe(
         catchError((error: HttpErrorResponse) => {
-          debugger
+          // debugger
           let errorMsg = '';
           if (error.error instanceof ErrorEvent) {
             console.log('This is client side error');

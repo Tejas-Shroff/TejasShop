@@ -1,4 +1,5 @@
 using AutoMapper;
+using server.Data;
 using server.Dto;
 using server.Dto.Order;
 using server.Entities;
@@ -16,6 +17,7 @@ namespace server.Service
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentDetailRepository _paymentRepository;
         private readonly IShippingAddressRepository _shippingAddressRepository;
+        private readonly DataContex _context;
 
         public OrderService(
             IMapper mapper,
@@ -23,7 +25,8 @@ namespace server.Service
             IOrderItemRepository orderItemRepository,
             IOrderRepository orderRepository,
             IPaymentDetailRepository paymentDetailRepository,
-            IShippingAddressRepository shippingAddressRepository
+            IShippingAddressRepository shippingAddressRepository,
+            DataContex context
         ){
             this._mapper = mapper;
             this._cartService = cartService;
@@ -31,6 +34,7 @@ namespace server.Service
             this._orderRepository = orderRepository;
             this._paymentRepository = paymentDetailRepository;
             this._shippingAddressRepository = shippingAddressRepository;
+            this._context = context;
         }
         public async Task<Order> CreateOrderAsync(int userId, int cartId, AddressDto address)
         {
@@ -85,9 +89,25 @@ namespace server.Service
             };
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersAsync(int userId)
+        public async Task<IEnumerable<Order>> GetOrdersAsync(int userId, DateTime? startDate, DateTime? endDate)
         {
-            return await _orderRepository.GetAllAsyncByUserId(userId);
+            return await _orderRepository.GetAllAsyncByUserId(userId, startDate, endDate);
+        }
+
+     
+
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null)
+            {
+                return false;
+            }
+
+            order.Status = status;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

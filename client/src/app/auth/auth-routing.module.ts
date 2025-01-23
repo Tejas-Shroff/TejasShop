@@ -35,7 +35,7 @@ const routes: Routes = [
     pathMatch:'full'
   },
   {
-    path:'admin-page/delete-product',
+    path:'admin-page/view-product',
     component:DeleteProductComponent,
     pathMatch:'full'
   },

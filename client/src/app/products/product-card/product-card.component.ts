@@ -24,4 +24,5 @@ export class ProductCardComponent {
   addToWishList(productId:number){
     this.store.dispatch(AddToWishList({productId}))
   }
+  
 }

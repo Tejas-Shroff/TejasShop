@@ -1,4 +1,5 @@
-﻿namespace server.Dto
+﻿
+namespace server.Dto
 {
     public class ResponseDto
     {
@@ -22,5 +23,9 @@
             return this;
         }
 
+        internal object? failure(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

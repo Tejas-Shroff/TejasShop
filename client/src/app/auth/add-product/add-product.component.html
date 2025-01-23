@@ -1,3 +1,4 @@
+<app-notification></app-notification>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
@@ -64,9 +65,9 @@
               </div>
               <div class="form-group">
                          <label for="originalPrice">Original Price:</label>
-                         <input id="originalPrice" formControlName="originalPrice" type="number" min="0" (input)="onInput($event)" />
+                         <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)" />
                          <div *ngIf="addProductForm.get('originalPrice')?.invalid && addProductForm.get('originalPrice')?.touched" class="error-message">
-                           Original Price is required and must be non-negative.
+                           Original Price is required, Min price 1000, Must be non-negative and price should not exceed Rs.250000.
                          </div>
               </div>
               </div>
@@ -94,13 +95,20 @@
                            Brand ID is required and must be non-negative.
                          </div>
                             </div>
-                       <div class="form-group">
+                       <!-- <div class="form-group">
                             <label for="thumbnail">Thumbnail:</label>
                             <input id="thumbnail" type="file" (change)="onFileChange($event)" />
                             <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched" class="error-message">
                               Thumbnail is required.
                             </div>
+                        </div> -->
+                        <div class="form-group">
+                          <label for="thumbnail">Thumbnail:</label>
+                          <input id="thumbnail" type="file" (change)="onFileChange($event)" />
+                          <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched" class="error-message">
+                            Thumbnail is required, Only JPEG and PNG format acceptable and Dimension 800 * 800 only acceptable.
                           </div>
+                        </div>
                      </div>
                      <div class="form-group">
                        <label for="description">Description:</label>
@@ -118,6 +126,6 @@
                      <p *ngIf="addProductForm.invalid" class="error-message">Form is invalid. Please fill out all required fields.</p>
                    </form>
 
-                   <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
+                   <!-- <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
                      {{notification.message}}
-                   </div>
+                   </div> -->

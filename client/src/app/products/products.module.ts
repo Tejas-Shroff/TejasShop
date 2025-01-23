@@ -21,6 +21,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import {MatTabsModule} from '@angular/material/tabs'
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -49,7 +50,8 @@ import {MatTabsModule} from '@angular/material/tabs'
 
     HttpClientModule,
 
-    SharedModule
+    SharedModule,
+    MatPaginatorModule
 
   ],
   exports:[

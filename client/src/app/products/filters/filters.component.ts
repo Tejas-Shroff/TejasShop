@@ -84,7 +84,7 @@ export class FiltersComponent {
  }
 
  toggleCategory(categoryId:number){
-  debugger
+  // debugger
   const index = this.selectedCategoryIds.indexOf(categoryId);
   if (index == -1) {
 

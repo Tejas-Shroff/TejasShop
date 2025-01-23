@@ -29,7 +29,7 @@ export class NotificationService {
   }
  
 
-  Success(message: string = 'Success!', duration: number = 30000) {
+  Success(message: string = 'Success!', duration: number = 10000) {
     this.addNotification({
       message,
       type: 'success',

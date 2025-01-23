@@ -99,6 +99,7 @@
   .navbar-custom {
     background-color: #f4f4f4; /* Black background */
     border-bottom: 2px solid #000000; /* Border at the downside */
+    z-index: 1;
   }
   .navbar-custom .navbar-text {
     margin-left: 30px; /* Adjust this value as needed */
@@ -118,4 +119,42 @@
   }
 
 
+  // filter section for months
+  .filter-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 350px;
+  }
   
+  .filter-section label {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: 10px;
+  }
+  
+  .filter-section select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+
+  .status-delivered {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-placed {
+    color: blue;
+    font-weight: bold;
+  }
+
+  .mat-icon-account-cicle {
+    font-size: 1.6rem;
+    z-index: 2;
+  
+  }
+
+ 

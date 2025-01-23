@@ -20,9 +20,6 @@ export class UserAddressService {
   }
   
 
-
-
-
   private getAllAddressByUserId(userId:Number){
      return this.http.get<ResponseDto<AddressDto[]>>("User/GetAllAddressByUserId/"+userId);
   }

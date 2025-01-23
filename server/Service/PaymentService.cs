@@ -20,17 +20,17 @@ namespace server.Service
         {
             try
             {
-                RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]);
-                string reciept = "rec_" + userId + "_" + amount + "_" + new Random().Next(1000, 10000);
+                RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]); //Initializes Razorpay client with API keys.
+                string reciept = "rec_" + userId + "_" + amount + "_" + new Random().Next(1000, 10000); // this will generate the unique receiptt Id.
 
-                Dictionary<string, object> options = new Dictionary<string, object>();
+                Dictionary<string, object> options = new Dictionary<string, object>();  // this will set the order option including follwing params.
                 options.Add("amount", amount * 100); // amount in the smallest currency unit
                 options.Add("receipt", reciept);
                 options.Add("currency", currency);
-                Razorpay.Api.Order order = client.Order.Create(options);
-                string razorpayOrderId = order["id"];
+                Razorpay.Api.Order order = client.Order.Create(options); // creates the order with razorpay Id.
+                string razorpayOrderId = order["id"];  // this will retrieve the order id.
                 //save in db for reference. Implementation below.
-                return await _paymentDetailRepository.AddAsync(
+                return await _paymentDetailRepository.AddAsync(   // Adding it to databasee.
                      new PaymentDetails()
                      {
                          UserId = userId,
@@ -59,20 +59,18 @@ namespace server.Service
             };
             PaymentDetails payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(orderId) ?? throw new Exception("no payment found");
             payment.Razorpay_payment_id = paymentId;
-            payment.Razorpay_signature = signature;
+            payment.Razorpay_signature = signature;   // Getting the payment details from the database.
             try
             {
-                Razorpay.Api.Utils.verifyPaymentSignature(attributes);
+                Razorpay.Api.Utils.verifyPaymentSignature(attributes);  // this verifies the payment signature.
 
                 payment.Status = PaymentStatus.Completed.ToString();
-
-
             }
             catch
             {
                 payment.Status = PaymentStatus.Failed.ToString();
             }
-           var res= await _paymentDetailRepository.UpdateAsync(payment);
+           var res= await _paymentDetailRepository.UpdateAsync(payment);   // updates the payment status based on result.
         }
     }
 }

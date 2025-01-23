@@ -43,6 +43,7 @@ namespace server.Controllers
             ResponseDto responseDto = new ResponseDto();
             Address address1 = mapper.Map<Address>(address);
              await this.userRepository.AddAddress(address1);
+             
             return Ok(responseDto.success("Success"));
         }
         [HttpDelete("DeleteAddress/{addressId}")]

@@ -24,14 +24,28 @@ namespace server.Controllers
         [HttpGet]
         [Route("get-All_Users-Orders")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Order>>> GetAllUserOrders()
-        {
-            var orders = await _contex.Orders
-                .Include(o => o.User)
-                .Include(o => o.OrderItems)
-                .ToListAsync();
-                
-            return Ok(orders);
+        public async Task<ActionResult<IEnumerable<object>>> GetAllUserOrders([FromQuery] int months = 0)
+        {   
+            var query = _contex.Orders
+                .Include(o => o.OrderItems) 
+                .AsQueryable();
+            if (months > 0)
+            {
+                var cutoffDate = DateTime.UtcNow.AddMonths(-months);
+                query = query.Where(o => o.OrderDate >= cutoffDate);
+            }
+            var orders = await query.Select(o => new
+            {
+                o.Id,
+                o.UserId,
+                o.OrderDate,
+                o.TotalPriceAfterDiscount,
+                o.Status   // Order status
+
+            }).ToListAsync();
+        
+        return Ok(orders);
+
         }
     }
 }

@@ -1,5 +1,5 @@
-<h1>order history works</h1>
-<!-- 
+
+
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
@@ -9,9 +9,39 @@
        <img src="/assets/amazon-logo.png" alt="Logo">
               <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
                      <div class="d-flex align-items-center ml-auto">
-                            <a (click)="logout()" class="btn btn-outline-secondary mr-2">
-                                   <i class="material-icons">logout</i>
-                            </a>
+                      <div class="d-flex align-items-center ml-auto">
+                        <button *ngIf="!(authsservice.isUserLogInObservable()|async) else userLoggedIn;" mat-icon-button routerLink="/auth/login">
+                            <mat-icon>
+                                login
+                            </mat-icon>
+                          </button>
+                         
+                            <ng-template #userLoggedIn>
+                              <button [matMenuTriggerFor]="loginMenu"  mat-icon-button>
+                                <mat-icon class="mat-icon-account-cicle">
+                                  account_circle
+                                </mat-icon>
+                              </button>
+                              <mat-menu #loginMenu="matMenu" class="username"> 
+                                <div class="px-3">
+                                 <strong>{{authsservice.getLoggedInUserDetail()?.userName}}</strong> 
+                                </div>  
+                                <mat-divider></mat-divider>  
+                                <div class="d-flex flex-column">
+                                  
+                                  <mat-divider></mat-divider>        
+                                  <button mat-button (click)="logout()" >
+                                    <mat-icon>
+                                      logout
+                                    </mat-icon>
+                                    Logout
+                                  </button>
+                                </div> 
+                        
+                            </mat-menu>
+                            </ng-template>
+                    
+                    </div>
                      </div>
 </div>
 <div class="sidebar">
@@ -24,33 +54,47 @@
            </a>
          </div>
 
+         <div class="filter-section">
+          <label for="filter">Filter Orders:</label>
+          <select id="filter" #filter (change)="onFilterChange(filter.value)">
+            <option value="0">All</option>
+            <option value="1">1 Month</option>
+            <option value="2">2 Months</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+          </select>
+        </div>
 
-<div class="order-history-container">
-    <h2>Order History</h2>
-    <table class="order-history-table">
-      <thead>
-        <tr>
-          <th>Order ID</th>
+
          
-          <th>Order Date</th>
-          <th>TotalPrice after Discount </th>
-          <th>Quantity</th>
-          <th>Original Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let order of orderHistory">
-          <td>{{ order.id }}</td>
+         <div class="order-history-container" *ngIf="orderHistory.length > 0; else noOrders">
+          <table class="order-history-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User ID</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orderHistory">
+                <td>{{ order.id }}</td>
+                <td>{{ order.userId }}</td>
+                <td>{{ order.orderDate }}</td>
+                <td>{{ order.totalPriceAfterDiscount }}</td>
+                <td [ngClass]="{'status-delivered': order.status === 'Delivered', 'status-placed': order.status === 'Placed'}">
+  {{ order.status }}
+</td>
+              </tr>
+            </tbody>
+          </table>
           
-          <td>{{ order.orderDate }}</td>
-          <td>{{ order.totalPriceAfterDiscount }}</td>
-          <td>
-            <ul>
-              <li *ngFor="let item of order.orderItems">{{ item.quantity }}</li>
-            </ul>
-          </td>
-          <td>{{ order.orderDate }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
+        </div>
+        
+        <ng-template #noOrders>
+          <p class="no-orders">No orders found for the selected filter.</p>
+        </ng-template> 
+
+

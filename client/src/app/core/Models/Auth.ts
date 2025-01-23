@@ -10,6 +10,7 @@ export interface RegisterUserData{
 
 export interface LoginReq{
     email:string,
+    role: string,
     password:string
 }
 

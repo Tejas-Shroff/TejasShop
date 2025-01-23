@@ -1,8 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using server.Data;
 using server.Dto;
 using server.Dto.Order;
 using server.Entities;
@@ -19,15 +17,16 @@ namespace server.Controllers
         private readonly IOrderService orderService;
         private readonly IPaymentService paymentService;
         private readonly IMapper mapper;
-        private readonly DataContex _context;
 
-        public OrderController(IOrderService orderService, IPaymentService paymentService,IMapper mapper,DataContex context
+        public OrderController(
+            IOrderService orderService,
+            IPaymentService paymentService,
+            IMapper mapper
         )
         {
             this.orderService = orderService;
             this.paymentService = paymentService;
             this.mapper = mapper;
-            _context = context;
         }
 
         [HttpPost("CreateOrder")]
@@ -46,13 +45,13 @@ namespace server.Controllers
         }
 
         [HttpGet("Get-all-orders")]
-        public async Task<ActionResult<ResponseDto>> GetAllOrders()
+        public async Task<ActionResult<ResponseDto>> GetAllOrders(DateTime? startDate, DateTime? endDate)
         {
             if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
             {
                 return Unauthorized();
             }
-            var orders = await orderService.GetOrdersAsync(userId);
+            var orders = await orderService.GetOrdersAsync(userId,startDate, endDate);
             var orderDto = mapper.Map<List<GetUserOrdersDTO>>(orders);
 
             return Ok(orderDto);
@@ -70,5 +69,27 @@ namespace server.Controllers
 
             return Ok(new {order=orderDto,paymentDetails=details.paymentDetails,details.shippingAddress});
         }
+        
+        [AllowAnonymous]
+        [HttpPut("UpdateStatus")]
+        public async Task<ActionResult<ResponseDto>> UpdateOrderStatus([FromBody] UpdateOrderStatusDTO updateStatus)
+        {
+
+            var res = new ResponseDto(); 
+            bool isUpdated = await orderService.UpdateOrderStatusAsync(updateStatus.OrderId, updateStatus.Status);
+
+            if (isUpdated)
+            {
+                return Ok(res.success("Order status updated successfully"));
+            }
+            else
+            {
+                return BadRequest(res.failure("Failed to update order status"));
+            }
+        }
+
+       
     }
+
+ 
 }

@@ -8,19 +8,21 @@ import { UserDto } from '../Models/user';
 import { Router } from '@angular/router';
 
 import { addProductDTO, ProductResDto } from '../Models/catalog';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  hasAdminRole(userData: UserDto) {
+    throw new Error('Method not implemented.');
+  }
   private isUserLoggedIn:BehaviorSubject<boolean>= new BehaviorSubject(false);
   private userDetail=new BehaviorSubject<UserDto|null|undefined>(undefined);
   private refreshTokenSubscription: Subscription | null = null;
-  private addproducturl = 'http://localhost:5129/api/Catalog/product';
-  private apiUrl = 'http://localhost:5129/api/Catalog/GetAllProducts';
-  private deleteproductUrl = 'http://localhost:5129/api/Catalog/product/delete';
-  private baseUrl = 'http://localhost:5129/api/Catalog';
-  private orderhistoryURL = 'http://localhost:5129/api/OrderHistory/get-All_Users-Orders';
+
+  // private orderhistoryURL = environment.baseApi+ '/OrderHistory/get-All_Users-Orders';
+  // private apiUrl = environment.baseApi + '/Catalog/'
   
 
   constructor(
@@ -195,24 +197,29 @@ export class AuthService {
 
 
   addProduct(productData: FormData): Observable<any> {
-    return this.http.post(`${this.addproducturl}/create`, productData);
+    return this.http.post(`${environment.baseApi + '/Catalog/'}product/create`, productData);
   }
 
   getAllProducts(): Observable<ProductResDto[]> {
-    return this.http.get<ProductResDto[]>(this.apiUrl);
+    return this.http.get<ProductResDto[]>(`${environment.baseApi + '/Catalog/'}GetAllProducts`);
   }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(`${this.deleteproductUrl}/${productId}`);
+    return this.http.delete(`${environment.baseApi + '/Catalog/'}product/delete/${productId}`);
   }
 
   updateProduct(productId: number, product: addProductDTO): Observable<ProductResDto> {
-    return this.http.put<ProductResDto>(`${this.addproducturl}/edit/${productId}`, product);
+    return this.http.put<ProductResDto>(`${environment.baseApi + '/Catalog/'}product/edit/${productId}`, product);
   }
 
-  getOrderHistory(): Observable<any> {
-    return this.http.get<any>(this.orderhistoryURL);
-  }
+  // getOrderHistory(): Observable<any> {
+  //   return this.http.get<any>(this.orderhistoryURL);
+  // }
+
+  getOrderHistory(months: number = 0): Observable<any> {
+    const url = `${environment.baseApi+ '/OrderHistory/get-All_Users-Orders'}?months=${months}`;
+    return this.http.get<any>(url);
+   }
 
 
 

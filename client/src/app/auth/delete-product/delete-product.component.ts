@@ -7,6 +7,9 @@ import { EditProductComponent } from '../edit-product/edit-product.component';
 import { BASE_IMAGE_API } from 'src/app/core/token/baseUrl.token';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../redux/store';
+import { NotificationService } from 'src/app/notification/notification.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class DeleteProductComponent implements OnInit{
   AllProducts: ProductResDto[] = [];
   router: any;
   productId!: number;
+  
 
   constructor(
 
@@ -29,28 +33,37 @@ export class DeleteProductComponent implements OnInit{
     public dialog: MatDialog, 
     public aactivatedRoute : ActivatedRoute, 
     @Inject(BASE_IMAGE_API) public imageUrl: string,
-    private store:Store<AppState>) 
+    private store:Store<AppState>,
+    private notification: NotificationService
+  ) 
 
     {
   
     }
 
   
-  ngOnInit(): void {
+    displayedColumns: string[] = ['id', 'product', 'name', 'stockQuantity', 'originalPrice', 'categoryId', 'brandId', 'actions'];
+    dataSource = new MatTableDataSource<ProductResDto>();
+    totalItems: number = 0;
+    itemsPerPage: number = 10;
+  
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
 
-    // this.authservice.getAllProducts().subscribe(
-    //   data => {this.AllProducts.push(...data)}
-    //   );
-    //   console.log(this.AllProducts);
-
-    this.authservice.getAllProducts().subscribe(data => {
-      this.AllProducts = data;
-                                                // console.log('Fetched Products:', this.AllProducts); // Log the fetched data
-      this.AllProducts.forEach(product => {
-                                                // console.log('Product Category:', product.category);
+  
+    ngOnInit(): void {
+      this.authservice.getAllProducts().subscribe(data => {
+        this.dataSource.data = data;
+        this.totalItems = data.length;
+        this.dataSource.paginator = this.paginator;
       });
-    }); 
-  }
+    }
+  
+    onPageChange(event: PageEvent): void {
+      this.itemsPerPage = event.pageSize;
+      this.paginator.pageIndex = event.pageIndex;
+      this.dataSource.paginator = this.paginator;
+    }
 
   openEditDialog(product: ProductResDto): void {
     const dialogRef = this.dialog.open(EditProductComponent, {
@@ -86,6 +99,7 @@ export class DeleteProductComponent implements OnInit{
   deleteProduct(productId: number): void {
     this.authservice.deleteProduct(productId).subscribe(() => {
       this.AllProducts = this.AllProducts.filter(product => product.id !== productId);
+      this.notification.Success('Product deleted!')
                                           console.log('Product deleted successfully');
     }, error => {
                                           console.error('Error deleting product', error);

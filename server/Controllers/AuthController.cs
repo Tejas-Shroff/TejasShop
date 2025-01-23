@@ -86,9 +86,9 @@ namespace server.Controllers
                 Address = req.Address,
                 //Role=UserRoles.USER.ToString(),
                 Role = req.Role.ToUpper(),
-                Password = BCrypt.Net.BCrypt.HashPassword(req.Password),
+                Password = BCrypt.Net.BCrypt.HashPassword(req.Password),  // it genrates unique hash everytime you enter the password, even for same password, it is resistant to brute force attacks.
                 RefreshToken="",
-                RefreshTokenExpire=DateTime.Now.AddDays(2)
+                RefreshTokenExpire=DateTime.Now.AddDays(2)  // we can set expiration of token here, as currently it will set for 2 days for the particular user.
             };
             bool result = await this.userRepository.AddUser(newUser);
 
@@ -102,38 +102,38 @@ namespace server.Controllers
             return Ok(res);
         }
 
-        [HttpPost]
-        [Route("register-admin")]
-        public async Task<ActionResult<ResponseDto>> RegisterAdmin([FromBody] RegisterUserReqDto req)
-        {
-            User? user = await this.userRepository.GetUserByEmail(req.Email);
-            ResponseDto res = new ResponseDto();
-            if (user != null)
-            {
-                res.IsSuccessed = false;
-                res.Message = $"User with email {req.Email} already exsist";
-                return BadRequest(res);
-            }
+        // [HttpPost]
+        // [Route("register-admin")]
+        // public async Task<ActionResult<ResponseDto>> RegisterAdmin([FromBody] RegisterUserReqDto req)
+        // {
+        //     User? user = await this.userRepository.GetUserByEmail(req.Email);
+        //     ResponseDto res = new ResponseDto();
+        //     if (user != null)
+        //     {
+        //         res.IsSuccessed = false;
+        //         res.Message = $"User with email {req.Email} already exsist";
+        //         return BadRequest(res);
+        //     }
 
-            User newUser = new User()
-            {
-                UserName = req.UserName,
-                Email = req.Email,
-                Address = req.Address,
-                Role=UserRoles.ADMIN.ToString(),
-                Password = BCrypt.Net.BCrypt.HashPassword(req.Password)
-            };
-            bool result = await this.userRepository.AddUser(newUser);
+        //     User newUser = new User()
+        //     {
+        //         UserName = req.UserName,
+        //         Email = req.Email,
+        //         Address = req.Address,
+        //         Role=UserRoles.ADMIN.ToString(),
+        //         Password = BCrypt.Net.BCrypt.HashPassword(req.Password)
+        //     };
+        //     bool result = await this.userRepository.AddUser(newUser);
 
-            if (!result)
-            {
-                res.IsSuccessed = false;
-                res.Message = $"Internal Server error";
-                return BadRequest(res);
-            }
-            res.Message = "User registered successfully";
-            return Ok(res);
-        }
+        //     if (!result)
+        //     {
+        //         res.IsSuccessed = false;
+        //         res.Message = $"Internal Server error";
+        //         return BadRequest(res);
+        //     }
+        //     res.Message = "User registered successfully";
+        //     return Ok(res);
+        // }
     
         [HttpPost]
         [Route("refresh")]

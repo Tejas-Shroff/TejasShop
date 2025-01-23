@@ -29,7 +29,7 @@
     </div>
 
     <!-- Price Slider -->
-    <div class="filter-section">
+    <!-- <div class="filter-section">
         <h3>Price</h3>
         <div class="filter-slider-container">
             <mat-slider *ngIf="minPrice && maxPrice" class="filter-slider" [min]="minPrice" [max]="maxPrice">
@@ -38,15 +38,15 @@
             </mat-slider>
         </div>
         <p><small>Price: {{ selectedMinPrice||minPrice | currency:'INR' }} - {{ selectedMaxPrice||maxPrice | currency:'INR'}}</small></p>
-    </div>
+    </div> -->
 
     <!-- Rating Filter -->
-    <div class="filter-section">
+    <!-- <div class="filter-section">
         <h3>Rating</h3>
         <div *ngFor="let rating of ratings">
             <mat-checkbox (change)="toggleRating(rating.value)">
                 <s-rating [rating]="rating.value"></s-rating>
             </mat-checkbox>
         </div>
-    </div>
+    </div> -->
 </div>

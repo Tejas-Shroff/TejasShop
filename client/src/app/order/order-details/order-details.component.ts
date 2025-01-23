@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderDetailDTO } from 'src/app/core/Models/order';
 import { OrdersService } from 'src/app/core/Services/orders.service';
@@ -10,6 +10,10 @@ import { OrdersService } from 'src/app/core/Services/orders.service';
 })
 export class OrderDetailsComponent implements OnInit {
   details!: OrderDetailDTO;
+  @Input() orderStatus!: string;
+  @Input() paymentStatus!: string;
+  @Input() orderId!: string; // Add orderId as an input
+
   constructor(
     private orderService: OrdersService,
     private routing: ActivatedRoute
@@ -22,7 +26,8 @@ export class OrderDetailsComponent implements OnInit {
         this.details = d;
       })
     });
-  }
 
+    
+  }
 
 }
