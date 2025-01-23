@@ -1,3 +1,19 @@
 .mat-form-field {
     min-width: 300px;
 }
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .cancel-button {
+    background-color: rgb(233, 93, 93);
+  }
+  
+  .save-button {
+    background-color: rgb(109, 109, 149);
+  }
+  
+  .thumbnail-error-message{
+    color: red;
+  }

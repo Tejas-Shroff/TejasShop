@@ -42,8 +42,8 @@ import { NotificationModule } from './notification/notification.module';
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('accestoken'),
-        allowedDomains: ["example.com"],
-        disallowedRoutes: ["http://example.com/examplebadroute/"],
+        allowedDomains: [" "],
+        disallowedRoutes: [" "],
       }
     }
     ),

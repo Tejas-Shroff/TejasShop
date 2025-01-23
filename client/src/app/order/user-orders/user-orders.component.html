@@ -42,7 +42,6 @@
     <label for="filter" class="filter-orders-label">Filter Orders :</label>
     <select id="filter"  class="filter-orders" (change)="onFilterChange($event)">
       <option value="1" class="selection-option">Last 1 Day</option>
-      <option value="1" class="selection-option">Last 1 Day</option>
       <option value="2" class="selection-option">Last 2 Days</option>
       <option value="3" class="selection-option">Last 3 Days</option>
       <option value="4" class="selection-option">Last 4 Days</option>
@@ -70,7 +69,7 @@
           <table class="table">
             <thead class="thead-light">
               <tr>
-                <!-- <th scope="col">Select</th> -->
+                <th scope="col">Select</th>
                 <th scope="col">Order Id</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Amount</th>
@@ -80,9 +79,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let order of displayedOrders">
-                <!-- <td>
+                <td>
                   <input type="checkbox" (change)="toggleSelection(order)">
-                </td> -->
+                </td>
                 <td>{{order.id}}</td>
                 <td>{{order.orderDate | date: 'dd/MM/yyyy hh:mm'}}</td>
                 <td class="text-primary">{{order.totalPriceAfterDiscount | currency: 'INR'}}</td>
@@ -95,7 +94,7 @@
               </tr>
             </tbody>
           </table>
-          <mat-paginator [length]="orders.length" [pageSize]="pageSize" [pageSizeOptions]="[3, 5, 10]" (page)="onPageChange($event)">
+          <mat-paginator class = "mat-pagination" [length]="orders.length" [pageSize]="pageSize" [pageSizeOptions]="[3, 5, 10]" (page)="onPageChange($event)">
           </mat-paginator>
         </div>
         <ng-template #noOrders>

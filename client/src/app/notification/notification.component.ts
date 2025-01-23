@@ -13,12 +13,18 @@ export class NotificationComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit(): void {
+
     this.notificationService.notifications$.subscribe(
+
       (notifications) => (this.notifications = notifications)
+
     );
+
   }
 
   removeNotification(notification: Notification) {
+
     this.notificationService.removeNotification(notification);
+    
   }
 }

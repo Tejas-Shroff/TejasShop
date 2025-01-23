@@ -60,14 +60,8 @@ namespace server.Controllers
                
             };
 
-
             return Ok(response);
         }
-
-
-
-
-
 
 
         [HttpGet("{productId}")]

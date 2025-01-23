@@ -29,7 +29,7 @@ export class NotificationService {
   }
  
 
-  Success(message: string = 'Success!', duration: number = 10000) {
+  Success(message: string = 'Success!', duration: number = 3000) {
     this.addNotification({
       message,
       type: 'success',
@@ -37,7 +37,7 @@ export class NotificationService {
     });
   }
 
-  Error(message: string = 'Error!', duration: number = 3000) {
+  Error(message: string = 'Error!', duration: number = 10000) {
     this.addNotification({
       message,
       type: 'error',
@@ -45,14 +45,14 @@ export class NotificationService {
     });
   }
 
-  Warning(message: string = 'Warning!', duration: number = 3000) {
+  Warning(message: string = 'Warning!', duration: number = 10000) {
     this.addNotification({
       message,
       type: 'warning',
       duration
     });
   }
-  Info(message: string = 'Warning!', duration: number = 3000) {
+  Info(message: string = 'Warning!', duration: number = 10000) {
     this.addNotification({
       message,
       type: 'info',

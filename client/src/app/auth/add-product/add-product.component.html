@@ -63,12 +63,30 @@
                                    Name is required.
                             </div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                          <label for="originalPrice">Original Price:</label>
                          <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)" />
                          <div *ngIf="addProductForm.get('originalPrice')?.invalid && addProductForm.get('originalPrice')?.touched" class="error-message">
                            Original Price is required, Min price 1000, Must be non-negative and price should not exceed Rs.250000.
                          </div>
+              </div> -->
+              <div class="form-group">
+                <label for="originalPrice">Original Price:</label>
+                <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)" />
+                <div *ngIf="addProductForm.get('originalPrice')?.touched">
+                  <div *ngIf="addProductForm.get('originalPrice')?.errors?.['required']" class="error-message">
+                    Original Price is required.
+                  </div>
+                  <div *ngIf="addProductForm.get('originalPrice')?.errors?.['min']" class="error-message">
+                    Minimum price is 1000.
+                  </div>
+                  <div *ngIf="addProductForm.get('originalPrice')?.errors?.['max']" class="error-message">
+                    Price should not exceed Rs. 250000.
+                  </div>
+                  <div *ngIf="addProductForm.get('originalPrice')?.errors?.['nonNegative']" class="error-message">
+                    Price must be non-negative.
+                  </div>
+                </div>
               </div>
               </div>
               <div class="form-row">
@@ -76,14 +94,14 @@
                          <label for="stockQuantity">Stock Quantity:</label>
                          <input id="stockQuantity" formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)" />
                          <div *ngIf="addProductForm.get('stockQuantity')?.invalid && addProductForm.get('stockQuantity')?.touched" class="error-message">
-                           Stock Quantity is required and must be non-negative.
+                           Stock Quantity is required.
                          </div>
                        </div>
               <div class="form-group">
                          <label for="categoryId">Category ID:</label>
                          <input id="categoryId" formControlName="categoryId" type="number" min="0" (input)="onInput($event)"  />
                          <div *ngIf="addProductForm.get('categoryId')?.invalid && addProductForm.get('categoryId')?.touched" class="error-message">
-                           Category ID is required and must be non-negative.
+                           Category ID is required.
                          </div>
                        </div>
                      </div>
@@ -92,7 +110,7 @@
                          <label for="brandId">Brand ID:</label>
                          <input id="brandId" formControlName="brandId" type="number" min="0" (input)="onInput($event)" />
                          <div *ngIf="addProductForm.get('brandId')?.invalid && addProductForm.get('brandId')?.touched" class="error-message">
-                           Brand ID is required and must be non-negative.
+                           Brand ID is required.
                          </div>
                             </div>
                        <!-- <div class="form-group">
@@ -105,8 +123,8 @@
                         <div class="form-group">
                           <label for="thumbnail">Thumbnail:</label>
                           <input id="thumbnail" type="file" (change)="onFileChange($event)" />
-                          <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched" class="error-message">
-                            Thumbnail is required, Only JPEG and PNG format acceptable and Dimension 800 * 800 only acceptable.
+                          <div *ngIf="thumbnailError" class="error-message">
+                            {{ thumbnailError }}
                           </div>
                         </div>
                      </div>
@@ -123,7 +141,7 @@
                      </div>
                      <br>
                      <!-- Add this line to check if the form is invalid -->
-                     <p *ngIf="addProductForm.invalid" class="error-message">Form is invalid. Please fill out all required fields.</p>
+                     <p *ngIf="addProductForm.invalid" class="error-message">Please fill out all required fields.</p>
                    </form>
 
                    <!-- <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
