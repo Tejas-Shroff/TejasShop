@@ -20,3 +20,8 @@
   .mat-select-value {
     font-size: 14px;
   }
+  .sort-dropdown {
+    margin-right: 10px; /* Adjust as needed */
+    display: inline-block; /* Ensure it stays inline */
+    vertical-align: middle; /* Align vertically with paginator */
+  }

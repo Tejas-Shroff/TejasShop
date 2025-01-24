@@ -1,4 +1,4 @@
-th,td{
+/* th,td{
     text-align: center;
     vertical-align: middle;
     padding: 10px 5px;
@@ -73,4 +73,80 @@ th,td{
 
   .container{
     padding-bottom: 100px;
+  } */
+
+  /* Container styling to center content and set a maximum width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Table styling for width, margin, color, and border collapse */
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+  }
+  
+  /* Table header and cell padding, vertical alignment, and border */
+
+  th,td{
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px 5px;
+    border-bottom: 1px solid #000000;
+}
+ 
+  
+  /* Form field styling for width and margin */
+  .mat-form-field {
+    width: 200px;
+    margin-right: 20px;
+  }
+  
+  /* Paginator styling for margin and alignment */
+  .mat-paginator {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* Raised button styling for margin */
+  .mat-raised-button {
+    margin-right: 10px;
+  }
+  
+  /* Icon button color */
+  button.mat-icon-button {
+    color: #007bff;
+  }
+  
+  /* Icon button hover effect */
+  button.mat-icon-button:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+  }
+  
+  /* Raised button background color and text color */
+  button.mat-raised-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Raised button hover effect */
+  button.mat-raised-button:hover {
+    background-color: #0056b3;
+  }
+
+/* filter by label */
+
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+  
+  .filter-field {
+    margin-left: auto;
   }

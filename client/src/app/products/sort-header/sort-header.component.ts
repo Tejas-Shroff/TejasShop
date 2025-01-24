@@ -76,13 +76,13 @@ export class SortHeaderComponent {
     this.applyChanges();
    }
 
-  // sortByChange(obj:MatSelectChange){
-  //   this.sortBy=obj.value;
-  //   this.applyChanges();
-  // }
-  sortByChange(){
+  sortByChange(obj:MatSelectChange){
+    this.sortBy=obj.value;
     this.applyChanges();
   }
+  // sortByChange(){
+  //   this.applyChanges();
+  // }
   
   applyChanges(){
     const sortFilter = {

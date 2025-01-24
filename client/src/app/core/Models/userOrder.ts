@@ -3,4 +3,5 @@ export interface GetUserOrdersDTO {
     orderDate: string;
     totalPriceAfterDiscount: number;
     status: string;
+    selected?: boolean;
 }

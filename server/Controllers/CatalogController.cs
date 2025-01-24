@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Dto;
 using server.Entities;
-using server.Interface.Repository;
 using server.Interface.Service;
-
 
 namespace server.Controllers
 {
@@ -15,19 +12,14 @@ namespace server.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
-
         private readonly ICatalogService catalogService;
         private readonly IMapper mapper;
         private readonly DataContex _context;
-
         public CatalogController(ICatalogService catalogService,IMapper mapper, DataContex context)
-        
         {
-
             this.catalogService = catalogService;
             this.mapper = mapper;
-            _context = context;
-            
+            _context = context;  
         }
         
         [HttpGet]
@@ -63,7 +55,6 @@ namespace server.Controllers
             return Ok(response);
         }
 
-
         [HttpGet("{productId}")]
         public async Task<ActionResult<ResponseDto>> GetProduct(int productId)
         {
@@ -88,7 +79,6 @@ namespace server.Controllers
 
         }
 
-
         [HttpDelete]
         [Route("product/delete/{productId}")]
         public async Task<ActionResult<ResponseDto>> DaleteProducts(int productId)
@@ -97,8 +87,6 @@ namespace server.Controllers
             await catalogService.DeleteProduct(productId);
             return Ok(response);
         }
-
-
        
         [HttpGet]
         [Route("category/getall")]
@@ -124,7 +112,6 @@ namespace server.Controllers
             return Ok(response);
         }
 
-
         [HttpDelete]
         [Route("category/delete/{categorytId}")]
         public async Task<ActionResult<ResponseDto>> DaleteCategory(int categorytId)
@@ -135,10 +122,6 @@ namespace server.Controllers
 
             return Ok(response);
         }
-
-
-
-
 
         [HttpGet]
         [Route("brand/getall")]
@@ -187,19 +170,11 @@ namespace server.Controllers
                     Data = mapper.Map<ProductResDto>(updatedProductEntity)
                 };
                 return Ok(response);
-
-
-
             }
             catch (Exception ex)
             {   
             return BadRequest(new { Message = ex.Message });
             }
         }
-
-
-        
-
-
     }
 }

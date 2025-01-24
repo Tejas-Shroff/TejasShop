@@ -7,10 +7,10 @@ namespace server.Dto
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal OriginalPrice { get; set; }
-        //public decimal? DiscountPercentage { get; set; }
-        //public decimal? DiscountAmount { get; set; }
+        public decimal? DiscountPercentage { get; set; }
+        public decimal? DiscountAmount { get; set; }
         public int StockQuantity { get; set; }
-        //public bool IsFeatured { get; set; } = false;
+        public bool IsFeatured { get; set; } = false;
         public int CategoryId { get; set; }
         public int BrandId { get; set; }
         public IFormFile Thumbnail { get; set; }
@@ -53,7 +53,7 @@ namespace server.Dto
         public ImageDtoRes? Image { get; set; }
     }
 
-    public class BrandResDto
+    public class BrandResDto  // for brand response
     {
         public int Id { get; set; }
         public string Name { get; set; }

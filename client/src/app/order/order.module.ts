@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatStepperModule,
     MatPaginatorModule
   ],
+  providers: [DatePipe],
   exports:[
     UserOrdersComponent,
     OrderDetailsComponent

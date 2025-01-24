@@ -38,68 +38,65 @@
 </section> -->
 
 
-<div class="col-12 mb-3">
-    <label for="filter" class="filter-orders-label">Filter Orders :</label>
-    <select id="filter"  class="filter-orders" (change)="onFilterChange($event)">
-      <option value="1" class="selection-option">Last 1 Day</option>
-      <option value="2" class="selection-option">Last 2 Days</option>
-      <option value="3" class="selection-option">Last 3 Days</option>
-      <option value="4" class="selection-option">Last 4 Days</option>
-      <option value="5" class="selection-option">Last 5 Days</option>
-      <option value="5" class="selection-option">Last 5 Days</option>
-      <option value="6" class="selection-option">Last 6 Days</option>
-      <option value="7" class="selection-option">Last 7 Days</option>
-      <option value="8" class="selection-option">Last 8 Days</option>
-      <option value="9" class="selection-option">Last 9 Days</option>
-      <option value="10" class="selection-option">Last 10 Days</option>
-    </select>
-  </div>
-  
-  <section class="mt-5 mb-5">
+
+
+<section class="mt-5 mb-5">
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="py-1 border-0 mb-8">
-            <h2>Your Orders</h2>
+        <div class="row">
+          <div class="col-12">
+            <div class="py-1 border-0 mb-8">
+              <h2>Your Orders</h2>
+              <div class="filter-container">
+                <div>{{ filteredOrders.length }} orders found for {{ selectedFilter }}</div>
+                <mat-form-field class="filter-field">
+                  <mat-label class="filterbymatlabel">Filter by</mat-label>
+                  <mat-select [(value)]="selectedFilter" (selectionChange)="filterOrders()">
+                    <mat-option value="all">All</mat-option>
+                    <mat-option value="today">Today</mat-option>
+                    <mat-option value="1month">1 Month</mat-option>
+                    <mat-option value="2months">2 Months</mat-option>
+                    <mat-option value="3months">3 Months</mat-option>
+                    <mat-option value="6months">6 Months</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      
       <div class="row mt-5">
-        <div *ngIf="orders.length > 0; else noOrders">
-          <table class="table">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Select</th>
-                <th scope="col">Order Id</th>
-                <th scope="col">Order Date</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Order Status</th>
-                <th scope="col">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of displayedOrders">
-                <td>
-                  <input type="checkbox" (change)="toggleSelection(order)">
-                </td>
-                <td>{{order.id}}</td>
-                <td>{{order.orderDate | date: 'dd/MM/yyyy hh:mm'}}</td>
-                <td class="text-primary">{{order.totalPriceAfterDiscount | currency: 'INR'}}</td>
-                <td>{{order.status}}</td>
-                <td>
-                  <button mat-icon-button matTooltip="View Details" [routerLink]="['/orders/detail', order.id]">
-                    <mat-icon>visibility</mat-icon>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <mat-paginator class = "mat-pagination" [length]="orders.length" [pageSize]="pageSize" [pageSizeOptions]="[3, 5, 10]" (page)="onPageChange($event)">
-          </mat-paginator>
-        </div>
-        <ng-template #noOrders>
-          <p class="no-orders-message">No orders available.</p>
-        </ng-template>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Select</th>
+              <th scope="col">Order Id</th>
+              <th scope="col">Order Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Status</th>
+              <th scope="col">View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of paginatedOrders">
+              <td>
+                <mat-checkbox [(ngModel)]="order.selected"></mat-checkbox>
+              </td>
+              <td>{{ order.id }}</td>
+              <td>{{ order.orderDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+              <td class="text-primary">{{ order.totalPriceAfterDiscount | currency: 'INR' }}</td>
+              <td>{{ order.status }}</td>
+              <td>
+                <button mat-icon-button matTooltip="View Details" [routerLink]="['/orders/detail', order.id]">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator [length]="filteredOrders.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" (page)="paginate($event)"></mat-paginator>
+        <button mat-raised-button (click)="viewSelectedOrders()">View Selected Orders</button>
+        <button mat-raised-button (click)="expandAll()">Expand All</button>
       </div>
     </div>
+    <br><br><br><br><br><br><br>
   </section>

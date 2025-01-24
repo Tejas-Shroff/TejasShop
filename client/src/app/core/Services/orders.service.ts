@@ -2,6 +2,7 @@ import { HttpClient , HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GetUserOrdersDTO } from '../Models/userOrder';
 import { OrderDetailDTO, updateOrderStatusDTO } from '../Models/order';
+import { interval, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class OrdersService {
     let params = new HttpParams();
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
+    return this.http.get<GetUserOrdersDTO[]>('Order/Get-all-orders', { params })
+  }
+    
+  getAllUserOrders(){
+    let params = new HttpParams()
     return this.http.get<GetUserOrdersDTO[]>('Order/Get-all-orders', { params })
   }
 

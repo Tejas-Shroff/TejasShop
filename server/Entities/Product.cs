@@ -9,7 +9,7 @@
         public decimal OriginalPrice { get; set; }
 
         public decimal? DiscountPercentage { get; set; } // Discount in percentage (e.g., 10% = 0.10)
-        public decimal? DiscountAmount { get; set; } // Discount in fixed amount (e.g., $10)
+        public decimal? DiscountAmount { get; set; } // Discount in fixed amount (e.g., Rs.10)
         public decimal NewPrice
         {
             get
@@ -39,7 +39,6 @@
                        DiscountAmount.HasValue && DiscountAmount.Value > 0;
             }
         }
-
 
         public int StockQuantity { get; set; }
         public bool InStock

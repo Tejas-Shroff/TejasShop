@@ -31,7 +31,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -49,11 +49,11 @@
   }
   
   .order-history-table th {
-    background-color: #f2f2f2;
+    background-color: #ffffff;
   }
   
   .order-history-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
   }
   
   .order-history-table ul {
@@ -67,7 +67,7 @@
   }
   
   .order-history-container h2 {
-    color: #333;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 20px;
   }
@@ -77,13 +77,14 @@
   }
   
   .order-history-table th {
-    background-color: #dbdddd;
+    background-color: #dbdddd; // header of table
     color: #000000;
     font-weight: bold;
+    padding: 2px;
   }
   
   .order-history-table td {
-    background-color: #f9f9f9;
+    background-color: #ffffff;    // td table background color 
   }
   
   .order-history-table tr:hover td {
@@ -117,6 +118,11 @@
   .admin-dashboard-container {
     margin-top: 70px;
   }
+  .mat-icon-account-cicle {
+    font-size: 1.6rem;
+    z-index: 2;
+  }
+  
 
 
   // filter section for months
@@ -140,21 +146,27 @@
     border: 1px solid #ccc;
   }
 
-
+// status colors
   .status-delivered {
     color: green;
     font-weight: bold;
   }
   
   .status-placed {
-    color: blue;
+    color: rgb(61, 61, 168);
     font-weight: bold;
   }
 
-  .mat-icon-account-cicle {
-    font-size: 1.6rem;
-    z-index: 2;
-  
+  .status-Shipped {
+    color: orchid;
+    font-weight: bold;
   }
+
+  .status-OutForDelivery {
+    color: #0a8989;
+    font-weight: bold;
+  }
+
+ 
 
  

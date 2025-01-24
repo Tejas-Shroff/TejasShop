@@ -60,13 +60,15 @@ namespace server.Repository
 
             if (!string.IsNullOrEmpty(inData.Sort))
             {
-                if (inData.Sort.ToLower() == "price_htl")
+               if (inData.Sort.ToLower() == "price_htl")
                 {
-                   productQuery = productQuery.OrderByDescending(p=>p.OriginalPrice);
+                    productQuery = productQuery.OrderByDescending(p => 
+                        p.OriginalPrice - (p.DiscountPercentage.HasValue ? (p.OriginalPrice * p.DiscountPercentage.Value / 100) : 0));
                 }
                 if (inData.Sort.ToLower() == "price_lth")
                 {
-                    productQuery = productQuery.OrderBy(p => p.OriginalPrice);
+                    productQuery = productQuery.OrderBy(p => 
+                        p.OriginalPrice - (p.DiscountPercentage.HasValue ? (p.OriginalPrice * p.DiscountPercentage.Value / 100) : 0));
                 }
                 if (inData.Sort.ToLower() == "featured")
                 {
