@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
 import { BrandResDto, CategoryResDto } from 'src/app/core/Models/catalog';
@@ -15,11 +14,11 @@ import { AppState } from 'src/app/redux/store';
 export class FiltersComponent {
   categories$: Observable<CategoryResDto[]>;
   brands$:Observable<BrandResDto[]>;
+
   constructor(private store: Store<AppState>) {
     this.categories$ = this.store.select(selectCategories);
     this.brands$=this.store.select(selectBrands);
   }
-
 
   ngOnInit(): void {
     this.brands$.pipe(
@@ -32,24 +31,16 @@ export class FiltersComponent {
     .subscribe()
   }
 
-
-
-
-
   @Input() selectedCategoryIds: number[]=[];
   @Input() selectedBrandIds: number[]=[];
   @Input() selectedStockType: boolean = true;
   @Input() selectedRating: number[]=[];
- 
   @Input() minPrice: number=0;
-  @Input() maxPrice: number=30000;
+  @Input() maxPrice: number=250000;
   @Input() selectedMinPrice: number=this.minPrice;
   @Input() selectedMaxPrice: number=this.maxPrice;
 
   @Output() filtersChanged = new EventEmitter<any>();
- 
-
-
  
  ratings = [
    { value: 5, selected: false },
@@ -59,7 +50,7 @@ export class FiltersComponent {
    { value: 1, selected: false }
  ];
 
- 
+
  minPriceChange(priceData:any){
   this.selectedMinPrice=priceData.value;
   this.applyFilters();
@@ -68,7 +59,6 @@ export class FiltersComponent {
   this.selectedMaxPrice=priceData.value;
   this.applyFilters();
  }
-
 
  toggleRating(ratingValue: number) {
   const index = this.selectedRating.indexOf(ratingValue);
@@ -84,18 +74,14 @@ export class FiltersComponent {
  }
 
  toggleCategory(categoryId:number){
-  // debugger
   const index = this.selectedCategoryIds.indexOf(categoryId);
   if (index == -1) {
-
   this.selectedCategoryIds.push(categoryId);
   }
   else 
   {
     this.selectedCategoryIds.splice(index, 1);
-    
   }
-
   console.log('Updated selected categories:', this.selectedCategoryIds);
   this.applyFilters();
  }
@@ -115,15 +101,12 @@ export class FiltersComponent {
 
   this.applyFilters();
  }
-
    
-   applyFilters() {
+  applyFilters() {
     const selectedFilters = {
-
       categoryId: this.selectedCategoryIds,
       brandId: this.selectedBrandIds,
       minPrice: this.selectedMinPrice,
-
       maxPrice: this.selectedMaxPrice,
       stockType:this.selectedStockType,
       ratings:this.selectedRating

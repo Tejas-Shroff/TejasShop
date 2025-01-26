@@ -27,12 +27,15 @@
     background-color: #ddd; 
     border-top-color:#ddd;
 }
-.confirmed{
-color: green;
+
+.confirmed {
+  color: green;
 }
 
-.failed{
+.failed {
   color: red;
 }
-
-  
+.cancelled {
+  color: red; /* Change the color to red for cancelled orders */
+  font-weight: bold; /* Optional: Make it bold to ensure visibility */
+}

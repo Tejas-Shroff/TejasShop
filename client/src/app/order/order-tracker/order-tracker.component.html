@@ -1,4 +1,3 @@
-<!-- order-tracker.component.html -->
 <div class="order-tracker">
     <div>
         <mat-icon class="confirmed">shopping_cart</mat-icon><strong> Order Placed</strong>
@@ -10,8 +9,9 @@
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 
-    <div [ngClass]="orderStatus === 'confirmed' || orderStatus === 'shipped' || orderStatus === 'outForDelivery' || orderStatus === 'delivered' ? 'confirmed' : ''">
-        <mat-icon>check_circle</mat-icon><strong> Order Confirmed</strong>
+    <div [ngClass]="steps[2] === 'Order Cancelled' ? 'cancelled' : 'confirmed'">
+        <mat-icon>{{ steps[2] === 'Order Cancelled' ? 'cancel' : 'check_circle' }}</mat-icon>
+        <strong> {{ steps[2] }}</strong>
     </div>
     <div class="separator"></div> <!-- Horizontal line div -->
 

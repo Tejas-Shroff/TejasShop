@@ -196,7 +196,7 @@ export class EditProductComponent implements OnInit {
       const file = fileInput.files[0];
       const fileType = file.type;
       const validImageTypes = ['image/jpeg', 'image/png'];
-
+  
       if (!validImageTypes.includes(fileType)) {
         this.thumbnailError = 'Only JPEG and PNG formats are allowed.';
         this.editProductForm.patchValue({
@@ -205,7 +205,7 @@ export class EditProductComponent implements OnInit {
         this.editProductForm.get('thumbnail')?.markAsTouched();
         return;
       }
-
+  
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const img = new Image();
@@ -226,7 +226,7 @@ export class EditProductComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     } else {
-      this.thumbnailError = 'Thumbnail is required.';
+      this.thumbnailError = '';
       this.editProductForm.patchValue({
         thumbnail: null
       });
