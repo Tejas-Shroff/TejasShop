@@ -22,5 +22,20 @@ namespace server.Repository
         {
            return await contex.PaymentDetails.FirstOrDefaultAsync(x => x.RazorPayOrderId == razorpayOrderId);
         }
+        public async Task<PaymentDetails?> UpdatePaymentAsync(PaymentDetails paymentDetails)
+        {
+            var existingPayment = await contex.Set<PaymentDetails>().FindAsync(paymentDetails.Id);
+            if (existingPayment != null)
+            {
+                existingPayment.Status = paymentDetails.Status;
+                existingPayment.RetryCount = paymentDetails.RetryCount;
+                contex.Entry(existingPayment).CurrentValues.SetValues(paymentDetails);
+                await contex.SaveChangesAsync();
+                return existingPayment;
+            }
+            return null;
+        }
+
+      
     }
 }

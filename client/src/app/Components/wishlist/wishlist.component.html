@@ -44,7 +44,7 @@
                         <td>
                             <button *ngIf="item.product.inStock" class="btn btn-sm btn-primary"  (click)="addToCart(item.productId)">Add to
                                 Cart</button>
-                            <button *ngIf="!item.product.inStock" class="btn btn-sm btn-danger" (click)="contactUs(item)">Contact
+                            <button *ngIf="!item.product.inStock" class="btn btn-sm btn-danger" (click)="NotifyUs(item)">Notify
                                 us</button>
                         </td>
                         <td>
@@ -56,6 +56,7 @@
                 </tbody>
             </table>
         </ng-container>
+        
    
 
     </div>

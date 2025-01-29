@@ -2,6 +2,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ProductResDto } from 'src/app/core/Models/catalog';
 import { BASE_API, BASE_IMAGE_API } from 'src/app/core/token/baseUrl.token';
+import { NotificationService } from 'src/app/notification/notification.service';
 import { AddToCart } from 'src/app/redux/cart/cart.action';
 import { AppState } from 'src/app/redux/store';
 import { AddToWishList } from 'src/app/redux/wishlist/wishlist.action';
@@ -13,7 +14,7 @@ import { AddToWishList } from 'src/app/redux/wishlist/wishlist.action';
 })
 export class ProductCardComponent {
 
-  constructor(@Inject(BASE_IMAGE_API) public imageUrl: string,private store:Store<AppState>) {}
+  constructor(@Inject(BASE_IMAGE_API) public imageUrl: string,private store:Store<AppState>, private noitification: NotificationService) {}
    
   @Input() product!:ProductResDto;
 
@@ -23,6 +24,7 @@ export class ProductCardComponent {
 
   addToWishList(productId:number){
     this.store.dispatch(AddToWishList({productId}))
+    
   }
   
 }

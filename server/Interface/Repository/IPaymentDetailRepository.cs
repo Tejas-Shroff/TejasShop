@@ -7,5 +7,8 @@ namespace server.Interface.Repository
     {
         Task<PaymentDetails?> GetPaymentDetailsByRPId(string razorpayOrderId);
         Task<PaymentDetails?> GetPaymentDetailsByOrderId(int orderId);
+    
+
+    
     }
 }

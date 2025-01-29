@@ -9,24 +9,48 @@
         public decimal OriginalPrice { get; set; }
 
         public decimal? DiscountPercentage { get; set; } // Discount in percentage (e.g., 10% = 0.10)
-        public decimal? DiscountAmount { get; set; } // Discount in fixed amount (e.g., Rs.10)
+        // public decimal? DiscountAmount { get; set; } // Discount in fixed amount (e.g., Rs.10)
+        // public decimal NewPrice
+        // {
+        //     get
+        //     {
+        //         // Apply percentage discount if available
+        //         if (DiscountPercentage.HasValue && DiscountPercentage.Value > 0)
+        //         {
+        //             return OriginalPrice - (OriginalPrice * DiscountPercentage.Value / 100);
+        //         }
+
+        //         // Apply amount discount if available
+        //         if (DiscountAmount.HasValue && DiscountAmount.Value > 0)
+        //         {
+        //             return OriginalPrice - DiscountAmount.Value;
+        //         }
+
+        //         // If no discount, return the original price
+        //         return OriginalPrice;
+        //     }
+        // }
+
+        // public bool IsOnDiscount
+        // {
+        //     get
+        //     {
+        //         return DiscountPercentage.HasValue && DiscountPercentage.Value > 0 ||
+        //                DiscountAmount.HasValue && DiscountAmount.Value > 0;
+        //     }
+        // }
+
         public decimal NewPrice
         {
             get
             {
-                // Apply percentage discount if available
+            // Apply percentage discount if available
                 if (DiscountPercentage.HasValue && DiscountPercentage.Value > 0)
                 {
                     return OriginalPrice - (OriginalPrice * DiscountPercentage.Value / 100);
                 }
 
-                // Apply amount discount if available
-                if (DiscountAmount.HasValue && DiscountAmount.Value > 0)
-                {
-                    return OriginalPrice - DiscountAmount.Value;
-                }
-
-                // If no discount, return the original price
+            // If no discount, return the original price
                 return OriginalPrice;
             }
         }
@@ -35,8 +59,7 @@
         {
             get
             {
-                return DiscountPercentage.HasValue && DiscountPercentage.Value > 0 ||
-                       DiscountAmount.HasValue && DiscountAmount.Value > 0;
+                return DiscountPercentage.HasValue && DiscountPercentage.Value > 0;
             }
         }
 

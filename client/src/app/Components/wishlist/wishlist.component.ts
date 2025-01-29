@@ -40,12 +40,11 @@ export class WishlistComponent implements OnInit {
   }
 
   addToCart(productId: number) {
-    
     this.store.dispatch(AddToCart({productId,quantity:1}));
     this.store.dispatch(RemoveFromWishList({ productId }));
   }
 
-  contactUs(item: WishlistItem) {
+  NotifyUs(item: WishlistItem) {
     // Contact us logic
     // console.log(`Contact for ${item.name}`);
   }

@@ -29,6 +29,7 @@ namespace server.Controllers
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpPost("CreateOrder")]
         public async Task<ActionResult<ResponseDto>> CreateOrder([FromBody] CreateOrderDTO order)
         {
@@ -43,6 +44,7 @@ namespace server.Controllers
             PaymentDetails details = await paymentService.InitializePayment(userId, createdOrder.Id, createdOrder.TotalPriceAfterDiscount);
             return Ok(res.success("Order Created Successfully", details));
         }
+        
 
         [HttpGet("Get-all-orders")]
         public async Task<ActionResult<ResponseDto>> GetAllOrders(DateTime? startDate, DateTime? endDate)

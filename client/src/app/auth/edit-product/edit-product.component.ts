@@ -177,7 +177,8 @@ export class EditProductComponent implements OnInit {
       stockQuantity: [data.stockQuantity, [Validators.required, Validators.min(0)]],
       categoryId: [data.categoryId, [Validators.required, Validators.min(0)]],
       brandId: [data.brandId, [Validators.required, Validators.min(0)]],
-      thumbnail: [null]
+      thumbnail: [null],
+      discountPercentage: [data.discountPercentage, [this.nonNegativeValidator, Validators.max(100)]]
     });
   }
 
@@ -250,6 +251,7 @@ export class EditProductComponent implements OnInit {
       formData.append('stockQuantity', this.editProductForm.get('stockQuantity')?.value);
       formData.append('categoryId', this.editProductForm.get('categoryId')?.value);
       formData.append('brandId', this.editProductForm.get('brandId')?.value);
+      formData.append('discountPercentage', this.editProductForm.get('discountPercentage')?.value);
 
       // Append thumbnail only if it has been changed
       if (this.editProductForm.get('thumbnail')?.value) {
@@ -258,6 +260,7 @@ export class EditProductComponent implements OnInit {
 
       console.log('Form data to be sent:', formData);
       this.notification.Success('Product updated!');
+      window.location.reload();
 
       setTimeout(() => {
         this.dialogRef.close(formData);

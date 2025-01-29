@@ -90,29 +90,41 @@
               </div>
               </div>
               <div class="form-row">
-                       <div class="form-group">
-                         <label for="stockQuantity">Stock Quantity:</label>
-                         <input id="stockQuantity" formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)" />
-                         <div *ngIf="addProductForm.get('stockQuantity')?.invalid && addProductForm.get('stockQuantity')?.touched" class="error-message">
-                           Stock Quantity is required.
-                         </div>
-                       </div>
+                <div class="form-group">
+                <label for="stockQuantity">Stock Quantity:</label>
+                <input id="stockQuantity" formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)" />
+                <div *ngIf="addProductForm.get('stockQuantity')?.invalid && addProductForm.get('stockQuantity')?.touched" class="error-message">
+                  Stock Quantity is required.
+                </div>
+              </div>
               <div class="form-group">
-                         <label for="categoryId">Category ID:</label>
-                         <input id="categoryId" formControlName="categoryId" type="number" min="0" (input)="onInput($event)"  />
-                         <div *ngIf="addProductForm.get('categoryId')?.invalid && addProductForm.get('categoryId')?.touched" class="error-message">
-                           Category ID is required.
-                         </div>
-                       </div>
-                     </div>
+                <label for="discountPercentage">Discount Percentage:</label>
+                <input id="discountPercentage" formControlName="discountPercentage" type="number" (input)="onInput($event)" />
+                <div *ngIf="addProductForm.get('discountPercentage')?.touched">
+                  <div *ngIf="addProductForm.get('discountPercentage')?.errors?.['nonNegative']" class="error-message">
+                    Discount must be non-negative.
+                  </div>
+                  <div *ngIf="addProductForm.get('discountPercentage')?.errors?.['max']" class="error-message">
+                    Discount cannot exceed 100%.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="categoryId">Category ID:</label>
+                <input id="categoryId" formControlName="categoryId" type="number" min="0" (input)="onInput($event)"  />
+                <div *ngIf="addProductForm.get('categoryId')?.invalid && addProductForm.get('categoryId')?.touched" class="error-message">
+                  Category ID is required.
+                </div>
+              </div>
+            </div>
               <div class="form-row">
-                       <div class="form-group">
-                         <label for="brandId">Brand ID:</label>
-                         <input id="brandId" formControlName="brandId" type="number" min="0" (input)="onInput($event)" />
-                         <div *ngIf="addProductForm.get('brandId')?.invalid && addProductForm.get('brandId')?.touched" class="error-message">
-                           Brand ID is required.
-                         </div>
-                            </div>
+              <div class="form-group">
+                <label for="brandId">Brand ID:</label>
+                <input id="brandId" formControlName="brandId" type="number" min="0" (input)="onInput($event)" />
+                <div *ngIf="addProductForm.get('brandId')?.invalid && addProductForm.get('brandId')?.touched" class="error-message">
+                  Brand ID is required.
+                </div>
+                  </div>
                        <!-- <div class="form-group">
                             <label for="thumbnail">Thumbnail:</label>
                             <input id="thumbnail" type="file" (change)="onFileChange($event)" />
@@ -120,30 +132,30 @@
                               Thumbnail is required.
                             </div>
                         </div> -->
-                        <div class="form-group">
-                          <label for="thumbnail">Thumbnail:</label>
-                          <input id="thumbnail" type="file" (change)="onFileChange($event)" />
-                          <div *ngIf="thumbnailError" class="error-message">
-                            {{ thumbnailError }}
-                          </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                       <label for="description">Description:</label>
-                       <textarea id="description" formControlName="description"></textarea>
-                       <div *ngIf="addProductForm.get('description')?.invalid && addProductForm.get('description')?.touched" class="error-message">
-                         Description is required.
-                       </div>
-                     </div>
-                     <br>
-                     <div class="button-container">
-                       <button type="submit" [disabled]="addProductForm.invalid">Add Product</button>
-                     </div>
-                     <br>
-                     <!-- Add this line to check if the form is invalid -->
-                     <p *ngIf="addProductForm.invalid" class="error-message">Please fill out all required fields.</p>
-                   </form>
+              <div class="form-group">
+                <label for="thumbnail">Thumbnail:</label>
+                <input id="thumbnail" type="file" (change)="onFileChange($event)" />
+                <div *ngIf="thumbnailError" class="error-message">
+                  {{ thumbnailError }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <textarea id="description" formControlName="description"></textarea>
+              <div *ngIf="addProductForm.get('description')?.invalid && addProductForm.get('description')?.touched" class="error-message">
+               Description is required.
+              </div>
+            </div>
+            <br>
+            <div class="button-container">
+              <button type="submit" [disabled]="addProductForm.invalid">Add Product</button>
+            </div>
+            <br>
+            <!-- Add this line to check if the form is invalid -->
+            <p *ngIf="addProductForm.invalid" class="error-message">Please fill out all required fields.</p>
+          </form>
 
-                   <!-- <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
-                     {{notification.message}}
-                   </div> -->
+          <!-- <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
+            {{notification.message}}
+          </div> -->

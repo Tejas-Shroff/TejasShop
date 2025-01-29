@@ -1,3 +1,4 @@
+using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
@@ -21,7 +22,48 @@ namespace server.Service
             this.productRepository = productRepository;
         }
 
-        public async Task AddItemToCart(int userId, int productId, int quantity)
+        // public async Task AddItemToCart(int userId, int productId, int quantity)
+        // {
+        //     ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
+        //     if (cart == null)
+        //     {
+        //         cart = new ShoppingCart()
+        //         {
+        //             UserId = userId,
+        //             ShoppingCartItems = new List<ShoppingCartItem>()
+        //         };
+        //         await cartRepository.AddAsync(cart);
+        //     }
+
+        //     var productExists = await productRepository.GetByIdAsync(productId);
+
+        //     if (productExists is null)
+        //     {
+        //         throw new Exception("Product not found.");
+        //     }
+        //     List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
+
+        //     ShoppingCartItem item = cartItems.FirstOrDefault(x => x.ProductId == productId);
+
+        //     if (item == null)
+        //     {
+        //         item = new ShoppingCartItem()
+        //         {
+        //             ShoppingCartId = cart.Id,
+        //             ProductId = productId,
+        //             Quantity = quantity
+        //         };
+        //         await cartItemRepository.AddAsync(item);
+
+        //     }
+        //     else
+        //     {
+        //         item.Quantity += quantity;
+        //         await cartItemRepository.UpdateAsync(item);
+        //     }
+        // }
+
+        public async Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity)
         {
             ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
             if (cart == null)
@@ -38,28 +80,39 @@ namespace server.Service
 
             if (productExists is null)
             {
-                throw new Exception("Product not found.");
+                return new ResponseDto { IsSuccessed = false, Message = "Product not found." }; // **Highlighted Change**
             }
+    
             List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
-
             ShoppingCartItem item = cartItems.FirstOrDefault(x => x.ProductId == productId);
+            int currentQuantity = item != null ? item.Quantity : 0;
+
+            if (currentQuantity + quantity > 3)
+            {
+                return new ResponseDto
+                 { 
+                    IsSuccessed = false,
+                     Message = "You can only add a maximum of 3 quantities per item." 
+                 }; 
+            }
 
             if (item == null)
             {
                 item = new ShoppingCartItem()
                 {
-                    ShoppingCartId = cart.Id,
-                    ProductId = productId,
-                    Quantity = quantity
+                 ShoppingCartId = cart.Id,
+                 ProductId = productId,
+                 Quantity = quantity
                 };
                 await cartItemRepository.AddAsync(item);
-
             }
             else
             {
                 item.Quantity += quantity;
                 await cartItemRepository.UpdateAsync(item);
             }
+
+            return new ResponseDto { IsSuccessed = true };
         }
 
         public async Task DeleteCart(int cartId)
@@ -125,5 +178,7 @@ namespace server.Service
             await cartItemRepository.UpdateAsync(shoppingCartItem);
 
         }
+
+       
     }
 }

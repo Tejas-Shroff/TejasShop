@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using server.Dto;
 using server.Entities;
 
 namespace server.Interface.Service
@@ -9,7 +10,8 @@ namespace server.Interface.Service
     public interface ICartService
     {
         Task<ShoppingCart?> FindUserCart(int userId);
-        Task AddItemToCart(int userId,int productId,int quantity);
+        // Task AddItemToCart(int userId,int productId,int quantity);
+        Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity); 
         Task DeleteCart(int cartId);
 
         Task<ShoppingCartItem?> FindCartItemById(int cartItemId);

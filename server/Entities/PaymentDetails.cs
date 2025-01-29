@@ -15,5 +15,6 @@ namespace server.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
         public string Status { get; set; }
+        public int RetryCount { get; set; }
     }
 }

@@ -1,9 +1,7 @@
-
-
 .go-back {
     margin-top: -40px; /* Adjust this value as needed to position below the navbar */
     margin-left: 40px; /* Adjust this value for spacing from the left */
-    display: flex;
+    display: flex; 
     position: absolute;
     align-items: center;
     font-size: 2em;
@@ -23,6 +21,7 @@
   .go-back i {
     margin-right: auto;
   }
+
 
 .header-container {
     text-align: center;
@@ -91,11 +90,9 @@
   }
 
   .navbar-custom {
-    background-color: #f4f4f4; /* Black background */
+    background-color: #f4f4f4; 
     border-bottom: 2px solid #000000; /* Border at the downside */
     z-index: 1;
-    
-   
   }
   .navbar-custom .navbar-text {
     margin-left: 30px; /* Adjust this value as needed */
@@ -115,8 +112,7 @@
   }
 
   
-.mat-icon-account-cicle {
+.mat-icon-account-cicle { /* for account information */
     font-size: 1.6rem;
     z-index: 2;
-  
-  }
+}

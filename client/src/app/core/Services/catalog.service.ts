@@ -27,4 +27,5 @@ export class CatalogService {
   getProductById(productId:string){
     return this.http.get<ResponseDto<ProductResDto>>('Catalog/'+productId);
   }
+  
 }

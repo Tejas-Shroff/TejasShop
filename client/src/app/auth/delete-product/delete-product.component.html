@@ -144,6 +144,14 @@
         <th mat-header-cell *matHeaderCellDef>Original Price</th>
         <td mat-cell *matCellDef="let product">{{ product.originalPrice }}</td>
       </ng-container>
+      <ng-container matColumnDef="discountPercentage">
+        <th mat-header-cell *matHeaderCellDef>Discount Percentage</th>
+        <td mat-cell *matCellDef="let product">{{ product.discountPercentage || 'N/A' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="newPrice">
+        <th mat-header-cell *matHeaderCellDef>New Price</th>
+        <td mat-cell *matCellDef="let product">{{ product.newPrice }}</td>
+      </ng-container>
       <ng-container matColumnDef="categoryId">
         <th mat-header-cell *matHeaderCellDef>Category Id</th>
         <td mat-cell *matCellDef="let product">{{ product.category ? product.category.id : 'No Category' }}</td>

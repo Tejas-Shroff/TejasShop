@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Dto;
 using server.Dto.Order;
@@ -17,6 +18,7 @@ namespace server.Service
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentDetailRepository _paymentRepository;
         private readonly IShippingAddressRepository _shippingAddressRepository;
+        private readonly IProductRepository _productRepository;
         private readonly DataContex _context;
 
         public OrderService(
@@ -26,6 +28,7 @@ namespace server.Service
             IOrderRepository orderRepository,
             IPaymentDetailRepository paymentDetailRepository,
             IShippingAddressRepository shippingAddressRepository,
+            IProductRepository productRepository,
             DataContex context
         ){
             this._mapper = mapper;
@@ -34,44 +37,47 @@ namespace server.Service
             this._orderRepository = orderRepository;
             this._paymentRepository = paymentDetailRepository;
             this._shippingAddressRepository = shippingAddressRepository;
+            this._productRepository = productRepository;
             this._context = context;
         }
         public async Task<Order> CreateOrderAsync(int userId, int cartId, AddressDto address)
         {
-           ShoppingCart? shoppingCart= await _cartService.FindUserCart(userId) ?? throw new Exception("no cart found for user");
-           Order order = new Order(){
-                 UserId=userId,
-                 OrderDate=DateTime.Now,
-                 TotalPriceAfterDiscount=shoppingCart.TotalPriceAfterDiscount,
-                 TotalDiscount=shoppingCart.TotalDiscount,
-                 TotalPrice=shoppingCart.TotalPrice,
-                 Status=OrderStatus.Placed.ToString(),
-           };
-
-           await _orderRepository.AddAsync(order);
-
-           ShippingAddress shippingAddress=_mapper.Map<ShippingAddress>(address);
-           shippingAddress.OrderId=order.Id;
-
-           await _shippingAddressRepository.AddAsync(shippingAddress);
-
-           foreach (var item in shoppingCart.ShoppingCartItems)
-           {
-              var orderItem=new OrderItem(){
-                     OrderId=order.Id,
-                     ProductId=item.ProductId,
-                     Quantity=item.Quantity,
-                     TotalPriceAfterDiscount=item.TotalPriceAfterDiscount,
-                     TotalDiscount=item.TotalDiscount,
-                     TotalPrice=item.TotalPrice
+            ShoppingCart? shoppingCart = await _cartService.FindUserCart(userId) ?? throw new Exception("no cart found for user");
+            Order order = new Order()
+            {
+                UserId = userId,
+                OrderDate = DateTime.Now,
+                TotalPriceAfterDiscount = shoppingCart.TotalPriceAfterDiscount,
+                TotalDiscount = shoppingCart.TotalDiscount,
+                TotalPrice = shoppingCart.TotalPrice,
+                Status = OrderStatus.Placed.ToString(),
+            };
+            await _orderRepository.AddAsync(order);
+            ShippingAddress shippingAddress = _mapper.Map<ShippingAddress>(address);
+            shippingAddress.OrderId = order.Id;
+            await _shippingAddressRepository.AddAsync(shippingAddress);
+            foreach (var item in shoppingCart.ShoppingCartItems)
+            {
+                var orderItem = new OrderItem()
+                {
+                    OrderId = order.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    TotalPriceAfterDiscount = item.TotalPriceAfterDiscount,
+                    TotalDiscount = item.TotalDiscount,
+                    TotalPrice = item.TotalPrice
                 };
-              await _orderItemRepository.AddAsync(orderItem);
-           }
-           
-           await _cartService.DeleteCart(cartId);
-           return order;
-
-          
+                await _orderItemRepository.AddAsync(orderItem);
+                // Updating the stock quantity in Product table
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                if (product != null)
+                {
+                    product.StockQuantity -= item.Quantity; // Decreasing stock based on quantity ordered
+                    await _productRepository.UpdateAsync(product);
+                }
+            }
+            await _cartService.DeleteCart(cartId);
+            return order;
         }
 
         public async Task<OrderDetailDTO> GetOrderDetailAsync(int orderId, int userId)
@@ -96,6 +102,20 @@ namespace server.Service
 
      
 
+        // public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        // {
+        //     var order = await _context.Orders.FindAsync(orderId);
+        //     if (order == null)
+        //     {
+        //         return false;
+        //     }
+
+        //     order.Status = status;
+        //     _context.Orders.Update(order);
+        //     await _context.SaveChangesAsync();
+        //     return true;
+        // }
+        
         public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
         {
             var order = await _context.Orders.FindAsync(orderId);
@@ -107,6 +127,22 @@ namespace server.Service
             order.Status = status;
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
+
+            if (status == OrderStatus.Cancelled.ToString())
+            {
+                var orderItems = await _context.OrderItems.Where(oi => oi.OrderId == orderId).ToListAsync();
+                foreach (var item in orderItems)
+                {
+                    var product = await _context.products.FindAsync(item.ProductId);
+                    if (product != null)
+                    {
+                        product.StockQuantity += item.Quantity;
+                        _context.products.Update(product);
+                    }
+                }
+                await _context.SaveChangesAsync();
+            }
+
             return true;
         }
     }

@@ -1,19 +1,12 @@
 <br><br><br><br><div *ngIf="product" class="product-container container">
     <div class="image-section">
         <img [src]="product.thumbnail?.imageUrl|renderimg" alt="Product Image" class="main-image">
-        <!-- <div class="thumbnail-container">
-            <img src="image.png" alt="Thumbnail 1" class="thumbnail">
-            <img src="image.png" alt="Thumbnail 2" class="thumbnail">
-            <img src="image.png" alt="Thumbnail 3" class="thumbnail">
-            <img src="image.png" alt="Thumbnail 4" class="thumbnail">
-        </div> -->
+
     </div>
     <div class="details-section">
         <p class="category">{{product.category.name}}</p>
         <h1 class="product-title">{{product.name}}</h1>
-        <!-- <div class="reviews">
-            <span class="stars">★★★★★</span> <span class="reviews-count">({{product.totalReviews}} reviews)</span>
-        </div> -->
+
         <div class="price-section">
             <span class="current-price">{{product.newPrice|currency:'INR'}}</span>
             <span class="old-price">{{product.originalPrice|currency:'INR'}}</span>

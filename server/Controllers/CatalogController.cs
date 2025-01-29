@@ -176,5 +176,45 @@ namespace server.Controllers
             return BadRequest(new { Message = ex.Message });
             }
         }
+
+       [HttpPut("product/update-stock")]
+public async Task<ActionResult<ResponseDto>> UpdateProductStock([FromBody] UpdateStockReq updateStockDto)
+{
+   ResponseDto response = new ResponseDto();
+   try
+   {
+       // Fetch all products in the update request
+       var productIds = updateStockDto.Products.Select(p => p.ProductId).ToList();
+       // Retrieve the products from the database
+       var products = await _context.products.Where(p => productIds.Contains(p.Id)).ToListAsync();
+       if (products.Count != updateStockDto.Products.Count)
+       {
+           return BadRequest(new { Message = "Some products were not found." });
+       }
+       // Update the stock quantities
+       foreach (var productUpdate in updateStockDto.Products)
+       {
+           var product = products.FirstOrDefault(p => p.Id == productUpdate.ProductId);
+           if (product == null) continue;
+           // Deduct the quantity
+           if (product.StockQuantity < productUpdate.QuantityOrdered)
+           {
+               return BadRequest(new { Message = $"Insufficient stock for product ID: {product.Id}" });
+           }
+           product.StockQuantity -= productUpdate.QuantityOrdered;
+       }
+       // Save changes to the database
+       await _context.SaveChangesAsync();
+       response.IsSuccessed = true;
+       response.Message = "Stock quantities updated successfully.";
+        return Ok(response);
+     }
+     catch (Exception ex)
+    {
+        response.IsSuccessed = false;
+         response.Message = $"An error occurred: {ex.Message}";
+        return StatusCode(500, response);
+    }
+    }
     }
 }

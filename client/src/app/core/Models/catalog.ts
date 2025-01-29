@@ -21,7 +21,6 @@ export interface ProductResDto {
     description: string;
     originalPrice: number;
     discountPercentage: number | null;
-    discountAmount: number | null;
     newPrice: number;
     isOnDiscount: boolean;
     stockQuantity: number;

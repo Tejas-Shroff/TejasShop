@@ -61,7 +61,7 @@ export class PaymentService {
       })
     );
   }
-  private updatePayment(orderId: string, paymentId: string, signature: string) {
+  public updatePayment(orderId: string, paymentId: string, signature: string) {
     return this.http.post("Payment/update-payment", { orderId, paymentId, signature });
   }
 }

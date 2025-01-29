@@ -102,4 +102,14 @@ namespace server.Dto
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
     }
+
+    public class UpdateStockReq
+    {
+        public List<ProductStockUpdate> Products { get; set; }
+    }
+    public class ProductStockUpdate
+    {
+        public int ProductId { get; set; }
+        public int QuantityOrdered { get; set; }
+    }
 }

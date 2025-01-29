@@ -42,7 +42,7 @@ export class DeleteProductComponent implements OnInit{
     }
 
   
-    displayedColumns: string[] = ['id', 'product', 'name', 'stockQuantity', 'originalPrice', 'categoryId', 'brandId', 'actions'];
+    displayedColumns: string[] = ['id', 'product', 'name', 'stockQuantity', 'originalPrice', 'discountPercentage', 'newPrice', 'categoryId', 'brandId', 'actions'];
     dataSource = new MatTableDataSource<ProductResDto>();
     totalItems: number = 0;
     itemsPerPage: number = 10;
@@ -100,6 +100,7 @@ export class DeleteProductComponent implements OnInit{
     this.authservice.deleteProduct(productId).subscribe(() => {
       this.AllProducts = this.AllProducts.filter(product => product.id !== productId);
       this.notification.Success('Product deleted!')
+      window.location.reload();
                                           console.log('Product deleted successfully');
     }, error => {
                                           console.error('Error deleting product', error);

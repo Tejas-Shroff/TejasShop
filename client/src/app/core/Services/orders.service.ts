@@ -33,5 +33,5 @@ export class OrdersService {
   }
   updateCancelledOrderStatus(orderId: number, status: string): Observable<{ isSuccessed: boolean }> {
     return this.http.put<{ isSuccessed: boolean }>('Order/UpdateStatus', { orderId, status });
-}
+  }
 }

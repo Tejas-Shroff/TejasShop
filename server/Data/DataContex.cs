@@ -31,7 +31,7 @@ namespace server.Data
             {
                 entity.Property(p => p.OriginalPrice).HasPrecision(18, 2);
                 entity.Property(p => p.DiscountPercentage).HasColumnType("decimal(5,2)").IsRequired(false);
-                entity.Property(p => p.DiscountAmount).HasColumnType("decimal(18,2)").IsRequired(false);
+
             });
 
             

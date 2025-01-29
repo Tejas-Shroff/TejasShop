@@ -20,6 +20,7 @@ import { AuthService } from './core/Services/auth.service';
 import { AuthIntercetorInterceptor } from './core/interceptor/auth-intercetor.interceptor';
 import { appEffects, appStore } from './redux/store';
 import { NotificationModule } from './notification/notification.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -47,7 +48,8 @@ import { NotificationModule } from './notification/notification.module';
       }
     }
     ),
-    NotificationModule
+    NotificationModule,
+    MatSnackBarModule
    ],
   providers: [
     {

@@ -28,30 +28,74 @@ export class CartEffect {
         )
     );
 
-    addToCart$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(AddToCart),
-            mergeMap(({ productId, quantity }) =>
-                this.cartService.addProductToCart(productId, quantity).pipe(
-                    switchMap((res) => {
-                        if (res.isSuccessed) {
-                            this.notificationService.Success();
-                            return of(loadCart());
-                        }
-                        else {
-                            this.notificationService.Error(res.message);
-                            return of(loadCartFailure({ error: res.message }))
-                        }
-                    }),
-                    catchError((error) =>{
-                        this.notificationService.Error(error);
-                        return of(loadCartFailure({ error }));
-                    })
-                )
+    // addToCart$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(AddToCart),
+    //         mergeMap(({ productId, quantity }) =>
+    //             this.cartService.addProductToCart(productId, quantity).pipe(
+    //                 switchMap((res) => {
+    //                     if (res.isSuccessed) {
+    //                         console.log('backend response', res)
+    //                         this.notificationService.Success();
+    //                         return of(loadCart());
+    //                     }
+    //                     else {
+    //                         this.notificationService.Error(res.message);
+    //                         return of(loadCartFailure({ error: res.message }))
+    //                     }
+    //                 }),
+    //                 catchError((error) =>{
+    //                     this.notificationService.Error(error);
+    //                     return of(loadCartFailure({ error }));
+    //                 })
+    //             )
+    //         )
+    //     )
+    // );
+
+   addToCart$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(AddToCart),
+        mergeMap(({ productId, quantity }) =>
+            this.cartService.addProductToCart(productId, quantity).pipe(
+                switchMap((res) => {
+                    if (res.isSuccessed) {
+                        console.log('backend response', res);
+                        // Fetch the cart item for the product
+                        return this.cartService.getUserCart().pipe(
+                            map((cartRes) => {
+                                console.log('cart response', cartRes); // Log the cart response
+                                const cartItems = cartRes?.data?.shoppingCartItems || [];
+                                console.log('cart items', cartItems); // Log the cart items
+                                const cartItem = cartItems.find(item => item.productId === productId);
+                                console.log('cart item', cartItem); // Log the specific cart item
+                                if (cartItem && cartItem.quantity < 3) {
+                                    //this.notificationService.Success(`Successfully added ${cartItem.quantity} of ${cartItem.product.name} to the cart.`);
+                                } else if (cartItem && cartItem.quantity >= 3) {
+                                    this.notificationService.Info('You can only add a maximum of 3 quantities per item.');
+                                } else {
+                                    this.notificationService.Success('Successfully added to cart.');
+                                }
+                                return loadCart();
+                            }),
+                            catchError((error) => {
+                                this.notificationService.Error(error);
+                                return of(loadCartFailure({ error }));
+                            })
+                        );
+                    } else {
+                        this.notificationService.Error(res.message);
+                        return of(loadCartFailure({ error: res.message }));
+                    }
+                }),
+                catchError((error) => {
+                    this.notificationService.Error(error);
+                    return of(loadCartFailure({ error }));
+                })
             )
         )
-    );
-
+    )
+);
     updateCartItem$=createEffect(() =>
         this.actions$.pipe(
             ofType(UpdateCartItem),
