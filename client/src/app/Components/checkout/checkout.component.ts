@@ -86,4 +86,19 @@ export class CheckoutComponent {
        else this.notification.Error(res.message);   
     });
   }
+  selectedAddress: any = null;
+
+  toggleAddressSelection(address: any) {
+    if (this.selectedAddress === address) {
+      this.selectedAddress = null; // Deselect if already selected
+    } else {
+      this.selectedAddress = address; // Select the clicked address
+    }
+    this.shipToAddress = this.selectedAddress;
+  }
+  
+  isSelected(address: any): boolean {
+    return this.selectedAddress === address;
+  }
+  
 }

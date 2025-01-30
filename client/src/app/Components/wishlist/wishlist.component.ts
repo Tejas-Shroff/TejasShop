@@ -9,6 +9,7 @@ import { AddToWishList, loadWishList, RemoveFromWishList } from '../../redux/wis
 import { Observable } from 'rxjs';
 import { selectWishlistItems, selectWishlistLoading } from '../../redux/wishlist/wishlist.selector';
 import { AddToCart } from '../../redux/cart/cart.action';
+import { NotificationService } from 'src/app/notification/notification.service';
 
 @Component({
   standalone:true,
@@ -25,7 +26,8 @@ export class WishlistComponent implements OnInit {
   constructor(
     private service:WishlistService,
     @Inject(BASE_IMAGE_API) public imageUrl: string,
-    private store:Store<AppState>
+    private store:Store<AppState>,
+    private notification: NotificationService
   )
   {
     this.wishlistItems$=this.store.select(selectWishlistItems);
@@ -45,8 +47,7 @@ export class WishlistComponent implements OnInit {
   }
 
   NotifyUs(item: WishlistItem) {
-    // Contact us logic
-    // console.log(`Contact for ${item.name}`);
+    this.notification.Info('Will notify you once the product is in stock again! We appreciate your patience.');
   }
 
   removeItem(productId: number) {

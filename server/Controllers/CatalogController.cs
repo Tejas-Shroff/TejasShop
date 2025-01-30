@@ -15,22 +15,22 @@ namespace server.Controllers
         private readonly ICatalogService catalogService;
         private readonly IMapper mapper;
         private readonly DataContex _context;
-        public CatalogController(ICatalogService catalogService,IMapper mapper, DataContex context)
+        public CatalogController(ICatalogService catalogService, IMapper mapper, DataContex context)
         {
             this.catalogService = catalogService;
             this.mapper = mapper;
-            _context = context;  
+            _context = context;
         }
-        
+
         [HttpGet]
         [Route("GetAllProducts")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-              var products = await _context.products
-                .Include(p => p.Category)
-                .Include(p => p.Brand)
-                .Include(p => p.Thumbnail)  
-                .ToListAsync();
+            var products = await _context.products
+              .Include(p => p.Category)
+              .Include(p => p.Brand)
+              .Include(p => p.Thumbnail)
+              .ToListAsync();
 
             return Ok(products);
         }
@@ -41,15 +41,15 @@ namespace server.Controllers
         {
             ResponseDto response = new ResponseDto();
 
-            ProductPagination res =await catalogService.GetAllProducts(req);
+            ProductPagination res = await catalogService.GetAllProducts(req);
 
             response.Data = new ProductPaginationRes()
             {
-                PageIndex=res.PageIndex,
-                PageSize=res.PageSize,
-                Data= mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
-                Count=res.Count,
-               
+                PageIndex = res.PageIndex,
+                PageSize = res.PageSize,
+                Data = mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
+                Count = res.Count,
+
             };
 
             return Ok(response);
@@ -62,7 +62,7 @@ namespace server.Controllers
 
             Product? product = await catalogService.GetProductById(productId);
 
-            response.Data =mapper.Map<ProductResDto>(product);
+            response.Data = mapper.Map<ProductResDto>(product);
 
             return Ok(response);
         }
@@ -71,7 +71,7 @@ namespace server.Controllers
         [Route("product/create")]
         public async Task<ActionResult> CreateProducts(CreateProductReq newProduct)
         {
-            Product product= await catalogService.CreateProduct(newProduct);
+            Product product = await catalogService.CreateProduct(newProduct);
             ResponseDto response = new ResponseDto();
             response.Data = product;
             return Ok(response);
@@ -87,7 +87,7 @@ namespace server.Controllers
             await catalogService.DeleteProduct(productId);
             return Ok(response);
         }
-       
+
         [HttpGet]
         [Route("category/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllCategories()
@@ -96,7 +96,7 @@ namespace server.Controllers
 
             IEnumerable<Category> categories = await catalogService.GetAllCategery();
 
-            response.Data =mapper.Map<IEnumerable<CategoryResDto>>(categories);
+            response.Data = mapper.Map<IEnumerable<CategoryResDto>>(categories);
 
             return Ok(response);
         }
@@ -172,49 +172,20 @@ namespace server.Controllers
                 return Ok(response);
             }
             catch (Exception ex)
-            {   
-            return BadRequest(new { Message = ex.Message });
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
-       [HttpPut("product/update-stock")]
-public async Task<ActionResult<ResponseDto>> UpdateProductStock([FromBody] UpdateStockReq updateStockDto)
-{
-   ResponseDto response = new ResponseDto();
-   try
-   {
-       // Fetch all products in the update request
-       var productIds = updateStockDto.Products.Select(p => p.ProductId).ToList();
-       // Retrieve the products from the database
-       var products = await _context.products.Where(p => productIds.Contains(p.Id)).ToListAsync();
-       if (products.Count != updateStockDto.Products.Count)
-       {
-           return BadRequest(new { Message = "Some products were not found." });
-       }
-       // Update the stock quantities
-       foreach (var productUpdate in updateStockDto.Products)
-       {
-           var product = products.FirstOrDefault(p => p.Id == productUpdate.ProductId);
-           if (product == null) continue;
-           // Deduct the quantity
-           if (product.StockQuantity < productUpdate.QuantityOrdered)
-           {
-               return BadRequest(new { Message = $"Insufficient stock for product ID: {product.Id}" });
-           }
-           product.StockQuantity -= productUpdate.QuantityOrdered;
-       }
-       // Save changes to the database
-       await _context.SaveChangesAsync();
-       response.IsSuccessed = true;
-       response.Message = "Stock quantities updated successfully.";
-        return Ok(response);
-     }
-     catch (Exception ex)
-    {
-        response.IsSuccessed = false;
-         response.Message = $"An error occurred: {ex.Message}";
-        return StatusCode(500, response);
-    }
-    }
+        [HttpPut("update-stock")]
+        public async Task<ActionResult<ResponseDto>> UpdateProductStock([FromBody] UpdateStockReq updateStockDto)
+        {
+            var response = await catalogService.UpdateProductStock(updateStockDto);
+            if (!response.IsSuccessed)
+            {
+                return StatusCode(500, response);
+            }
+            return Ok(response);
+        }
     }
 }

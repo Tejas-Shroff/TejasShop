@@ -19,7 +19,8 @@
             <button class="quantity-btn" (click)="updateQuantity(quantity+1)">+</button>
         </div>
         <div class="actions">
-            <button mat-raised-button class="app-btn-primary" (click)="addToCart(product.id)">Add To Cart</button>
+            <button mat-raised-button *ngIf="product.inStock" class="app-btn-primary" (click)="addToCart(product.id)">Add To Cart</button>
+            <button *ngIf="!product.inStock" class="btn btn-sm btn-danger" (click)="NotifyUs()">Notify us</button>
             <button mat-raised-button class="wishlist-btn" (click)="addToWishList(product.id)">
                 <mat-icon class="m-0">favorite</mat-icon>
             </button>
@@ -33,6 +34,7 @@
                 <span class="info-value" *ngIf="product.inStock">In Stock</span>
                 <span class="info-value" *ngIf="!product.inStock">Out Of Stock</span>
             </p>
+           
             <p>Brand: <span class="info-value">{{product.brand.name}}</span></p>
             <p>Shipping: <span class="info-value">01 day shipping. (Free pickup today)</span></p>
         </div>

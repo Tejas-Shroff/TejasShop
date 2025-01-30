@@ -21,35 +21,37 @@
                     <!-- btn -->
                     <div  class="btn btn-outline-primary btn-sm app-btn-primary" (click)="openModal(add_address_template)" >Add a new address</div>
                  </div>
-                 <div class="mt-5">
-                    <div class="row">
-                       <div *ngFor="let address of addressService.address$|async" class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-                          <!-- input -->
-                          <div class="card card-body p-6">
-                             <div class="form-check mb-1 d-flex justify-content-between">
-                                <input class="form-check-input" type="radio" [value]="address" [(ngModel)]="shipToAddress" name="flexRadioDefault"  id="officeRadio">
-                                <div class="col-1">
-                                 <mat-icon class="text-danger" matTooltip="Remove From Cart" (click)="removeAddress(address.id)">delete</mat-icon>
+               
+                  <div class="mt-5">
+                     <div class="row">
+                       <div *ngFor="let address of addressService.address$ | async" class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
+                         <div class="card card-body p-6 selectable-card" 
+                              [class.selected]="isSelected(address)" 
+                              (click)="toggleAddressSelection(address)">
+                           <div class="form-check mb-1 d-flex justify-content-between">
+                             <input class="form-check-input" type="radio" [value]="address" [(ngModel)]="shipToAddress" name="flexRadioDefault" id="officeRadio" [checked]="isSelected(address)" style="display: none;">
+                             <div class="col-1">
+                               <mat-icon class="delete-button" matTooltip="Remove From Cart" (click)="removeAddress(address.id); $event.stopPropagation();">delete</mat-icon>
                              </div>
-                             </div>
-                             <address>
-                                <strong>{{address.firstName+' '+address.lastName}}</strong>
-                                <br>
-                                {{address.addressLine1}},
-                                <br>
-                                {{address.addressLine2}}
-                                <br>
-                                <br>
-                                {{address.city}},{{address.state}}
-                                <br>
-                                {{address.country}}
-                                <br>
-                                <abbr title="Phone">zipcode: {{address.postalCode}}</abbr>
-                             </address>
-                          </div>
+                           </div>
+                           <address>
+                             <strong>{{address.firstName + ' ' + address.lastName}}</strong>
+                             <br>
+                             {{address.addressLine1}},
+                             <br>
+                             {{address.addressLine2}}
+                             <br>
+                             <br>
+                             {{address.city}}, {{address.state}}
+                             <br>
+                             {{address.country}}
+                             <br>
+                             <abbr title="Phone">zipcode: {{address.postalCode}}</abbr>
+                           </address>
+                         </div>
                        </div>
-                    </div>
-                 </div>
+                     </div>
+                   </div>
                  
             </div>
             <div class="col-md-12 offset-xl-1 col-xl-4 col-lg-6">
@@ -106,6 +108,7 @@
                           (click)="MakePayment(cart.id)"
                         >Make Payment</button>
                        </div>
+                       <div id="loading-message" class="loading-message">Redirecting to order details page to retry payment...</div>
                 </ng-container>
 
             </div>

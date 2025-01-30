@@ -30,7 +30,6 @@ export class OrderHistoryComponent implements OnInit{
       this.orderHistory = data;
       this.dataSource.data = this.orderHistory.slice(0,10); // I have set this to 10 records for initial loading.
       this.dataSource.paginator = this.paginator;
-      console.log('Fetched Order History:', this.orderHistory);
     });
   }
 

@@ -10,6 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
+
 @NgModule({
   declarations: [
     UserOrdersComponent,
@@ -21,6 +22,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     OrderRoutingModule,
     MatStepperModule,
     MatPaginatorModule
+
+
   ],
   providers: [DatePipe],
   exports:[

@@ -113,27 +113,26 @@
                             </div>
                         </div>
                     </div>
-<div class="form-group row">
-  <label for="payment-status" class="col-sm-4 col-form-label fw-bold">Status</label>
-  <div class="col-sm-8">
-    <div class="form-control-plaintext d-flex align-items-center" id="payment-status" *ngIf="details?.paymentDetails">
-      <mat-chip>{{ details.paymentDetails.status }}</mat-chip>
-      <mat-icon class="text-primary" *ngIf="details.paymentDetails.status === 'Pending' || details.paymentDetails.status === 'Pending - Cash on Delivery'">refresh</mat-icon>
-    </div>
-    <!-- Retry Payment Button and Message -->
-    <div *ngIf="details?.paymentDetails?.status === 'Pending'">
-      <button class="retry-payment-button app-btn-primary" mat-raised-button (click)="retryPayment(details.order.id)">
-        Retry Payment
-      </button>
-      <p class="payment-status-message" *ngIf="retryFailedTwice">
-        Online payment failed twice, updated your payment status to Cash on Delivery.
-      </p>
-    </div>
-  </div>
-</div>
-<div *ngIf="details.paymentDetails.status === 'Pending - Cash on Delivery'">
-  <p>Payment mode - Cash on Delivery.</p>
-</div>
+                    <div class="form-group row">
+                    <label for="payment-status" class="col-sm-4 col-form-label fw-bold">Status</label>
+                    <div class="col-sm-8">
+                        <div class="form-control-plaintext d-flex align-items-center" id="payment-status" *ngIf="details?.paymentDetails">
+                          <mat-chip>{{ details.paymentDetails.status }}</mat-chip>
+                          <mat-icon class="refresh-icon" (click)="refreshIcon()" class="text-primary" *ngIf="details.paymentDetails.status === 'Pending' || details.paymentDetails.status === 'Pending - Cash on Delivery'">refresh</mat-icon>
+                        </div>
+                        
+                        <!-- Retry Payment Button and Message -->
+                        <div *ngIf="details?.paymentDetails?.status === 'Pending' && details?.order?.status !== 'Cancelled'">
+                          <button class="retry-payment-button app-btn-primary" mat-raised-button (click)="retryPayment(details.order.id)">
+                            Pay Now
+                          </button>
+                          <p class="payment-status-message" *ngIf="retryFailedTwice">
+                            Online payment failed twice, updated your payment status to Cash on Delivery.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
                 </mat-card-content>
             </mat-card>
 <!-- 

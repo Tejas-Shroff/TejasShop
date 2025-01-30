@@ -51,8 +51,25 @@ export class PaymentService {
             }
           };
           options.modal.ondismiss = (() => {
-           
-            this.notification.Error('Transaction cancelled.'); // when user closes the payment gateway when transaction is in progress then this will give Error toastr as trasaction cancelled like that.
+            this.notification.Error('Transaction cancelled.'); // Show error toastr
+          
+            // Show loading message and blur effect after 2 seconds
+            setTimeout(() => {
+              document.body.classList.add('blur');
+              const loadingMessage = document.getElementById('loading-message');
+              if (loadingMessage) {
+                loadingMessage.style.display = 'block';
+              }
+          
+              // Navigate to order details page after 3 seconds
+              setTimeout(() => {
+                this.router.navigateByUrl('/orders/detail/' + res.data.orderId);
+                if (loadingMessage) {
+                  loadingMessage.style.display = 'none';
+                }
+                document.body.classList.remove('blur');
+              }, 5000);
+            }, 2000);
           });
 
           const r = new this.winRef.nativeWindow.Razorpay(options);   // referes to windows-ref services.
@@ -61,7 +78,12 @@ export class PaymentService {
       })
     );
   }
+
   public updatePayment(orderId: string, paymentId: string, signature: string) {
     return this.http.post("Payment/update-payment", { orderId, paymentId, signature });
+  }
+  
+  public updateRetrypaymentdetails(orderId: string, paymentId: string, signature: string, status: string, retryCount: number) {
+    return this.http.post("Payment/update-Retry-payment-details", { orderId, paymentId, signature, status, retryCount });
   }
 }
