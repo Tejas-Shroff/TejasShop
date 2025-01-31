@@ -30,7 +30,8 @@ namespace server.Service
             IShippingAddressRepository shippingAddressRepository,
             IProductRepository productRepository,
             DataContex context
-        ){
+        )
+        {
             this._mapper = mapper;
             this._cartService = cartService;
             this._orderItemRepository = orderItemRepository;
@@ -82,16 +83,17 @@ namespace server.Service
 
         public async Task<OrderDetailDTO> GetOrderDetailAsync(int orderId, int userId)
         {
-            Order order= await _orderRepository.GetByIdAsync(orderId)?? throw new Exception("Invalid Order ID");
-            if(order.UserId!=userId) throw new Exception("Order do not belongs to you");
+            Order order = await _orderRepository.GetByIdAsync(orderId) ?? throw new Exception("Invalid Order ID");
+            if (order.UserId != userId) throw new Exception("Order do not belongs to you");
             List<OrderItem> orderItems = await _orderItemRepository.GetAllOrderItemByOrderId(orderId);
             order.OrderItems = orderItems;
-            ShippingAddress shippingAddress=await _shippingAddressRepository.GetShippingAddressByOrderId(orderId)??throw new Exception("No Shipping Address found for Order ID");
+            ShippingAddress shippingAddress = await _shippingAddressRepository.GetShippingAddressByOrderId(orderId) ?? throw new Exception("No Shipping Address found for Order ID");
             PaymentDetails paymentDetails = await _paymentRepository.GetPaymentDetailsByOrderId(orderId) ?? throw new Exception("No payment found for Order ID");
-            return new OrderDetailDTO(){
-                order=_mapper.Map<OrderDto>(order),
-                paymentDetails=paymentDetails,
-                shippingAddress=shippingAddress
+            return new OrderDetailDTO()
+            {
+                order = _mapper.Map<OrderDto>(order),
+                paymentDetails = paymentDetails,
+                shippingAddress = shippingAddress
             };
         }
 
@@ -100,22 +102,6 @@ namespace server.Service
             return await _orderRepository.GetAllAsyncByUserId(userId, startDate, endDate);
         }
 
-     
-
-        // public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
-        // {
-        //     var order = await _context.Orders.FindAsync(orderId);
-        //     if (order == null)
-        //     {
-        //         return false;
-        //     }
-
-        //     order.Status = status;
-        //     _context.Orders.Update(order);
-        //     await _context.SaveChangesAsync();
-        //     return true;
-        // }
-        
         public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
         {
             var order = await _context.Orders.FindAsync(orderId);

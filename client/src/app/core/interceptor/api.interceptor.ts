@@ -36,7 +36,7 @@ export class ApiInterceptor implements HttpInterceptor {
             console.log('This is server side error');
             errorMsg = `Error Code: ${error.status},  Message: ${error.error?.message?error.error?.message: error.message}`;
           }
-          this.toastify.Error(errorMsg);
+
           return throwError(()=>errorMsg);
         }));;
     }

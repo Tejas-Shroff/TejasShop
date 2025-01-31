@@ -16,6 +16,7 @@ import { NotificationService } from 'src/app/notification/notification.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  passwordError : boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.required),
     });
   }
-
+  
   Login() {
     if (this.loginForm.valid) {
       this.authService
@@ -42,23 +43,37 @@ export class LoginComponent implements OnInit {
         })
         .subscribe({
           next: (res) => {
+            console.log('Login response:', res);
             if (res.isSuccessed && res.data && res.data.userData) {
               const userRole = res.data.userData.role;
               const selectedRole = this.loginForm.get('role')?.value;
-              if (userRole === 'ADMIN' && selectedRole === 'ADMIN') {
+
+              if (userRole === 'ADMIN' && selectedRole === 'ADMIN') 
+              {
                 this.router.navigateByUrl('auth/admin-page');
-                this.notification.Success('Logged in as Admin');
-              } else if (selectedRole === 'USER') {
+              } 
+              else if (selectedRole === 'USER')
+              {
                 this.router.navigateByUrl('');
-                this.notification.Success('Logged in as User');
-              } else {
+              } 
+              else {
                 this.notification.Error('Invalid role selection');
               }
             } else {
               alert(res.message);
             }
           },
+          error: (error) => {
+            this.passwordError = true;
+            const messageMatch = error.match(/Message: (.*)/);
+            const errorCodeMatch = error.match(/Error Code: (\d+)/);
+          
+            if (messageMatch && errorCodeMatch && errorCodeMatch[1] == 400 && messageMatch[1] === 'Invalid Password!') {
+              this.notification.Error('Invalid password!');
+            }
+          }
         });
     }
   }
+  
 }

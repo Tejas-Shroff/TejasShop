@@ -17,9 +17,9 @@ namespace server.Repository
         public async Task<List<OrderItem>> GetAllOrderItemByOrderId(int orderId)
         {
             return await contex.OrderItems
-            .Include(o=>o.Product)
-            .ThenInclude(p=>p.Thumbnail)
-            .Where(o=>o.OrderId == orderId)
+            .Include(o => o.Product)
+            .ThenInclude(p => p.Thumbnail)
+            .Where(o => o.OrderId == orderId)
             .ToListAsync();
         }
     }

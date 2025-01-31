@@ -50,10 +50,36 @@ export class CheckoutComponent {
     }
   }
 
+  // removeAddress(id: number | null) {
+  //   if (id) {
+  //     this.addressService.deleteAddress(id).subscribe(res => {
+  //       if (res.isSuccessed) {
+  //         this.notification.Success('Address Removed!');
+  //         // Ensure immediate update by calling loadAddress
+  //         if (this.userId) {
+  //           this.addressService.loadAddress(this.userId);
+  //         }
+  //       } else {
+  //         this.notification.Error(res.message);
+  //       }
+  //     });
+  //   }
+  // }
+  removeAddress(addressId: number | null) {
+    if (!addressId || !this.userId) return;
+    this.addressService.eleteAddress(addressId, this.userId).subscribe(res => {
+      if (res.isSuccessed) {
+        this.notification.Success('Address Removed!');
+      } else {
+        this.notification.Error(res.message);
+      }
+    });
+   }
+
   //-------------------------------------------------------------
 
   modalRef?: BsModalRef;
-  //subscriptions: Subscription = new Subscription();
+  // subscriptions: Subscription = new Subscription();
   messages: string[] = [];
  
  
@@ -65,13 +91,7 @@ export class CheckoutComponent {
   //   this.subscriptions.unsubscribe();
   // }
   
-  removeAddress(id:number|null){
-    if(id)
-      this.addressService.deleteAddress(id).subscribe(res=>{
-         if(res.isSuccessed) this.notification.Success('Address Removed!');
-         else  this.notification.Error(res.message);
-      })
-  }
+
 
   MakePayment(carId:number){
     if(this.shipToAddress==undefined){

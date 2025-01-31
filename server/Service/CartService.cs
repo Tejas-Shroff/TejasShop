@@ -22,47 +22,6 @@ namespace server.Service
             this.productRepository = productRepository;
         }
 
-        // public async Task AddItemToCart(int userId, int productId, int quantity)
-        // {
-        //     ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
-        //     if (cart == null)
-        //     {
-        //         cart = new ShoppingCart()
-        //         {
-        //             UserId = userId,
-        //             ShoppingCartItems = new List<ShoppingCartItem>()
-        //         };
-        //         await cartRepository.AddAsync(cart);
-        //     }
-
-        //     var productExists = await productRepository.GetByIdAsync(productId);
-
-        //     if (productExists is null)
-        //     {
-        //         throw new Exception("Product not found.");
-        //     }
-        //     List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
-
-        //     ShoppingCartItem item = cartItems.FirstOrDefault(x => x.ProductId == productId);
-
-        //     if (item == null)
-        //     {
-        //         item = new ShoppingCartItem()
-        //         {
-        //             ShoppingCartId = cart.Id,
-        //             ProductId = productId,
-        //             Quantity = quantity
-        //         };
-        //         await cartItemRepository.AddAsync(item);
-
-        //     }
-        //     else
-        //     {
-        //         item.Quantity += quantity;
-        //         await cartItemRepository.UpdateAsync(item);
-        //     }
-        // }
-
         public async Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity)
         {
             ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
@@ -82,7 +41,7 @@ namespace server.Service
             {
                 return new ResponseDto { IsSuccessed = false, Message = "Product not found." }; // **Highlighted Change**
             }
-    
+
             List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
             ShoppingCartItem item = cartItems.FirstOrDefault(x => x.ProductId == productId);
             int currentQuantity = item != null ? item.Quantity : 0;
@@ -90,19 +49,19 @@ namespace server.Service
             if (currentQuantity + quantity > 3)
             {
                 return new ResponseDto
-                 { 
+                {
                     IsSuccessed = false,
-                     Message = "You can only add a maximum of 3 quantities per item." 
-                 }; 
+                    Message = "You can only add a maximum of 3 quantities per item."
+                };
             }
 
             if (item == null)
             {
                 item = new ShoppingCartItem()
                 {
-                 ShoppingCartId = cart.Id,
-                 ProductId = productId,
-                 Quantity = quantity
+                    ShoppingCartId = cart.Id,
+                    ProductId = productId,
+                    Quantity = quantity
                 };
                 await cartItemRepository.AddAsync(item);
             }
@@ -161,8 +120,8 @@ namespace server.Service
 
         public async Task UpdateCartItem(int userId, int cartItemId, int quantity)
         {
-             ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
-            ?? throw new Exception("Item not found.");
+            ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
+           ?? throw new Exception("Item not found.");
 
             ShoppingCart cart = await cartRepository.GetByIdAsync(shoppingCartItem.ShoppingCartId)
             ?? throw new Exception("Error Cart not found");
@@ -170,7 +129,8 @@ namespace server.Service
             {
                 throw new Exception("You can't update  another users cart item");
             }
-            if(quantity<=0){
+            if (quantity <= 0)
+            {
                 await cartItemRepository.DeleteAsync(shoppingCartItem);
                 return;
             }
@@ -179,6 +139,6 @@ namespace server.Service
 
         }
 
-       
+
     }
 }

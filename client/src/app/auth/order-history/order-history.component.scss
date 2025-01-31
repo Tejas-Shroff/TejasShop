@@ -1,29 +1,4 @@
 
-.go-back {
-    margin-top: -40px; /* Adjust this value as needed to position below the navbar */
-    margin-left: 40px; /* Adjust this value for spacing from the left */
-    display: flex;
-    position: absolute;
-    align-items: center;
-    font-size: 2em;
-    background-color: #f9f9f9;
-    padding: 10px 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .go-back a {
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    align-items: center;
-  }
-  .go-back i {
-    margin-right: auto;
-  }
-
-
 // order history container
 
 
@@ -34,6 +9,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 130px;
   }
   
   .order-history-table {

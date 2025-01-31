@@ -62,6 +62,7 @@ export interface addProductDTO {
     name: string;
     description: string;
     originalPrice: number;
+    discountPercentage:number;
     stockQuantity: number;
     categoryId: number; 
     brandId: number;  

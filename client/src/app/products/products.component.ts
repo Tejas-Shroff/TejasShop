@@ -71,6 +71,14 @@ export class ProductsComponent implements OnInit {
       inStock: filters.stockType
     };
     this.filters$.next(this.initialFilters);
+    this.catalogService.getProducts(this.initialFilters).subscribe((res) => {
+      if (res.data?.count !== undefined) {
+        this.pageItems = res.data.count;
+      }
+      if (res.data?.data !== undefined) {
+        this.products = res.data.data;
+      }
+    });
   }
 
   sortFiltersChanged(sortFilters: any): void {

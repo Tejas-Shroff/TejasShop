@@ -78,10 +78,6 @@ export class ProductDetailComponent implements OnInit {
     this.store.dispatch(AddToCart({ productId, quantity: this.quantity }));
   }
 
-  // addToWishList(productId: number) {
-  //   this.store.dispatch(AddToWishList({ productId }));
-  //   this.notification.Success('Added to wishlist');
-  // }
   addToWishList(productId: number) {
     const isAlreadyInWishlist = this.wishlistItems.some(
       (item) => item.productId === productId

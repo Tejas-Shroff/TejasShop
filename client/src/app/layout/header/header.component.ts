@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CategoryResDto, ProductResDto } from 'src/app/core/Models/catalog';
 import { AuthService } from 'src/app/core/Services/auth.service';
 import { CatalogService } from 'src/app/core/Services/catalog.service';
+import { NotificationService } from 'src/app/notification/notification.service';
 import { selectCartCount } from 'src/app/redux/cart/cart.selector';
 import { selectCategories } from 'src/app/redux/catalog/catalog.selector';
 import { AppState } from 'src/app/redux/store';
@@ -27,7 +28,8 @@ export class HeaderComponent {
   constructor(
     private store: Store<AppState>,
     public auth:AuthService,
-    private catalogService: CatalogService
+    private catalogService: CatalogService,
+    private notification: NotificationService
   ) {
     this.categories$ = this.store.select(selectCategories);
     this.cartCount$ = this.store.select(selectCartCount);
@@ -64,6 +66,8 @@ export class HeaderComponent {
 
 
   logout(){
+    sessionStorage.clear();
+    this.notification.clearNotifications();
     this.auth.LogOut().subscribe();
   }
 }

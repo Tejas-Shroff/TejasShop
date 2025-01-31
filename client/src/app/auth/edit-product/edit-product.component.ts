@@ -135,7 +135,7 @@ export class EditProductComponent implements OnInit {
       formData.append('brandId', this.editProductForm.get('brandId')?.value);
       formData.append(
         'discountPercentage',
-        this.editProductForm.get('discountPercentage')?.value
+        this.editProductForm.get('discountPercentage')?.value ?? 0
       );
 
       // Append thumbnail only if it has been changed
@@ -147,7 +147,7 @@ export class EditProductComponent implements OnInit {
       }
 
       this.notification.Success('Product updated!');
-      window.location.reload();
+      // window.location.reload();
 
       setTimeout(() => {
         this.dialogRef.close(formData);

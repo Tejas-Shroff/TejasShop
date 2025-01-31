@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.FileProviders;
 using server.Data;
 using server.Extensions;
@@ -8,22 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 IConfiguration configuration = builder.Configuration;
 
-// Add services to the container.
-builder.Services.AddDbContext<DataContex>();
 
+builder.Services.AddDbContext<DataContex>();
 builder.Services.AddControllers();
-//    .AddJsonOptions(options =>
-//{
-//    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-//    options.JsonSerializerOptions.WriteIndented = true; // Optional: For pretty printing
-//});
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddIdentityServices(configuration);
-builder.Services.AddCors((options) => {
-    options.AddPolicy("auth", (policies) => {
+builder.Services.AddCors((options) =>
+{
+    options.AddPolicy("auth", (policies) =>
+    {
         policies.AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader();

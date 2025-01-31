@@ -1,0 +1,69 @@
+.navbar-custom {
+    background-color: #f4f4f4; /* Black background */
+    border-bottom: 2px solid #000000; /* Border at the downside */
+    z-index: 1;
+ 
+  }
+  .navbar-custom .navbar-text {
+    margin-left: 30px; /* Adjust this value as needed */
+    color: #000000; /* Black text */
+    font-weight: bold; /* Text bold */
+  }
+  .navbar-custom .navbar-text {
+    color: #000000; /* Black text */
+    font-weight: bold; /* text bold */
+  }
+  .navbar-custom img {
+    height: 80px; /* Adjust height */
+    width: 150px; /* Adjust width to be more than height */
+  }
+  .admin-dashboard-container {
+    margin-top: 70px;
+  }
+  .sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    padding-top: 14px;
+    border-right: 2px solid #000000; /* Border at the right side */
+  }
+  .sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    display: block;
+  }
+  .sidebar a:hover {
+    background-color: #dddddd;
+  }
+  .main-content {
+    margin-left: 260px;
+    padding: 20px;
+  }
+  .card {
+    margin-bottom: 20px;
+    border-color: #000000;
+    background-color: #f3f3f3;
+  }
+  .btn-custom {
+    background-color: #1e1e1e;
+    border-color: #000000;
+    color: #fff;
+  }
+  .btn-custom:hover {
+    background-color: #8f8f8f;
+    border-color: #8f8f8f;
+    
+  }
+  
+  .mat-icon-account-cicle {
+    font-size: 1.6rem;
+    z-index: 2;
+  
+  }
+  
+  

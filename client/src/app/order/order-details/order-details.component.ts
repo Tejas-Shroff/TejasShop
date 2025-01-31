@@ -54,7 +54,7 @@ export class OrderDetailsComponent implements OnInit {
         next: (response) => {
           if (response.isSuccessed) {
             this.notification.Success('Order cancelled successfully');
-            this.details.order.status = 'Cancelled'; // Update the order status
+            this.details.order.status = 'Cancelled'; // Updating the order status
           } else {
             this.notification.Error('Failed to cancel the order');
           }

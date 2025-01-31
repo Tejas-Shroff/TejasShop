@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { map, Observable, tap } from 'rxjs';
 import { CategoryResDto, ProductResDto } from 'src/app/core/Models/catalog';
 import { AuthService } from 'src/app/core/Services/auth.service';
-import { CatalogService } from 'src/app/core/Services/catalog.service';
 import { BASE_IMAGE_API } from 'src/app/core/token/baseUrl.token';
 import { selectCategories } from 'src/app/redux/catalog/catalog.selector';
 import { AppState } from 'src/app/redux/store';
@@ -14,14 +13,13 @@ import { AppState } from 'src/app/redux/store';
   templateUrl: './sort-header.component.html',
   styleUrls: ['./sort-header.component.css']
 })
-export class SortHeaderComponent {
+export class SortHeaderComponent implements OnInit{
   categories$: Observable<CategoryResDto[]>;
   products$:Observable<ProductResDto[]>;
   productCount: number = 0;
   constructor(
     private store: Store<AppState>,
     @Inject(BASE_IMAGE_API) public serveApi:string,
-    private catalogService: CatalogService,
     private auth:AuthService
   )
   {
@@ -34,10 +32,9 @@ export class SortHeaderComponent {
       map((res) => res !== undefined ? res : [])
     );
   }
-
-  
-
-
+  ngOnInit(): void {
+    this.applyChanges();
+  }
   readonly showOptions: number[] = [10, 20, 30, 50, 100];
   readonly sortOptions = [
     {

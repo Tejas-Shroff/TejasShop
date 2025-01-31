@@ -36,14 +36,14 @@ namespace server.Controllers
             if (user == null)
             {
                 res.IsSuccessed = false;
-                res.Message = "Invalid Credentials!";
+                res.Message = "Invalid Username!";
                 return BadRequest(res);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(req.Password,user.Password))
             {
                 res.IsSuccessed = false;
-                res.Message = "Invalid Credentials!";
+                res.Message = "Invalid Password!";
                 return BadRequest(res);
             }
             var RefreshToken = helper.GenerateRefreshToken();

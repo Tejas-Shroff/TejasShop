@@ -2,61 +2,66 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from './model';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   notifications$ = this.notificationsSubject.asObservable();
 
   private notifications: Notification[] = [];
-  constructor() { }
-  
+  constructor() {}
+
   private addNotification(notification: Notification) {
     this.notifications.push(notification);
     this.notificationsSubject.next(this.notifications);
 
     if (notification.duration) {
-      setTimeout(() => this.removeNotification(notification), notification.duration);
+      setTimeout(
+        () => this.removeNotification(notification),
+        notification.duration
+      );
     }
   }
 
   removeNotification(notification: Notification) {
-    this.notifications = this.notifications.filter(n => n !== notification);
+    this.notifications = this.notifications.filter((n) => n !== notification);
     this.notificationsSubject.next(this.notifications);
   }
- 
 
-  Success(message: string = 'Success!', duration: number = 3000) {
+  clearNotifications() {
+    this.notifications = [];
+    this.notificationsSubject.next(this.notifications);
+  }
+
+  Success(message: string = 'Success!', duration: number = 2000) {
     this.addNotification({
       message,
       type: 'success',
-      duration
+      duration,
     });
   }
 
-  Error(message: string = 'Error!', duration: number = 10000) {
+  Error(message: string = 'Error!', duration: number = 3000) {
     this.addNotification({
       message,
       type: 'error',
-      duration
+      duration,
     });
   }
 
-  Warning(message: string = 'Warning!', duration: number = 10000) {
+  Warning(message: string = 'Warning!', duration: number = 3000) {
     this.addNotification({
       message,
       type: 'warning',
-      duration
+      duration,
     });
   }
-  Info(message: string = 'Warning!', duration: number = 10000) {
+  Info(message: string = 'Warning!', duration: number = 3000) {
     this.addNotification({
       message,
       type: 'info',
-      duration
+      duration,
     });
   }
 }

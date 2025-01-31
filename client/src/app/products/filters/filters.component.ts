@@ -116,4 +116,6 @@ export class FiltersComponent {
 
     this.filtersChanged.emit(selectedFilters);
   }
+
+  
 }

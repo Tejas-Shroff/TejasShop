@@ -71,18 +71,18 @@ export class DeleteProductComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openEditDialog(product: ProductResDto): void {
-    const dialogRef = this.dialog.open(EditProductComponent, {
-      width: '400px',
-      data: product,
-    });
+  // openEditDialog(product: ProductResDto): void {
+  //   const dialogRef = this.dialog.open(EditProductComponent, {
+  //     width: '400px',
+  //     data: product,
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.updateProduct(product.id, result);
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.updateProduct(product.id, result);
+  //     }
+  //   });
+  // }
 
   openConfirmDialog(productId: number): void {
     const dialogRef = this.dialog.open(this.confirmDialog);
@@ -93,10 +93,34 @@ export class DeleteProductComponent implements OnInit {
     });
   }
 
+  openEditDialog(product: ProductResDto): void {
+    const dialogRef = this.dialog.open(EditProductComponent, {
+      width: '400px',
+      data: product,
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog result:', result);
+      if (result) {
+        this.updateProduct(product.id, result);
+      }
+    });
+  }
+  
   updateProduct(productId: number, product: addProductDTO): void {
+    console.log('Updating product with ID:', productId);
+    console.log('Product data:', product);
+  
     this.authservice.updateProduct(productId, product).subscribe(
-      (response) => {},
+      (response) => {
+        console.log('Update response:', response);
+        this.notification.Success('Product updated successfully!');
+        this.AllProducts =this.AllProducts.map((p) => p.id === productId? { ...p, ...product} : p
+      ); // manauallly updating the UI which reduces the load to reload the window.\\\
+      this.dataSource.data = this.AllProducts; //updating the table data
+      },
       (error) => {
+        console.error('Update failed:', error);
         this.notification.Error('Update failed', error);
       }
     );

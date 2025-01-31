@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Configuration;
 using Razorpay.Api;
-using System.Collections.Generic;
 
 namespace server.Service;
 public class RazorpayService

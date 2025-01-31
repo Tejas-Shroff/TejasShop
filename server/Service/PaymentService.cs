@@ -47,78 +47,52 @@ namespace server.Service
             }
         }
 
-        // public async Task VerifyPaymentSignature(string orderId, string paymentId, string signature)
-        // {
-        //     RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]);
-
-        //     var attributes = new Dictionary<string, string>
-        //     {
-        //         { "razorpay_order_id", orderId },
-        //         { "razorpay_payment_id", paymentId },
-        //         { "razorpay_signature", signature }
-        //     };
-        //     PaymentDetails payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(orderId) ?? throw new Exception("no payment found");
-        //     payment.Razorpay_payment_id = paymentId;
-        //     payment.Razorpay_signature = signature;   // Getting the payment details from the database.
-        //     try
-        //     {
-        //         Razorpay.Api.Utils.verifyPaymentSignature(attributes);  // this verifies the payment signature.
-
-        //         payment.Status = PaymentStatus.Completed.ToString();
-        //     }
-        //     catch
-        //     {
-        //         payment.Status = PaymentStatus.Failed.ToString();
-        //     }
-        //    var res= await _paymentDetailRepository.UpdateAsync(payment);   // updates the payment status based on result.
-        // }
-
 
 
         public async Task VerifyPaymentSignature(string orderId, string paymentId, string signature)
-{
-    RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]);
-
-    var attributes = new Dictionary<string, string>
-    {
-        { "razorpay_order_id", orderId },
-        { "razorpay_payment_id", paymentId },
-        { "razorpay_signature", signature }
-    };
-
-    PaymentDetails payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(orderId) ?? throw new Exception("no payment found");
-    payment.Razorpay_payment_id = paymentId;
-    payment.Razorpay_signature = signature;
-
-    try
-    {
-        Razorpay.Api.Utils.verifyPaymentSignature(attributes);
-        payment.Status = PaymentStatus.Completed.ToString();
-    }
-    catch
-    {
-        // Only increment retry count and update status if the current status is not Completed
-        if (payment.Status != PaymentStatus.Completed.ToString())
         {
-            payment.Status = PaymentStatus.Failed.ToString();
-            payment.RetryCount++;
+            RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]);
 
-            if (payment.RetryCount >= 2)
+            var attributes = new Dictionary<string, string>
             {
-                payment.Status = "Pending - Cash on Delivery";
+                { "razorpay_order_id", orderId },
+                { "razorpay_payment_id", paymentId },
+                { "razorpay_signature", signature }
+            };
+
+            PaymentDetails payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(orderId) ?? throw new Exception("no payment found");
+            payment.Razorpay_payment_id = paymentId;
+            payment.Razorpay_signature = signature;
+
+            try
+            {
+                Razorpay.Api.Utils.verifyPaymentSignature(attributes);
+                payment.Status = PaymentStatus.Completed.ToString();
+            }
+            catch
+            {
+                // Only increment retry count and update status if the current status is not Completed
+                if (payment.Status != PaymentStatus.Completed.ToString())
+                {
+                    payment.Status = PaymentStatus.Failed.ToString();
+                    payment.RetryCount++;
+
+                    if (payment.RetryCount >= 2)
+                    {
+                        payment.Status = "Pending - Cash on Delivery";
+                    }
+                }
+            }
+
+            var res = await _paymentDetailRepository.UpdateAsync(payment);
+            if (res == null)
+            {
+                throw new Exception("Failed to update payment details");
+            }
+            else
+            {
+                Console.WriteLine("Payment details updated successfully");
             }
         }
     }
-
-    var res = await _paymentDetailRepository.UpdateAsync(payment);
-    if (res == null)
-    {
-        throw new Exception("Failed to update payment details");
-    }
-    else
-    {
-        Console.WriteLine("Payment details updated successfully");
-    }
 }
-    }
-}   

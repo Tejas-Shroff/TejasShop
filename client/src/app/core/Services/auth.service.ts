@@ -208,7 +208,12 @@ export class AuthService {
     return this.http.delete(`${environment.baseApi + '/Catalog/'}product/delete/${productId}`);
   }
 
+  // updateProduct(productId: number, product: addProductDTO): Observable<ProductResDto> {
+  //   return this.http.put<ProductResDto>(`${environment.baseApi + '/Catalog/'}product/edit/${productId}`, product);
+  // }
   updateProduct(productId: number, product: addProductDTO): Observable<ProductResDto> {
+    console.log('API URL:', `${environment.baseApi + '/Catalog/'}product/edit/${productId}`);
+    console.log('Product data being sent:', product);
     return this.http.put<ProductResDto>(`${environment.baseApi + '/Catalog/'}product/edit/${productId}`, product);
   }
 

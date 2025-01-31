@@ -13,7 +13,7 @@ export class UserOrdersComponent implements OnInit {
   orders: GetUserOrdersDTO[] = [];
   filteredOrders: GetUserOrdersDTO[] = [];
   paginatedOrders: GetUserOrdersDTO[] = [];
-  selectedFilter: string = 'all';
+  selectedFilter: string = '1month';
 
   constructor(public orderService: OrdersService, private datePipe: DatePipe) {}
 

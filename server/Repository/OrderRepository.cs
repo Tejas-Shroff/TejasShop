@@ -30,7 +30,7 @@ namespace server.Repository
 
             query = query.OrderByDescending(o => o.OrderDate);
 
-        return await query.ToListAsync();
+            return await query.ToListAsync();
         }
     }
 }

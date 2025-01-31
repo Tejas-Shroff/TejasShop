@@ -16,13 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { NotificationService } from '../notification/notification.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 
 
@@ -34,7 +35,8 @@ import { MatTableModule } from '@angular/material/table';
     AddProductComponent,
     EditProductComponent,
     DeleteProductComponent,
-    OrderHistoryComponent, 
+    OrderHistoryComponent,
+    AdminDashboardComponent, 
 
   ],
   imports: [

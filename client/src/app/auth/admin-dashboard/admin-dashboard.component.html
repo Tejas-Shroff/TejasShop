@@ -1,0 +1,55 @@
+<br><br>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
+    <img src="/assets/amazon-logo.png" alt="Logo">
+    <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
+    
+   
+    <div class="d-flex align-items-center ml-auto">
+      <button *ngIf="!(authservcie.isUserLogInObservable()|async) else userLoggedIn;" mat-icon-button routerLink="/auth/login">
+        <mat-icon>
+            login
+        </mat-icon>
+      </button>
+     
+        <ng-template #userLoggedIn>
+          <button [matMenuTriggerFor]="loginMenu"  mat-icon-button>
+            <mat-icon class="mat-icon-account-cicle">
+              account_circle
+            </mat-icon>
+          </button>
+          <mat-menu #loginMenu="matMenu" class="username"> 
+            <div class="px-3">
+             <strong>{{authservcie.getLoggedInUserDetail()?.userName}}</strong> 
+            </div>  
+            <mat-divider></mat-divider>  
+            <div class="d-flex flex-column">
+              
+              <mat-divider></mat-divider>        
+              <button mat-button (click)="logout()" >
+                <mat-icon>
+                  logout
+                </mat-icon>
+                Logout
+              </button>
+            </div> 
+    
+        </mat-menu>
+        </ng-template>
+    
+     
+    </div>
+  </div>
+
+<div class="sidebar">    
+  <br><br><br><br><br>
+  <a routerLink="/auth/admin-page">Home</a>
+  <a routerLink="/auth/admin-page/add-product">Add Product</a>
+  <a routerLink="/auth/admin-page/view-product"> Products</a>
+  <a routerLink="/auth/admin-page/order-history">Order History</a>
+</div>

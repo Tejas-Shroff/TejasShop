@@ -82,6 +82,7 @@ namespace server.Service
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.OriginalPrice = updatedProduct.OriginalPrice;
+            existingProduct.DiscountPercentage = updatedProduct.DiscountPercentage;
             existingProduct.StockQuantity = updatedProduct.StockQuantity;
             existingProduct.CategoryId = updatedProduct.CategoryId;
             existingProduct.BrandId = updatedProduct.BrandId;

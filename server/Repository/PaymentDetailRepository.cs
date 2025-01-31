@@ -15,12 +15,12 @@ namespace server.Repository
 
         public async Task<PaymentDetails?> GetPaymentDetailsByOrderId(int orderId)
         {
-           return await contex.PaymentDetails.FirstOrDefaultAsync(x => x.OrderId == orderId);
+            return await contex.PaymentDetails.FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 
         public async Task<PaymentDetails?> GetPaymentDetailsByRPId(string razorpayOrderId)
         {
-           return await contex.PaymentDetails.FirstOrDefaultAsync(x => x.RazorPayOrderId == razorpayOrderId);
+            return await contex.PaymentDetails.FirstOrDefaultAsync(x => x.RazorPayOrderId == razorpayOrderId);
         }
         public async Task<PaymentDetails?> UpdatePaymentAsync(PaymentDetails paymentDetails)
         {
@@ -36,6 +36,6 @@ namespace server.Repository
             return null;
         }
 
-      
+
     }
 }

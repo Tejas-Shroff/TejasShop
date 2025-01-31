@@ -9,7 +9,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 })
 export class UserAddressService {
   
-  private address = new BehaviorSubject<AddressDto[]>([]);
+  public address = new BehaviorSubject<AddressDto[]>([]);
   address$=this.address.asObservable();
 
   constructor(private http:HttpClient) { }
@@ -18,7 +18,9 @@ export class UserAddressService {
     this.getAllAddressByUserId(userId).subscribe(res=>{
 
 
-      if(res.isSuccessed && res.data) this.address.next(res.data);
+      if(res.isSuccessed && res.data){
+        this.address.next(res.data);
+      }
     })
   }
   
@@ -41,15 +43,31 @@ export class UserAddressService {
     );
   }
 
-  deleteAddress(userId:Number){
-    return this.http.delete<ResponseDto<null>>("User/DeleteAddress/"+userId).pipe(
+  // deleteAddress(userId:Number){
+  //   return this.http.delete<ResponseDto<null>>("User/DeleteAddress/"+userId).pipe(
 
-      tap(res=>{
-        if(res.isSuccessed){
+  //     tap(res=>{
+  //       if(res.isSuccessed){
           
-          this.loadAddress(userId);
+  //         this.loadAddress(userId);
+  //       }
+  //     })
+  //   );
+  // }
+  eleteAddress(addressId: number, userId: number) {
+    // Remove the deleted address from the current list
+    const updatedAddresses = this.address.getValue().filter(a => a.id !== addressId);
+    this.address.next(updatedAddresses); // Immediately update BehaviorSubject
+    return this.http.delete<ResponseDto<null>>(`User/DeleteAddress/${addressId}`).pipe(
+      tap(res => {
+        if (res.isSuccessed) {
+          console.log("Address deleted successfully");
+          this.loadAddress(userId); // Ensure backend and frontend remain in sync
+        } else {
+          console.error("Failed to delete address");
         }
       })
-    );
-  }
+    ); // No `.subscribe()` here!
+   }
+   
 }

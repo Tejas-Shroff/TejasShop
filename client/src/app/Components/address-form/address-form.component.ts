@@ -64,7 +64,9 @@ export class AddressFormComponent implements OnInit {
         postalCode: this.addressForm.get('postalCode')?.value
       }).subscribe(res => {
         if (res.isSuccessed) {
+          console.log('reposne', res)
           this.notification.Success("Address added successfully!");
+          
         }
         else {
           this.notification.Error(res.message);

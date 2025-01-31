@@ -1,56 +1,4 @@
-<app-notification></app-notification>
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 navbar-custom fixed-top">
-       <img src="/assets/amazon-logo.png" alt="Logo">
-              <span class="fs-4 ml-12 navbar-text " style="margin-left: 83px;" >ADMIN DASHBOARD</span>
-                     <div class="d-flex align-items-center ml-auto">
-                            <button *ngIf="!(authservcie.isUserLogInObservable()|async) else userLoggedIn;" mat-icon-button routerLink="/auth/login">
-                                   <mat-icon>
-                                       login
-                                   </mat-icon>
-                                 </button>
-                                
-                                   <ng-template #userLoggedIn>
-                                     <button [matMenuTriggerFor]="loginMenu"  mat-icon-button>
-                                       <mat-icon class="mat-icon-account-cicle">
-                                         account_circle
-                                       </mat-icon>
-                                     </button>
-                                     <mat-menu #loginMenu="matMenu" class="username"> 
-                                       <div class="px-3">
-                                        <strong>{{authservcie.getLoggedInUserDetail()?.userName}}</strong> 
-                                       </div>  
-                                       <mat-divider></mat-divider>  
-                                       <div class="d-flex flex-column">
-                                         
-                                         <mat-divider></mat-divider>        
-                                         <button mat-button (click)="logout()" >
-                                           <mat-icon>
-                                             logout
-                                           </mat-icon>
-                                           Logout
-                                         </button>
-                                       </div> 
-                               
-                                   </mat-menu>
-                                   </ng-template>
-                     </div>
-</div>
-<div class="sidebar">
-<br><br><br><br><br>
-</div>
-<br><br><br>
-<div class="go-back">
-       <a [routerLink]="['/auth/admin-page']">
-             
-         <i class="material-icons">arrow_back</i>
-       </a>
-</div>
-
+<app-admin-dashboard></app-admin-dashboard>
 <div class="header-container">
        <h2>Fill the Product Information and all fields are required.</h2>
 </div>
@@ -63,13 +11,6 @@
                                    Name is required.
                             </div>
               </div>
-              <!-- <div class="form-group">
-                         <label for="originalPrice">Original Price:</label>
-                         <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)" />
-                         <div *ngIf="addProductForm.get('originalPrice')?.invalid && addProductForm.get('originalPrice')?.touched" class="error-message">
-                           Original Price is required, Min price 1000, Must be non-negative and price should not exceed Rs.250000.
-                         </div>
-              </div> -->
               <div class="form-group">
                 <label for="originalPrice">Original Price:</label>
                 <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)" />
@@ -125,13 +66,6 @@
                   Brand ID is required.
                 </div>
                   </div>
-                       <!-- <div class="form-group">
-                            <label for="thumbnail">Thumbnail:</label>
-                            <input id="thumbnail" type="file" (change)="onFileChange($event)" />
-                            <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched" class="error-message">
-                              Thumbnail is required.
-                            </div>
-                        </div> -->
               <div class="form-group">
                 <label for="thumbnail">Thumbnail:</label>
                 <input id="thumbnail" type="file" (change)="onFileChange($event)" />
@@ -153,9 +87,6 @@
             </div>
             <br>
             <!-- Add this line to check if the form is invalid -->
-            <p *ngIf="addProductForm.invalid" class="error-message">Please fill out all required fields.</p>
+            <p *ngIf="addProductForm.invalid" click(onSubmit) class="error-message">Please fill out all required fields.</p>
           </form>
 
-          <!-- <div *ngFor="let notification of notification.notifications$ | async" class="notification {{notification.type}}">
-            {{notification.message}}
-          </div> -->
