@@ -1,6 +1,5 @@
 import {
   HttpClient,
-  HttpErrorResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -8,11 +7,9 @@ import {
   catchError,
   interval,
   map,
-  Observable,
   of,
   Subscription,
   switchMap,
-  throwError,
 } from 'rxjs';
 import { LoginReq, LoginResData, RegisterUserData } from '../Models/Auth';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -20,8 +17,6 @@ import { ResponseDto } from '../Models/response';
 import { UserDto } from '../Models/user';
 import { Router } from '@angular/router';
 
-import { addProductDTO, ProductResDto } from '../Models/catalog';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -181,64 +176,4 @@ export class AuthService {
     localStorage.setItem('userRole', role);
   }
 
-  // addProduct(productData: FormData): Observable<any> {
-  //   return this.http.post(
-  //     `${environment.baseApi + '/Catalog/'}product/create`,
-  //     productData
-  //   );
-  // }
-
-  // getAllProducts(): Observable<ProductResDto[]> {
-  //   return this.http.get<ProductResDto[]>(
-  //     `${environment.baseApi + '/Catalog/'}GetAllProducts`
-  //   );
-  // }
-
-  // deleteProduct(productId: number): Observable<any> {
-  //   return this.http.delete(
-  //     `${environment.baseApi + '/Catalog/'}product/delete/${productId}`
-  //   );
-  // }
-
-  // updateProduct(
-  //   productId: number,
-  //   product: addProductDTO
-  // ): Observable<ProductResDto> {
-  //   console.log(
-  //     'API URL:',
-  //     `${environment.baseApi + '/Catalog/'}product/edit/${productId}`
-  //   );
-  //   console.log('Product data being sent:', product);
-  //   return this.http.put<ProductResDto>(
-  //     `${environment.baseApi + '/Catalog/'}product/edit/${productId}`,
-  //     product
-  //   );
-  // }
-
-  // getOrderHistory(months: number = 0): Observable<any> {
-  //   const url = `${
-  //     environment.baseApi + '/OrderHistory/get-All_Users-Orders'
-  //   }?months=${months}`;
-  //   return this.http.get<any>(url);
-  // }
-
-  // getAllProductsSorted(sortBy: string): Observable<ProductResDto[]> {
-  //   return this.http
-  //     .get<ProductResDto[]>(`Catalog/product/getall?sortBy=${sortBy}`)
-  //     .pipe(catchError(this.handleError));
-  // }
-
-  // private handleError(error: HttpErrorResponse) {
-  //   if (error.status === 0) {
-  //     console.error('An error occurred:', error.error);
-  //   } else {
-  //     console.error(
-  //       `Backend returned code ${error.status}, body was: `,
-  //       error.error
-  //     );
-  //   }
-  //   return throwError(
-  //     () => new Error('Something bad happened; please try again later.')
-  //   );
-  // }
 }

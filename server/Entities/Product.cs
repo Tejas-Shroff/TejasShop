@@ -14,12 +14,10 @@
         {
             get
             {
-
                 if (DiscountPercentage.HasValue && DiscountPercentage.Value > 0) // Apply percentage discount if available
                 {
                     return OriginalPrice - (OriginalPrice * DiscountPercentage.Value / 100);
                 }
-
 
                 return OriginalPrice; // If no discount, return the original price
             }

@@ -28,7 +28,7 @@ namespace server.Dto
         public string Name { get; set; }
         public IFormFile Image { get; set; }
     }
-    public class CatalogSpec
+    public class CatalogSpec // for filters
     {
         public int[]? BrandIds { get; set; }
         public int[]? CategoryIds { get; set; }
@@ -61,8 +61,6 @@ namespace server.Dto
         public decimal NewPrice { get; set; }
         public bool IsOnDiscount { get; set; }
         public int StockQuantity { get; set; }
-        // public double AverageRating { get; set; }
-        // public int TotalReviews { get; set; }
         public bool InStock { get; set; }
         public bool IsFeatured { get; set; } = false;
 
@@ -82,17 +80,6 @@ namespace server.Dto
         public int CategoryId { get; set; }
         public int BrandId { get; set; }
         public IFormFile? Thumbnail { get; set; }
-    }
-    public class ProductPagination : Pagination<Product>
-    {
-        public decimal? MinPrice { get; set; }
-        public decimal? MaxPrice { get; set; }
-    }
-
-    public class ProductPaginationRes : Pagination<ProductResDto>
-    {
-        public decimal? MinPrice { get; set; }
-        public decimal? MaxPrice { get; set; }
     }
 
     public class UpdateStockReq

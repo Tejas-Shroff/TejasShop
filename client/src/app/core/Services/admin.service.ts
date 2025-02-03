@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProductResDto, addProductDTO } from '../Models/catalog';
+import { Messages } from 'src/app/constants/messages';
 
 @Injectable({
   providedIn: 'root',
@@ -68,7 +68,7 @@ export class AdminService {
       );
     }
     return throwError(
-      () => new Error('Something bad happened; please try again later.')
+      () => new Error(Messages.SomethingBadErrorOccurred)
     );
   }
 }

@@ -2,6 +2,7 @@ using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
+using server.Constants;
 
 namespace server.Service
 {
@@ -39,7 +40,7 @@ namespace server.Service
 
             if (productExists is null)
             {
-                return new ResponseDto { IsSuccessed = false, Message = "Product not found." }; // **Highlighted Change**
+                return new ResponseDto { IsSuccessed = false, Message = Cart.ProductNotFound }; 
             }
 
             List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
@@ -51,7 +52,7 @@ namespace server.Service
                 return new ResponseDto
                 {
                     IsSuccessed = false,
-                    Message = "You can only add a maximum of 3 quantities per item."
+                    Message = Cart.MaxQuantityExceeded
                 };
             }
 
@@ -97,7 +98,7 @@ namespace server.Service
             var cart = await cartRepository.FindCartByUserId(userId);
             if (cart == null)
             {
-                throw new Exception("No Cart Found");
+                throw new Exception(Cart.NoCartFound);
             }
             List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
             cart.ShoppingCartItems = cartItems;
@@ -107,13 +108,13 @@ namespace server.Service
         public async Task RemoveCartItem(int userId, int cartItemId)
         {
             ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
-            ?? throw new Exception("Item not found.");
+            ?? throw new Exception(Cart.ItemNotFound);
 
             ShoppingCart cart = await cartRepository.GetByIdAsync(shoppingCartItem.ShoppingCartId)
-            ?? throw new Exception("Error Cart not found");
+            ?? throw new Exception(Cart.CartNotFound);
             if (cart.UserId != userId)
             {
-                throw new Exception("you can't remove anothor users item");
+                throw new Exception(Cart.UnauthorizedItemRemoval);
             }
             await cartItemRepository.DeleteAsync(shoppingCartItem);
         }
@@ -121,13 +122,13 @@ namespace server.Service
         public async Task UpdateCartItem(int userId, int cartItemId, int quantity)
         {
             ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
-           ?? throw new Exception("Item not found.");
+           ?? throw new Exception(Cart.ItemNotFound);
 
             ShoppingCart cart = await cartRepository.GetByIdAsync(shoppingCartItem.ShoppingCartId)
-            ?? throw new Exception("Error Cart not found");
+            ?? throw new Exception(Cart.CartNotFound);
             if (cart.UserId != userId)
             {
-                throw new Exception("You can't update  another users cart item");
+                throw new Exception(Cart.UnauthorizedItemUpdate);
             }
             if (quantity <= 0)
             {

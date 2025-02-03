@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using server.Constants;
 using server.Data;
 using server.Dto;
 using server.Entities;
@@ -58,9 +59,9 @@ namespace server.Repository
 
             filteredQuery = spec.sortBy switch
             {
-                "price_lth" => [.. filteredQuery.OrderBy(p =>
+                ProductPrice.Sort_LowToHigh_Price => [.. filteredQuery.OrderBy(p =>
                     p.OriginalPrice - (p.DiscountPercentage.HasValue ? (p.OriginalPrice * p.DiscountPercentage.Value / 100) : 0))],
-                "price_htl" => [.. filteredQuery.OrderByDescending(p =>
+                ProductPrice.Sort_HighToLow_Price => [.. filteredQuery.OrderByDescending(p =>
                     p.OriginalPrice - (p.DiscountPercentage.HasValue ? (p.OriginalPrice * p.DiscountPercentage.Value / 100) : 0))],
                 _ => filteredQuery
             };

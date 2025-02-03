@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using server.Constants;
 using server.Dto;
 using server.Interface.Repository;
 using server.Interface.Service;
-using server.Service;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -47,52 +46,52 @@ public class PaymentController : ControllerBase
             verificationRequest.PaymentId,
             verificationRequest.Signature
         );
-        ResponseDto res=new ResponseDto();
-        return Ok(res.success("Payment Updated"));
+        ResponseDto res = new ResponseDto();
+        return Ok(res.success(Payment.PaymentUpdated));
     }
 
     [HttpPost("update-Retry-payment-details")]
-public async Task<IActionResult> UpdatePaymentDetails([FromBody] RetryPaymentVerificationRequest retryVerificationRequest)
-{
-    await _razorpayService.VerifyPaymentSignature(
-        retryVerificationRequest.OrderId,
-        retryVerificationRequest.PaymentId,
-        retryVerificationRequest.Signature
-    );
-
-    // Update the payment status and retry count
-    var payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(retryVerificationRequest.OrderId);
-    if (payment == null)
+    public async Task<IActionResult> UpdatePaymentDetails([FromBody] RetryPaymentVerificationRequest retryVerificationRequest)
     {
-        return NotFound("Payment details not found");
+        await _razorpayService.VerifyPaymentSignature(
+            retryVerificationRequest.OrderId,
+            retryVerificationRequest.PaymentId,
+            retryVerificationRequest.Signature
+        );
+
+        // Update the payment status and retry count
+        var payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(retryVerificationRequest.OrderId);
+        if (payment == null)
+        {
+            return NotFound(Payment.PaymentDetailsNotFound);
+        }
+
+        payment.Status = retryVerificationRequest.Status;
+        payment.RetryCount = retryVerificationRequest.RetryCount;
+
+        var updatedPayment = await _paymentDetailRepository.UpdateAsync(payment);
+        if (updatedPayment == null)
+        {
+            return StatusCode(500, Payment.FailedToUpdatePaymentStatus);
+        }
+
+        ResponseDto res = new ResponseDto();
+        return Ok(res.success(Payment.PaymentUpdated));
     }
-
-    payment.Status = retryVerificationRequest.Status;
-    payment.RetryCount = retryVerificationRequest.RetryCount;
-
-    var updatedPayment = await _paymentDetailRepository.UpdateAsync(payment);
-    if (updatedPayment == null)
-    {
-        return StatusCode(500, "Failed to update payment status");
-    }
-
-    ResponseDto res = new ResponseDto();
-    return Ok(res.success("Payment Updated"));
-}
 }
 
 public class PaymentVerificationRequest
 {
-    public string OrderId { get; set; }
-    public string PaymentId { get; set; }
-    public string Signature { get; set; }
+    public string? OrderId { get; set; }
+    public string? PaymentId { get; set; }
+    public string? Signature { get; set; }
 }
 
 public class RetryPaymentVerificationRequest
 {
-    public string OrderId { get; set; } // Change this to int
-    public string PaymentId { get; set; }
-    public string Signature { get; set; }
-    public string Status { get; set; }
+    public string? OrderId { get; set; } // Change this to int
+    public string? PaymentId { get; set; }
+    public string? Signature { get; set; }
+    public string? Status { get; set; }
     public int RetryCount { get; set; }
 }

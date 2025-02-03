@@ -1,5 +1,7 @@
 
 
+using server.Constants;
+
 namespace server.Extensions
 {
     public static class SwaggerServiceExtension
@@ -15,7 +17,7 @@ namespace server.Extensions
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
+                    Description = JwtClass.swaggerJwtDescription
                 });
                 options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
         {

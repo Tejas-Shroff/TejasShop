@@ -10,7 +10,6 @@ namespace server.Interface.Service
     public interface ICartService
     {
         Task<ShoppingCart?> FindUserCart(int userId);
-        // Task AddItemToCart(int userId,int productId,int quantity);
         Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity); 
         Task DeleteCart(int cartId);
 

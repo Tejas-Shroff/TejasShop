@@ -6,7 +6,6 @@ using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
-using server.Repository;
 
 namespace server.Controllers
 {

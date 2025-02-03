@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using server.Constants;
 using server.Dto;
 using server.Dto.Order;
 using server.Entities;
@@ -33,7 +34,7 @@ namespace server.Controllers
         [HttpPost("CreateOrder")]
         public async Task<ActionResult<ResponseDto>> CreateOrder([FromBody] CreateOrderDTO order)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -42,14 +43,14 @@ namespace server.Controllers
             Order createdOrder = await orderService.CreateOrderAsync(userId, order.CartId, order.ShipToAddress);
 
             PaymentDetails details = await paymentService.InitializePayment(userId, createdOrder.Id, createdOrder.TotalPriceAfterDiscount);
-            return Ok(res.success("Order Created Successfully", details));
+            return Ok(res.success(OrderClass.OrderSuccessfullyCreated, details));
         }
 
 
         [HttpGet("Get-all-orders")]
         public async Task<ActionResult<ResponseDto>> GetAllOrders(DateTime? startDate, DateTime? endDate)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -62,7 +63,7 @@ namespace server.Controllers
         [HttpGet("orderdetail/{orderId}")]
         public async Task<ActionResult> GetOrderDetail(int orderId)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -82,11 +83,11 @@ namespace server.Controllers
 
             if (isUpdated)
             {
-                return Ok(res.success("Order status updated successfully"));
+                return Ok(res.success(OrderClass.OrderStatusSuccessfullyUpdated));
             }
             else
             {
-                return BadRequest(res.failure("Failed to update order status"));
+                return BadRequest(res.Error(OrderClass.FailedToUpdateOrderStatus));
             }
         }
 

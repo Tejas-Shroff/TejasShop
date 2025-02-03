@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.Dto;
 using server.Interface.Service;
+using server.Constants;
 
 namespace server.Controllers
 {
@@ -20,19 +21,19 @@ namespace server.Controllers
         [HttpDelete("{cartItemId}")]
         public async Task<ActionResult<ResponseDto>> DeleteCartItem(int cartItemId)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
             ResponseDto responseDto = new ResponseDto();
             await cartService.RemoveCartItem(userId,cartItemId);
-            return Ok(responseDto.success("Item removed successfully"));
+            return Ok(responseDto.success(Constants.CartItem.ItemRemovedSuccessfully));
         }
 
         [HttpPost]
         public async Task<ActionResult<ResponseDto>> UpdateCartItem([FromBody] UpdateCartItemRequest item)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }

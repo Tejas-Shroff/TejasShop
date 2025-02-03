@@ -11,6 +11,5 @@ namespace server.Dto
             set { this._imageUrl = value; }
         }
 
-
     }
 }

@@ -2,11 +2,10 @@
 using server.Dto;
 using server.Entities;
 using server.Helper;
-using server.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Interface.Repository;
+using server.Constants;
 
 namespace server.Controllers
 {
@@ -36,14 +35,14 @@ namespace server.Controllers
             if (user == null)
             {
                 res.IsSuccessed = false;
-                res.Message = "Invalid Username!";
+                res.Message = Auth.InvalidUserName;
                 return BadRequest(res);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(req.Password,user.Password))
             {
                 res.IsSuccessed = false;
-                res.Message = "Invalid Password!";
+                res.Message = Auth.InvalidPassword;
                 return BadRequest(res);
             }
             var RefreshToken = helper.GenerateRefreshToken();
@@ -75,7 +74,7 @@ namespace server.Controllers
             if (user != null)
             {
                 res.IsSuccessed = false;
-                res.Message = $"User with email {req.Email} already exsist";
+                res.Message = string.Format(Auth.UserAlreadyExists, req.Email);
                 return BadRequest(res);
             }
 
@@ -84,7 +83,6 @@ namespace server.Controllers
                 UserName = req.UserName,
                 Email = req.Email,
                 Address = req.Address,
-                //Role=UserRoles.USER.ToString(),
                 Role = req.Role.ToUpper(),
                 Password = BCrypt.Net.BCrypt.HashPassword(req.Password),  // it genrates unique hash everytime you enter the password, even for same password, it is resistant to brute force attacks.
                 RefreshToken="",
@@ -95,10 +93,10 @@ namespace server.Controllers
             if (!result)
             {
                 res.IsSuccessed = false;
-                res.Message = $"Internal Server error";
+                res.Message = Auth.InternalServerError;
                 return BadRequest(res);
             }
-            res.Message = "User registered successfully";
+            res.Message = Auth.RegisteredSuccessfully;
             return Ok(res);
         }
 
@@ -142,7 +140,7 @@ namespace server.Controllers
              ResponseDto res = new ResponseDto();
              if(string.IsNullOrEmpty(req.RefreshToken) || string.IsNullOrEmpty(req.AccessToken)){
                 res.IsSuccessed=false;
-                res.Message = "Invalid Request";
+                res.Message = Auth.InvalidRequest;
                 return BadRequest(res);
              }
 
@@ -156,7 +154,7 @@ namespace server.Controllers
 
              if(user==null || user.RefreshToken!=refreshToken || user.RefreshTokenExpire<=DateTime.Now){
                 res.IsSuccessed=false;
-                res.Message = "Invalid Request";
+                res.Message = Auth.InvalidRequest;
                 return BadRequest(res);
              }
             
@@ -189,11 +187,11 @@ namespace server.Controllers
          public async Task<ActionResult<ResponseDto>> Revoke()
          {
             ResponseDto res = new ResponseDto();
-            var email = User.Identity.Name;
+            var email = User?.Identity?.Name;
              User? user = await this.userRepository.GetUserByEmail(email);
              if(user==null){
                 res.IsSuccessed=false;
-                res.Message = "Invalid Request";
+                res.Message = Constants.Auth.InvalidRequest;
                 return BadRequest(res);
              }
              user.RefreshToken = "";
@@ -201,7 +199,7 @@ namespace server.Controllers
 
              await this.userRepository.UpdateUser(user);
              
-             res.Message = "User Successfully logout";
+             res.Message = Auth.LoggedOut;
              return Ok(res);
          }
     }

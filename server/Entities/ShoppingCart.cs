@@ -31,7 +31,7 @@
                 return ShoppingCartItems.Sum(item => item.TotalPrice);
             }
         }
-        // Optional: A property to track the total number of items in the cart
+        // Optional - A property to track the total number of items in the cart
         public int TotalItems
         {
             get

@@ -23,9 +23,5 @@ namespace server.Dto
             return this;
         }
 
-        internal object? failure(string v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
