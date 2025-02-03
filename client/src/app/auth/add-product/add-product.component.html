@@ -1,3 +1,4 @@
+<app-notification></app-notification>
 <app-admin-dashboard></app-admin-dashboard>
 <div class="header-container">
        <h2>Fill the Product Information and all fields are required.</h2>
@@ -86,7 +87,7 @@
               <button type="submit" [disabled]="addProductForm.invalid">Add Product</button>
             </div>
             <br>
-            <!-- Add this line to check if the form is invalid -->
-            <p *ngIf="addProductForm.invalid" click(onSubmit) class="error-message">Please fill out all required fields.</p>
+  
+           
           </form>
 

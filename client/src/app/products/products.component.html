@@ -1,43 +1,33 @@
-<!-- <div class="container my-5">
-    <div class="row">
-        <div class="col-3">
-                <app-filters 
-                [minPrice]="minPrice" 
-                [maxPrice]="maxPrice" 
-                (filtersChanged)="filtersChanged($event)"></app-filters>   
-        </div>
-        <div class="col-9">
-            <app-sort-header (sortHeaderChanges)="sortFiltersChanged($event)"></app-sort-header>
-            <div class="product-grid-3 mt-5 mb-5">
-                <app-product-card *ngFor="let p of products" [product]="p"></app-product-card>
-            </div>
-            <app-pragination [pageItems]="pageItems" [pageSize]="pageSize" [currentPage]="pageIndex"
-                (pageChange)="display($event)"></app-pragination>
-        </div>
+
+<div class="container my-4">
+  <div class="row">
+
+    <div class="col-3">
+      <br>
+    <app-filters class="filters-S" (filtersChanged)="onFiltersChange($event)"></app-filters>
     </div>
-</div> -->
 
-
-
-
-<div class="container my-5">
-    <div class="row">
-      <div class="col-3">
-        <app-filters 
-          [minPrice]="minPrice" 
-          [maxPrice]="maxPrice" 
-          (filtersChanged)="filtersChanged($event)">
-        </app-filters>   
+    <div class="col-9">
+      <div class="sort-dropdown">
+        <mat-form-field appearance="outline" class="sort-dropdown">
+          <mat-label>Sort by</mat-label>
+          <mat-select [(value)]="sortBy" (selectionChange)="onSortChange($event)">
+            <mat-option value="featured">Featured</mat-option>
+            <mat-option value="price_lth">Price: Low to High</mat-option>
+            <mat-option value="price_htl">Price: High to Low</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-9">
-        <app-sort-header (sortHeaderChanges)="sortFiltersChanged($event)"></app-sort-header>
-        <mat-paginator class="mat-paginator-product" [length]="pageItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event)">
-        </mat-paginator>
-        <div class="product-grid-3 mt-5 mb-5">
-          <app-product-card *ngFor="let p of products" [product]="p"></app-product-card>
-        </div>
-        <br><br><br>
-       
+
+      <mat-paginator [length]="totalItems"
+                     [pageSize]="itemsPerPage"
+                     [pageSizeOptions]="[5, 10, 20]"
+                     class="paginator">
+      </mat-paginator>
+      <div class="product-grid-3 mt-5 mb-5">
+        <app-product-card class="product-card" *ngFor="let p of displayedProducts" [product]="p"></app-product-card>
       </div>
+      <br><br><br>
     </div>
   </div>
+</div>

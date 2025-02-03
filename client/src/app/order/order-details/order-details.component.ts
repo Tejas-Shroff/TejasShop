@@ -160,12 +160,5 @@ export class OrderDetailsComponent implements OnInit {
       });
   }
 
-  refreshIcon() {
-    this.routing.paramMap.subscribe((params) => {
-      const id = Number(params.get('orderId'));
-      if (id) {
-        this.fetchOrderDetails(id);
-      }
-    });
-  }
+
 }

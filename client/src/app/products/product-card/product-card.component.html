@@ -7,7 +7,10 @@
     </div>
   
   
-    <img mat-card-image [src]="product.thumbnail?.imageUrl|renderimg" alt="{{ product.name }}">
+    <!-- <img mat-card-image [src]="product.thumbnail?.imageUrl|renderimg" alt="{{ product.name }}"> -->
+  
+        <img class="mat-card-image" [src]="imageUrl + 'image/' + product.thumbnail?.imageUrl" width="50">
+    
 
     <!-- Action Buttons (View, Wishlist, Compare) -->
     <div class="action-icons">

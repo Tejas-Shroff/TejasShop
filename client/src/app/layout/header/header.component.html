@@ -5,43 +5,43 @@
              <img src="/assets/amazon-logo.png" height="500px" width="140px" />
           </div>
           <div class="col-7">
-              <form class="form-inline search-form">
-                  <div class="input-group align-items-center">
-                      <input 
-                      class="form-control rounded mr-sm-2 py-2" 
-                      type="search" 
-                      placeholder="Search"
-                      name="search"
-                      [(ngModel)]="searchTerm"
-                      (keyup)="onSearch()"
-                      (focus)="onFocus()"
-                      (blur)="onBlur()"
-                      autocomplete="off"
-                      aria-label="Search">
-                      <mat-icon class="input-group-append search-icon">search</mat-icon>
-                  </div>
-                  <ng-container *ngIf="searchProducts.length>0 && showResults">
-                    <ul class="search-results" style="position: absolute;z-index: 10000;">
-                      <li class="list-group-item" *ngFor="let product of searchProducts"
-                       [routerLink]="['/products/product',product.id]"
-                       (click)="resetSearch()"
-                       >
-                          <div class="row align-items-center">
-                              <div class="col-8">
-                                  <div class="d-flex">
-                                      <img [src]="product.thumbnail?.imageUrl|renderimg" [alt]="product.name"
-                                          class="icon-shape icon-xxl">
-                                      <div class="pt-3">
-                                          <h5 class="mb-0 cart-item-title">{{product.name}}</h5>
-                                      </div>
-                                  </div>
-                              </div>
+            <form class="form-inline search-form">
+              <div class="input-group align-items-center">
+                <input 
+                  class="form-control rounded mr-sm-2 py-2" 
+                  type="search" 
+                  placeholder="Search"
+                  name="search"
+                  [(ngModel)]="searchTerm"
+                  (ngModelChange)="onSearch($event)"
+                  (focus)="onFocus()"
+                  (blur)="onBlur()"
+                  autocomplete="off"
+                  aria-label="Search">
+                <mat-icon class="input-group-append search-icon">search</mat-icon>
+              </div>
+              <ng-container *ngIf="searchProducts.length > 0 && showResults">
+                <ul class="search-results" style="position: absolute; z-index: 10000; max-height: 300px; overflow-y: auto;">
+                  <li class="list-group-item" *ngFor="let product of searchProducts"
+                      [routerLink]="['/products/product', product.id]"
+                      (click)="resetSearch()">
+                    <div class="row align-items-center">
+                      <div class="col-8">
+                        <div class="d-flex">
+                          <img [src]="'image/' + product.thumbnail?.imageUrl | renderimg" [alt]="product.name"
+                               class="icon-shape icon-xxl">
+                          <div class="pt-3">
+                            <h5 class="mb-0 cart-item-title">{{product.name}}</h5>
                           </div>
-                      </li>
-                  </ul>
-                  </ng-container>
-              </form>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </ng-container>
+            </form>
           </div>
+          
           <div class="col-3 text-end hearder-btn-grp">
               <button mat-icon-button routerLink="/wishlist">
                   <mat-icon  [matBadge]="(wishlistCount$|async)" [matBadgeHidden]="(wishlistCount$|async) == undefined"  matBadgePosition="before" >

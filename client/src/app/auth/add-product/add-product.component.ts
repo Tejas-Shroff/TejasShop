@@ -6,6 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { AdminService } from 'src/app/core/Services/admin.service';
 import { AuthService } from 'src/app/core/Services/auth.service';
 import { NotificationService } from 'src/app/notification/notification.service';
 
@@ -21,7 +22,8 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {}
   constructor(
     private fb: FormBuilder,
-    public authservcie: AuthService,
+    public authService: AuthService,
+    private adminService: AdminService,
     public notification: NotificationService
   ) {
     this.addProductForm = this.fb.group({
@@ -105,12 +107,6 @@ export class AddProductComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.addProductForm.invalid) {
-      this.notification.Error(
-        'Form is invalid. Please fill out all required fields.'
-      );
-      return;
-    }
 
     const formData = new FormData();
     formData.append('name', this.addProductForm.get('name')?.value);
@@ -134,9 +130,10 @@ export class AddProductComponent implements OnInit {
       this.addProductForm.get('discountPercentage')?.value
     );
 
-    this.authservcie.addProduct(formData).subscribe(
+    this.adminService.addProduct(formData).subscribe(
       (response) => {
-        this.notification.Success('Product Added Successfully');
+        console.log('Product Added Response:', response); 
+        this.notification.Success('Product Added Successfully');       
         this.resetForm();
       },
       (error) => {
@@ -150,6 +147,6 @@ export class AddProductComponent implements OnInit {
   }
 
   logout() {
-    this.authservcie.LogOutAdminSide().subscribe();
+    this.authService.LogOutAdminSide().subscribe();
   }
 }

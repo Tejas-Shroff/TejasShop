@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AdminService } from 'src/app/core/Services/admin.service';
 import { AuthService } from 'src/app/core/Services/auth.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class OrderHistoryComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedMonths: number = 0; // by default it will show all orders,
 
-  constructor(public authsservice: AuthService) {}
+  constructor(public authService: AuthService, public adminService: AdminService) {}
 
   ngOnInit(): void {
 
@@ -26,7 +27,7 @@ export class OrderHistoryComponent implements OnInit{
   }
 
   fetchOrderHistory(): void {
-    this.authsservice.getOrderHistory(this.selectedMonths).subscribe(data => {
+    this.adminService.getOrderHistory(this.selectedMonths).subscribe(data => {
       this.orderHistory = data;
       this.dataSource.data = this.orderHistory.slice(0,10); // I have set this to 10 records for initial loading.
       this.dataSource.paginator = this.paginator;
@@ -46,7 +47,7 @@ export class OrderHistoryComponent implements OnInit{
   }
 
   logout(){
-    this.authsservice.LogOutAdminSide().subscribe();
+    this.authService.LogOutAdminSide().subscribe();
   }
 
 }

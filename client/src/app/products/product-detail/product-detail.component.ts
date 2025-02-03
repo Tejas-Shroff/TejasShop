@@ -8,6 +8,7 @@ import { AppState } from 'src/app/redux/store';
 import {
   AddToWishList,
   loadWishList,
+  RemoveFromWishList,
 } from 'src/app/redux/wishlist/wishlist.action';
 import { NotificationService } from 'src/app/notification/notification.service';
 import { ShoppingCart } from 'src/app/core/Models/Cart';
@@ -84,7 +85,8 @@ export class ProductDetailComponent implements OnInit {
     );
 
     if (isAlreadyInWishlist) {
-      this.notification.Info('This item is already in your wishlist');
+      this.removeItemFromWishlist(productId);
+      this.notification.Warning('Removed from wishlist');
     } else {
       this.store.dispatch(AddToWishList({ productId }));
       this.notification.Success('Added to wishlist');
@@ -94,5 +96,8 @@ export class ProductDetailComponent implements OnInit {
     this.notification.Info(
       'Will notify you once the product is in stock again! We appreciate your patience.'
     );
+  }
+  removeItemFromWishlist(productId: number) {
+    this.store.dispatch(RemoveFromWishList({ productId }));
   }
 }

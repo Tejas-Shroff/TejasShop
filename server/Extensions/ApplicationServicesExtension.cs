@@ -22,7 +22,6 @@ namespace server.Extensions
       services.AddScoped<IShippingAddressRepository, ShippingAddressRepository>();
       services.AddScoped<IPaymentDetailRepository, PaymentDetailRepository>();
       services.AddScoped<IProductRepository, ProductRepository>();
-      services.AddScoped<IProductReviewRepository, ProductReviewRepository>();
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IWishListItemRepository, WishListItemRepository>();
       services.AddScoped<IWishListRepository, WishListRepository>();
@@ -32,7 +31,6 @@ namespace server.Extensions
       services.AddScoped<IImageService, ImageService>();
       services.AddScoped<IOrderService, OrderService>();
       services.AddScoped<IPaymentService, PaymentService>();
-      services.AddScoped<IReviewService, ReviewService>();
       services.AddScoped<IWishListService, WishListService>();
       return services;
     }

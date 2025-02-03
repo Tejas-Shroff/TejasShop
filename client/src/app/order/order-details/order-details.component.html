@@ -118,7 +118,7 @@
                     <div class="col-sm-8">
                         <div class="form-control-plaintext d-flex align-items-center" id="payment-status" *ngIf="details?.paymentDetails">
                           <mat-chip>{{ details.paymentDetails.status }}</mat-chip>
-                          <mat-icon class="refresh-icon" (click)="refreshIcon()" class="text-primary" *ngIf="details.paymentDetails.status === 'Pending' || details.paymentDetails.status === 'Pending - Cash on Delivery'">refresh</mat-icon>
+                          
                         </div>
                         
                         <!-- Retry Payment Button and Message -->

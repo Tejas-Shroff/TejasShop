@@ -24,38 +24,23 @@ export interface ProductResDto {
     newPrice: number;
     isOnDiscount: boolean;
     stockQuantity: number;
-    averageRating: number;
-    totalReviews: number;
     inStock: boolean;
-
     isFeatured: boolean;
     category: CategoryResDto;
     brand: BrandResDto;
-    
-
     thumbnail: ImageDtoRes | null;
 }
 
+export interface SortFilter {
+    sort?: string;
+}
 export interface ProductFilters {
-    pageIndex: number;
-    pageSize: number;
+    sort?: string;
     brandIds?: number[];
     categoryIds?: number[] ;
-    ratings?: number[] ;
     search?: string ;
     inStock?: boolean ;
-    minPrice?: number ;
-    maxPrice?: number ;
-    sort?: string ;
-    sortOrder?: string;
 }
-
-export interface ProductPaginationRes extends Pagination<ProductResDto>{
-    length: number;
-    minPrice?: number ;
-    maxPrice?: number ;
-}
-
 
 export interface addProductDTO {
     thumbnailFile(arg0: string, thumbnailFile: any): unknown;

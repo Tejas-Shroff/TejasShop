@@ -8,6 +8,7 @@ import { AppState } from 'src/app/redux/store';
 import {
   AddToWishList,
   loadWishList,
+  RemoveFromWishList,
 } from 'src/app/redux/wishlist/wishlist.action';
 import { selectWishlistItems } from 'src/app/redux/wishlist/wishlist.selector';
 
@@ -44,10 +45,14 @@ export class ProductCardComponent implements OnInit {
     );
 
     if (isAlreadyInWishlist) {
-      this.notification.Info('This item is already in your wishlist');
+      this.removeItemFromWishlist(productId);
+      this.notification.Warning('Removed from wishlist');
     } else {
       this.store.dispatch(AddToWishList({ productId }));
       this.notification.Success('Added to wishlist');
     }
+  }
+  removeItemFromWishlist(productId: number) {
+    this.store.dispatch(RemoveFromWishList({ productId }));
   }
 }

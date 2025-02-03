@@ -25,12 +25,12 @@ import { selectCategories } from 'src/app/redux/catalog/catalog.selector';
     CarouselModule,
     owlCarouselModule,
     MatCardModule,
-    ProductsModule
+    
   ]
 })
 export class HomePageComponent implements OnInit {
   categories$: Observable<CategoryResDto[]>;
-  products$:Observable<ProductResDto[]>;
+ // products$:Observable<ProductResDto[]>;
 
 
   constructor(
@@ -40,9 +40,9 @@ export class HomePageComponent implements OnInit {
   ) 
   {
     this.categories$ = this.store.select(selectCategories);
-    this.products$= this.catalogService.getProducts({pageSize:8,pageIndex:1,sort:'rating'}).pipe(
-      map((res)=>res.data?.data!==undefined? res.data?.data:[])
-    );
+    // this.products$= this.catalogService.getProducts({pageSize:8,pageIndex:1,sort:'rating'}).pipe(
+    //   map((res)=>res.data?.data!==undefined? res.data?.data:[])
+    // );
   }
 
   ngOnInit(): void {

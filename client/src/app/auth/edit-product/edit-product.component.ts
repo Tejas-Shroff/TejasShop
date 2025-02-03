@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AdminService } from 'src/app/core/Services/admin.service';
 import { AuthService } from 'src/app/core/Services/auth.service';
 import { NotificationService } from 'src/app/notification/notification.service';
 
@@ -18,10 +19,13 @@ import { NotificationService } from 'src/app/notification/notification.service';
 export class EditProductComponent implements OnInit {
   editProductForm: FormGroup;
   thumbnailError: string | null = null;
+  
+  @Output() productUpdated = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
     public authservcie: AuthService,
+    public adminService: AdminService,
     public notification: NotificationService,
     public dialogRef: MatDialogRef<EditProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -147,6 +151,7 @@ export class EditProductComponent implements OnInit {
       }
 
       this.notification.Success('Product updated!');
+
       // window.location.reload();
 
       setTimeout(() => {

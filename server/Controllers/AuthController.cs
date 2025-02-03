@@ -150,7 +150,7 @@ namespace server.Controllers
              var accessToken=req.AccessToken;
 
              var principal = helper.GetPrincipalFromExpiredToken(accessToken);
-             var email = principal.Identity.Name;
+             var email = principal?.Identity?.Name;
 
              User? user = await this.userRepository.GetUserByEmail(email);
 

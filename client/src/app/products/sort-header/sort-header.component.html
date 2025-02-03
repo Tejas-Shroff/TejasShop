@@ -1,12 +1,12 @@
 <div class="row align-items-center">
-    <div class="sort-dropdown col-6 row">
-        <div class="col-6">
-            <mat-form-field appearance="outline" class="sort-dropdown">
-                <mat-label>Sort by</mat-label>
-                <mat-select [(value)]="sortBy" (selectionChange)="sortByChange($event)">
-                    <mat-option *ngFor="let option of sortOptions" [value]="option.sortCode">{{ option.sortName }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+    <div class="sort-dropdown col-6">
+        <mat-form-field appearance="outline" class="sort-dropdown">
+            <mat-label>Sort by</mat-label>
+            <mat-select [(value)]="sortBy" (selectionChange)="sortByChange($event)">
+                <mat-option *ngFor="let option of sortOptions" [value]="option.sortCode">
+                    {{ option.sortName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 </div>

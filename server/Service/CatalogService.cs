@@ -192,11 +192,6 @@ namespace server.Service
             return await categoryRepository.GetAllIncludingImage();
         }
 
-        public async Task<ProductPagination> GetAllProducts(CatalogSpec inData)
-        {
-            return await productRepository.GetAllIncludingChlidEntities(inData);
-        }
-
         public async Task<Product?> GetProductById(int id)
         {
             return await productRepository.GetProductByIdIncludingChlidEntities(id);

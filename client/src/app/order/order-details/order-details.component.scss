@@ -58,8 +58,8 @@
 
   .retry-payment-button {
     max-width: 200px; 
-    margin-top: 10px;
-    margin-left: 125px;
+    margin-top: -5px;
+    margin-left: 100px;
     margin-top: -67px;    
   }
   
@@ -76,15 +76,3 @@
     gap: 8px; 
   }
 
-
-  .refresh-icon {
-    transition: transform 0.2s ease, background-color 0.2s ease;
-  }
-  
-  .refresh-icon:hover {
-    transform: scale(1.1);
-  }
-  
-  .refresh-icon:active {
-    background-color: rgba(0, 0, 0, 0.1);
-  }

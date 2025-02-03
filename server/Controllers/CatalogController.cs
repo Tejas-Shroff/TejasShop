@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Dto;
 using server.Entities;
+using server.Interface.Repository;
 using server.Interface.Service;
+using server.Repository;
 
 namespace server.Controllers
 {
@@ -15,11 +17,13 @@ namespace server.Controllers
         private readonly ICatalogService catalogService;
         private readonly IMapper mapper;
         private readonly DataContex _context;
-        public CatalogController(ICatalogService catalogService, IMapper mapper, DataContex context)
+        private readonly IProductRepository _productRepository;
+        public CatalogController(ICatalogService catalogService, IMapper mapper, DataContex context, IProductRepository productRepository)
         {
             this.catalogService = catalogService;
             this.mapper = mapper;
             _context = context;
+            _productRepository = productRepository;
         }
 
         [HttpGet]
@@ -35,24 +39,12 @@ namespace server.Controllers
             return Ok(products);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("product/getall")]
-        public async Task<ActionResult<ResponseDto>> GetAllProducts(CatalogSpec req)
+        public async Task<ActionResult<IEnumerable<Product>>> GetPaginatedProducts([FromQuery] CatalogSpec spec)
         {
-            ResponseDto response = new ResponseDto();
-
-            ProductPagination res = await catalogService.GetAllProducts(req);
-
-            response.Data = new ProductPaginationRes()
-            {
-                PageIndex = res.PageIndex,
-                PageSize = res.PageSize,
-                Data = mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
-                Count = res.Count,
-
-            };
-
-            return Ok(response);
+            var products = await _productRepository.GetPaginatedProducts(spec);
+            return Ok(products);
         }
 
         [HttpGet("{productId}")]

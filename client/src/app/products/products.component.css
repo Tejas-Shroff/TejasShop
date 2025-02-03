@@ -1,9 +1,25 @@
-.product-grid-3{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    row-gap: 1rem;
+.product-grid-3 {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  row-gap: 1rem;
 }
 
-.mat-paginator-product {
-    margin-top: -80px;
+.paginator {
+  margin-bottom: -21px;
+  margin-top: -2px;
 }
+
+.sort-dropdown {
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: -50px;
+}
+.mat-select-value {
+  font-size: 14px;
+}
+
+.product-card {
+position: relative ;
+}
+

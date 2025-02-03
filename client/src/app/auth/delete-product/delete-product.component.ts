@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Inject,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -16,6 +18,7 @@ import { AppState } from '../../redux/store';
 import { NotificationService } from 'src/app/notification/notification.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AdminService } from 'src/app/core/Services/admin.service';
 
 @Component({
   selector: 'app-delete-product',
@@ -24,6 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DeleteProductComponent implements OnInit {
   @ViewChild('confirmDialog') confirmDialog!: TemplateRef<any>;
+  @Output() productUpdated = new EventEmitter<any>();
 
   AllProducts: ProductResDto[] = [];
   router: any;
@@ -31,6 +35,7 @@ export class DeleteProductComponent implements OnInit {
 
   constructor(
     public authservice: AuthService,
+    private adminService: AdminService,
     private route: Router,
     public dialog: MatDialog,
     public aactivatedRoute: ActivatedRoute,
@@ -58,7 +63,11 @@ export class DeleteProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.authservice.getAllProducts().subscribe((data) => {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.adminService.getAllProducts().subscribe((data) => {
       this.dataSource.data = data;
       this.totalItems = data.length;
       this.dataSource.paginator = this.paginator;
@@ -70,19 +79,6 @@ export class DeleteProductComponent implements OnInit {
     this.paginator.pageIndex = event.pageIndex;
     this.dataSource.paginator = this.paginator;
   }
-
-  // openEditDialog(product: ProductResDto): void {
-  //   const dialogRef = this.dialog.open(EditProductComponent, {
-  //     width: '400px',
-  //     data: product,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       this.updateProduct(product.id, result);
-  //     }
-  //   });
-  // }
 
   openConfirmDialog(productId: number): void {
     const dialogRef = this.dialog.open(this.confirmDialog);
@@ -98,7 +94,7 @@ export class DeleteProductComponent implements OnInit {
       width: '400px',
       data: product,
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog result:', result);
       if (result) {
@@ -106,18 +102,17 @@ export class DeleteProductComponent implements OnInit {
       }
     });
   }
-  
+
   updateProduct(productId: number, product: addProductDTO): void {
     console.log('Updating product with ID:', productId);
     console.log('Product data:', product);
-  
-    this.authservice.updateProduct(productId, product).subscribe(
+
+    this.adminService.updateProduct(productId, product).subscribe(
       (response) => {
         console.log('Update response:', response);
         this.notification.Success('Product updated successfully!');
-        this.AllProducts =this.AllProducts.map((p) => p.id === productId? { ...p, ...product} : p
-      ); // manauallly updating the UI which reduces the load to reload the window.\\\
-      this.dataSource.data = this.AllProducts; //updating the table data
+
+        this.loadProducts();
       },
       (error) => {
         console.error('Update failed:', error);
@@ -127,7 +122,7 @@ export class DeleteProductComponent implements OnInit {
   }
 
   deleteProduct(productId: number): void {
-    this.authservice.deleteProduct(productId).subscribe(
+    this.adminService.deleteProduct(productId).subscribe(
       () => {
         this.AllProducts = this.AllProducts.filter(
           (product) => product.id !== productId

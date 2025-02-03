@@ -94,8 +94,6 @@ namespace server.Data
         public DbSet<ShoppingCartItem> ShopcartItems { get; set; }
         public DbSet<ShoppingCart> Shopcarts { get;  set; }
 
-        public DbSet<ProductReview> ProductReviews { get;  set; }
-
         public DbSet<Address> Address { get; set; }
 
         public DbSet<OrderItem> OrderItems { get; set; }
