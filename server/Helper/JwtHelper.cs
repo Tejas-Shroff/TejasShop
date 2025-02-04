@@ -18,7 +18,7 @@ namespace server.Helper
         }
         public string GenerateJwtToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config[JwtClass.JwtKey]??
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config[JwtClass.JwtKey] ??
                 throw new Exception(JwtClass.KeyMissing))
                 );
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
@@ -37,8 +37,8 @@ namespace server.Helper
                   _config[JwtClass.JwtIssuer],
                   _config[JwtClass.JwtIssuer],
                   claims.ToArray(),
-                  notBefore:DateTime.Now,
-                  expires:DateTime.Now.AddMinutes(10),
+                  notBefore: DateTime.Now,
+                  expires: DateTime.Now.AddMinutes(10),
                   signingCredentials: credential
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -53,18 +53,28 @@ namespace server.Helper
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, 
+                ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config[JwtClass.JwtKey])),
-                ValidateLifetime = false 
+                ValidateLifetime = false
             };
             var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException(JwtClass.InvalidToken);
-            return principal;
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                var jwtSecurityToken = securityToken as JwtSecurityToken;
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
+                    throw new SecurityTokenException(JwtClass.InvalidToken);
+                return principal;
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details
+                Console.WriteLine($"Token validation failed: {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ public class ShoppingCartItemResDto
     public ProductResDto Product { get; set; }
     public int Quantity { get; set; }
     public decimal ItemPrice { get; set; }
+    public int StockQuantity { get; set; } 
+    public int MaxAllowedQuantity { get; set; } 
 }
 
 

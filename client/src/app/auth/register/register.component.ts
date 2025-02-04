@@ -42,8 +42,8 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next:(res:ResponseDto<null>)=>{
           if(res.isSuccessed){
-            this.notification.Success('User registered Successfully!')
             this.router.navigateByUrl('/auth/login');
+            this.notification.Success('User registered Successfully!')
           }
           else{
             alert(res.message)

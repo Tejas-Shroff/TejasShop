@@ -26,6 +26,7 @@ export class OrderTrackerComponent implements OnInit, OnChanges {
     console.log('paymentStatus:', this.paymentStatus);
 
     if (this.paymentStatus && this.paymentStatus.toLowerCase() === 'completed' && this.orderStatus && this.orderStatus.toLowerCase() !== 'cancelled') {
+      
       this.orderStatus = 'confirmed';
       setTimeout(() => {
       }, 10000); // 10 seconds after "Confirmed"

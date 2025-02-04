@@ -1,4 +1,5 @@
 using Razorpay.Api;
+using server.Constants;
 using server.Entities;
 using server.Enum;
 using server.Interface.Repository;
@@ -16,19 +17,19 @@ namespace server.Service
             this._config = config;
             this._paymentDetailRepository = paymentDetailRepository;
         }
-        public async Task<PaymentDetails> InitializePayment(int userId, int orderId, decimal amount, string currency = "INR")
+        public async Task<PaymentDetails> InitializePayment(int userId, int orderId, decimal amount, string currency = Payment_C.Currency_S)
         {
             try
             {
-                RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]); //Initializes Razorpay client with API keys.
-                string reciept = "rec_" + userId + "_" + amount + "_" + new Random().Next(1000, 10000); // this will generate the unique receiptt Id.
+                RazorpayClient client = new RazorpayClient(_config[Payment_C.RazorKeyId], _config[Payment_C.RazorKeySecret]); //Initializes Razorpay client with API keys.
+                string reciept = Payment_C.rec_ + userId + "_" + amount + "_" + new Random().Next(1000, 10000); // this will generate the unique receiptt Id.
 
                 Dictionary<string, object> options = new Dictionary<string, object>();  // this will set the order option including follwing params.
-                options.Add("amount", amount * 100); // amount in the smallest currency unit
-                options.Add("receipt", reciept);
-                options.Add("currency", currency);
+                options.Add(Payment_C.Amount, amount * 100); // amount in the smallest currency unit
+                options.Add(Payment_C.Receipt, reciept);
+                options.Add(Payment_C.Currency, currency);
                 Razorpay.Api.Order order = client.Order.Create(options); // creates the order with razorpay Id.
-                string razorpayOrderId = order["id"];  // this will retrieve the order id.
+                string razorpayOrderId = order[Payment_C.OrderID];  // this will retrieve the order id.
                 //save in db for reference. Implementation below.
                 return await _paymentDetailRepository.AddAsync(   // Adding it to databasee.
                      new PaymentDetails()
@@ -51,13 +52,13 @@ namespace server.Service
 
         public async Task VerifyPaymentSignature(string orderId, string paymentId, string signature)
         {
-            RazorpayClient client = new RazorpayClient(_config["Razorpay:KeyId"], _config["Razorpay:KeySecret"]);
+            RazorpayClient client = new RazorpayClient(_config[Payment_C.RazorKeyId], _config[Payment_C.RazorKeySecret]);
 
             var attributes = new Dictionary<string, string>
             {
-                { "razorpay_order_id", orderId },
-                { "razorpay_payment_id", paymentId },
-                { "razorpay_signature", signature }
+                { Payment_C.RazorOrderId, orderId },
+                { Payment_C.RazorPaymentId, paymentId },
+                { Payment_C.RazorSignature, signature }
             };
 
             PaymentDetails payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(orderId) ?? throw new Exception("no payment found");
@@ -79,7 +80,7 @@ namespace server.Service
 
                     if (payment.RetryCount >= 2)
                     {
-                        payment.Status = "Pending - Cash on Delivery";
+                        payment.Status = Payment_C.StatusPendingCOD;
                     }
                 }
             }
@@ -87,11 +88,11 @@ namespace server.Service
             var res = await _paymentDetailRepository.UpdateAsync(payment);
             if (res == null)
             {
-                throw new Exception("Failed to update payment details");
+                throw new Exception(Payment_C.UpdateFailed);
             }
             else
             {
-                Console.WriteLine("Payment details updated successfully");
+                Console.WriteLine(Payment_C.UpdateSuccess);
             }
         }
     }

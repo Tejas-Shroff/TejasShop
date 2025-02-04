@@ -5,5 +5,6 @@ namespace server.Interface.Repository
     public interface ICartItemRepository:IGenericRepository<ShoppingCartItem>
     {
         Task<List<ShoppingCartItem>> GetAllByCartId(int cartId);
+        Task<ShoppingCartItem?> GetItemByCartIdAndProductId(int cartId, int productId);
     }
 }

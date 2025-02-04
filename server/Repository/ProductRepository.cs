@@ -4,7 +4,6 @@ using server.Data;
 using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
-using System.Linq;
 
 namespace server.Repository
 {

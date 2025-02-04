@@ -14,6 +14,7 @@ import { AppState } from 'src/app/redux/store';
 export class FiltersComponent implements OnInit {
   categories$: Observable<CategoryResDto[]>;
   brands$: Observable<BrandResDto[]>;
+  
 
   constructor(private store: Store<AppState>) {
     this.categories$ = this.store.select(selectCategories);

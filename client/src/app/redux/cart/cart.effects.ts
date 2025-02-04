@@ -36,33 +36,60 @@ export class CartEffect {
     )
   );
 
+  // addToCart$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AddToCart),
+  //     mergeMap(({ productId, quantity }) =>
+  //       this.cartService.addProductToCart(productId, quantity).pipe(
+  //         switchMap((res) => {
+  //           if (res.isSuccessed) {           
+  //             return this.cartService.getUserCart().pipe(
+  //               map((cartRes) => {
+  //                 const cartItems = cartRes?.data?.shoppingCartItems || [];
+
+  //                 const cartItem = cartItems.find(
+  //                   (item) => item.productId === productId
+  //                 );
+
+  //                 if (cartItem && cartItem.quantity < 3) {
+  //                 } else if (cartItem && cartItem.quantity >= 3) {
+  //                   this.notificationService.Info(
+  //                     'You can only add a maximum of 3 quantities per item.'
+  //                   );
+  //                 } else {
+  //                   this.notificationService.Success(
+  //                     'Successfully added to cart.'
+  //                   );
+  //                 }
+  //                 return loadCart();
+  //               }),
+  //               catchError((error) => {
+  //                 this.notificationService.Error(error);
+  //                 return of(loadCartFailure({ error }));
+  //               })
+  //             );
+  //           } else {
+  //             this.notificationService.Error(res.message);
+  //             return of(loadCartFailure({ error: res.message }));
+  //           }
+  //         }),
+  //         catchError((error) => {
+  //           this.notificationService.Error(error);
+  //           return of(loadCartFailure({ error }));
+  //         })
+  //       )
+  //     )
+  //   )
+  // );
   addToCart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AddToCart),
       mergeMap(({ productId, quantity }) =>
         this.cartService.addProductToCart(productId, quantity).pipe(
           switchMap((res) => {
-            if (res.isSuccessed) {           
+            if (res.isSuccessed) {
               return this.cartService.getUserCart().pipe(
-                map((cartRes) => {
-                  const cartItems = cartRes?.data?.shoppingCartItems || [];
-
-                  const cartItem = cartItems.find(
-                    (item) => item.productId === productId
-                  );
-
-                  if (cartItem && cartItem.quantity < 3) {
-                  } else if (cartItem && cartItem.quantity >= 3) {
-                    this.notificationService.Info(
-                      'You can only add a maximum of 3 quantities per item.'
-                    );
-                  } else {
-                    this.notificationService.Success(
-                      'Successfully added to cart.'
-                    );
-                  }
-                  return loadCart();
-                }),
+                map((cartRes) => loadCart()),
                 catchError((error) => {
                   this.notificationService.Error(error);
                   return of(loadCartFailure({ error }));

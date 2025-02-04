@@ -30,12 +30,27 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadCart());
   }
-  updateCartItem(cartItemId: number, quantity: number) {
-    if (quantity > 3) {
-      this.notification.Error('You can only add a maximum of 3 quantities per item.');
-      return;
+  updateCartItem(cartItemId: number, quantity: number, stockQuantity: number) {
+    console.log(`Updating cart item: ${cartItemId}, Quantity: ${quantity}, Stock Quantity: ${stockQuantity}`);
+    const maxAllowedQuantity = this.getMaxAllowedQuantity(stockQuantity);
+    if (quantity > maxAllowedQuantity) {
+        this.notification.Error(`You can only add a maximum of ${maxAllowedQuantity} quantities per item.`);
+        return;
     }
+    if (quantity < 1) {
+        console.log(`Removing cart item: ${cartItemId}`);
+        this.removeCartItem(cartItemId);
+        return;
+    }
+    console.log(`Dispatching update for cart item: ${cartItemId} with quantity: ${quantity}`);
     this.store.dispatch(UpdateCartItem({ cartItemId, quantity }));
+}
+  getMaxAllowedQuantity(stockQuantity: number): number {
+    if (stockQuantity <= 10) return 1;
+    else if (stockQuantity <= 20) return 2;
+    else if (stockQuantity <= 50) return 3;
+    else if (stockQuantity <= 500) return 4;
+    else return 5;
   }
 
   removeCartItem(cartItemId:number){
@@ -43,3 +58,4 @@ export class CartComponent implements OnInit {
   }
 
 }
+  

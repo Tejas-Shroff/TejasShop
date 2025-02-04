@@ -25,16 +25,24 @@ namespace server.Constants
         public const string ProductNotFound = "Product with ID {0} not found.";
         public const string SomeProductsNotFound = "Some products were not found.";
         public const string InsufficientStock = "Insufficient stock for product ID: {0}";
-        public const string StockUpdatedSuccessfully = "Stock quantities updated successfully.";
+        public const string StockQtyUpdatedSuccessfully = "Stock quantities updated successfully.";
         public const string ErrorOccurred = "An error occurred: {0}";
+        public const string InvalidProductId = "Invalid Product Id {0}";
+    }
+    public class Image_C
+    {
+
+        public const string FileNotFound = "File is empty";
+        public const string Uploads = "Uploads";
+        public const string NoImageFound = "No Image found with id ";
+
     }
     public class Cart
     {
         public const string Successfull = "Successfull";
         public const string SucessfullyAddedToCart = "SuccessFully Added To Cart";
-
         public const string ProductNotFound = "Product Not Found.";
-        public const string MaxQuantityExceeded = "You can only add a maximum of 3 quantities per item.";
+        public const string MaxQuantityExceeded = "You can only add a maximum of {0} quantities per item.";
         public const string NoCartFound = "No Cart Found";
         public const string ItemNotFound = "Item not found.";
         public const string CartNotFound = "Error Cart not found";
@@ -43,6 +51,14 @@ namespace server.Constants
 
     }
 
+    public class Wishlist_C
+    {
+        public const string ProductNotFound = "Product not found.";
+        public const string WishlistNotFound = "Wishlist not found.";
+        public const string ProductNotFoundInWishList = "Product not found in wishlist.";
+        public const string AddedToWishlist = "Product added to wishlist.";
+        public const string RemovedFromWishlist = "Product removed from wishlist.";
+    }
     public class CartItem
     {
         public const string ItemRemovedSuccessfully = "Item Removed Successfully";
@@ -52,26 +68,41 @@ namespace server.Constants
         public const string OrderSuccessfullyCreated = "Order Created Successfully";
         public const string OrderStatusSuccessfullyUpdated = "Order status updated Successfully";
         public const string FailedToUpdateOrderStatus = "Failed to update order status";
+        public const string NoCartFoundForUser = "no cart found for user";
+        public const string InvalidOrderId = "Invalid Order ID";
+        public const string OrderNotBelong = "Order do not belongs to you";
+        public const string NoShippingAddressFound = "No Shipping Address found for Order ID";
+        public const string NoPaymentFound = "No payment found for Order ID";
 
     }
 
-    public class Payment
+    public class Payment_C
     {
         public const string PaymentDetailsNotFound = "Payment details not found";
         public const string FailedToUpdatePaymentStatus = "Failed to update payment status";
         public const string PaymentUpdated = "Payment Updated";
+        public const string RazorKeySecret = "Razorpay:KeySecret";
+        public const string RazorKeyId = "Razorpay:KeyId";
 
+        public const string Amount = "amount";
+        public const string Receipt = "receipt";
+        public const string rec_ = "rec_";
+        public const string Currency = "currency";
+        public const string Currency_S = "INR";
+        public const string OrderID = "id";
+        public const string RazorOrderId = "razorpay_order_id";
+        public const string RazorPaymentId = "razorpay_payment_id";
+        public const string RazorSignature = "razorpay_signature";
+        public const string StatusPendingCOD = "Pending - Cash on Delivery";
+        public const string UpdateFailed = "Failed to update payment details";
+        public const string UpdateSuccess = "Payment details updated successfully";
     }
 
     public class UserClass
     {
         public const string Success = "Success";
     }
-    public class Wishlist
-    {
-        public const string AddedToWishlist = "Product added to wishlist.";
-        public const string RemovedFromWishlist = "Product removed from wishlist.";
-    }
+
     public class JwtClass
     {
         public const string InvalidToken = "Invalid Token!";
@@ -85,6 +116,17 @@ namespace server.Constants
     {
         public const string Sort_HighToLow_Price = "price_htl";
         public const string Sort_LowToHigh_Price = "price_lth";
+    }
+    public static class StockQuantityConstants
+    {
+        public static readonly Func<int, int> EvaluateStockQuantity = stockQuantity => stockQuantity switch
+        {
+            <= 10 => 1,
+            <= 20 => 2,
+            <= 50 => 3,
+            <= 500 => 4,
+            _ => 5
+        };
     }
 }
 

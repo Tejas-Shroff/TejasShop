@@ -24,7 +24,7 @@ namespace server.Entities
         {
             get
             {
-                return (Product.OriginalPrice-Product.NewPrice) * Quantity;
+                return (Product.OriginalPrice - Product.NewPrice) * Quantity;
             }
         }
 
@@ -35,5 +35,27 @@ namespace server.Entities
                 return Product.OriginalPrice * Quantity;
             }
         }
+        public int MaxAllowedQuantity
+        {
+            get
+            {
+                int stockQuantity = Product != null ? Product.StockQuantity : 0;
+                return GetMaxAllowedQuantity(stockQuantity);
+            }
+        }
+        private int GetMaxAllowedQuantity(int stockQuantity)
+        {
+            if (stockQuantity <= 10)
+                return 1;
+            else if (stockQuantity <= 20)
+                return 2;
+            else if (stockQuantity <= 50)
+                return 3;
+            else if (stockQuantity <= 500)
+                return 4;
+            else
+                return 5;
+        }
     }
+
 }

@@ -47,7 +47,7 @@ public class PaymentController : ControllerBase
             verificationRequest.Signature
         );
         ResponseDto res = new ResponseDto();
-        return Ok(res.success(Payment.PaymentUpdated));
+        return Ok(res.success(Payment_C.PaymentUpdated));
     }
 
     [HttpPost("update-Retry-payment-details")]
@@ -63,7 +63,7 @@ public class PaymentController : ControllerBase
         var payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(retryVerificationRequest.OrderId);
         if (payment == null)
         {
-            return NotFound(Payment.PaymentDetailsNotFound);
+            return NotFound(Payment_C.PaymentDetailsNotFound);
         }
 
         payment.Status = retryVerificationRequest.Status;
@@ -72,11 +72,11 @@ public class PaymentController : ControllerBase
         var updatedPayment = await _paymentDetailRepository.UpdateAsync(payment);
         if (updatedPayment == null)
         {
-            return StatusCode(500, Payment.FailedToUpdatePaymentStatus);
+            return StatusCode(500, Payment_C.FailedToUpdatePaymentStatus);
         }
 
         ResponseDto res = new ResponseDto();
-        return Ok(res.success(Payment.PaymentUpdated));
+        return Ok(res.success(Payment_C.PaymentUpdated));
     }
 }
 

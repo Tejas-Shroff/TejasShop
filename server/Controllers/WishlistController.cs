@@ -55,7 +55,7 @@ namespace server.Controllers
 
             await wishListService.AddToWishlistAsync(userId,ProductId);
 
-            return Ok(res.success(Wishlist.AddedToWishlist));
+            return Ok(res.success(Wishlist_C.AddedToWishlist));
         }
 
         // DELETE: api/Wishlist/Remove/{userId}/{productId}
@@ -70,7 +70,7 @@ namespace server.Controllers
 
             await wishListService.RemoveFromWishlistAsync(userId, productId);
 
-            return Ok(res.success(Wishlist.RemovedFromWishlist));
+            return Ok(res.success(Wishlist_C.RemovedFromWishlist));
         }
     }
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using server.Constants;
 using server.Data;
 using server.Dto;
 using server.Dto.Order;
@@ -43,7 +44,7 @@ namespace server.Service
         }
         public async Task<Order> CreateOrderAsync(int userId, int cartId, AddressDto address)
         {
-            ShoppingCart? shoppingCart = await _cartService.FindUserCart(userId) ?? throw new Exception("no cart found for user");
+            ShoppingCart? shoppingCart = await _cartService.FindUserCart(userId) ?? throw new Exception(OrderClass.NoCartFoundForUser);
             Order order = new Order()
             {
                 UserId = userId,
@@ -83,12 +84,12 @@ namespace server.Service
 
         public async Task<OrderDetailDTO> GetOrderDetailAsync(int orderId, int userId)
         {
-            Order order = await _orderRepository.GetByIdAsync(orderId) ?? throw new Exception("Invalid Order ID");
-            if (order.UserId != userId) throw new Exception("Order do not belongs to you");
+            Order order = await _orderRepository.GetByIdAsync(orderId) ?? throw new Exception(OrderClass.InvalidOrderId);
+            if (order.UserId != userId) throw new Exception(OrderClass.OrderNotBelong);
             List<OrderItem> orderItems = await _orderItemRepository.GetAllOrderItemByOrderId(orderId);
             order.OrderItems = orderItems;
-            ShippingAddress shippingAddress = await _shippingAddressRepository.GetShippingAddressByOrderId(orderId) ?? throw new Exception("No Shipping Address found for Order ID");
-            PaymentDetails paymentDetails = await _paymentRepository.GetPaymentDetailsByOrderId(orderId) ?? throw new Exception("No payment found for Order ID");
+            ShippingAddress shippingAddress = await _shippingAddressRepository.GetShippingAddressByOrderId(orderId) ?? throw new Exception(OrderClass.NoShippingAddressFound);
+            PaymentDetails paymentDetails = await _paymentRepository.GetPaymentDetailsByOrderId(orderId) ?? throw new Exception(OrderClass.NoPaymentFound);
             return new OrderDetailDTO()
             {
                 order = _mapper.Map<OrderDto>(order),

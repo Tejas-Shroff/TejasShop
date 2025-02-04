@@ -8,8 +8,10 @@ import { AppState } from '../../redux/store';
 import { AddToWishList, loadWishList, RemoveFromWishList } from '../../redux/wishlist/wishlist.action';
 import { Observable } from 'rxjs';
 import { selectWishlistItems, selectWishlistLoading } from '../../redux/wishlist/wishlist.selector';
-import { AddToCart } from '../../redux/cart/cart.action';
+import { AddToCart, loadCart } from '../../redux/cart/cart.action';
 import { NotificationService } from 'src/app/notification/notification.service';
+import { selectCartProperty } from 'src/app/redux/cart/cart.selector';
+import { ShoppingCart } from 'src/app/core/Models/Cart';
 
 @Component({
   standalone:true,
@@ -22,6 +24,8 @@ export class WishlistComponent implements OnInit {
   wishlistItems!: WishlistItem[]|null;
   wishlistItems$:Observable<WishlistItem[]|null>;
   loading$: Observable<boolean>;
+  cart!: ShoppingCart | null;
+  cartItems: any[] =[];
 
   constructor(
     private service:WishlistService,
@@ -40,9 +44,24 @@ export class WishlistComponent implements OnInit {
       this.wishlistItems=res;
     })
   }
+   loadCartData() {
+      this.store.dispatch(loadCart());
+      this.store.select(selectCartProperty).subscribe((cart) => {
+        // Get the cart data
+        this.cart = cart;
+        this.cartItems = cart?.shoppingCartItems || [];
+      });
+    }
 
   addToCart(productId: number) {
-    this.store.dispatch(AddToCart({productId,quantity:1}));
+    this.loadCartData();
+    const cartItem = this.cartItems.find((item) => item.productId === productId);
+    if (cartItem) {
+      this.notification.Error('This item is already in your cart.');
+      return;
+    }
+
+    this.store.dispatch(AddToCart({ productId, quantity: 1 }));
     this.store.dispatch(RemoveFromWishList({ productId }));
   }
 

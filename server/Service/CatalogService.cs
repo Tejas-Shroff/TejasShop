@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using server.Constants;
 using server.Data;
 using server.Dto;
 using server.Entities;
@@ -56,10 +57,15 @@ namespace server.Service
             Category? category = await this.categoryRepository.GetByIdAsync(inData.CategoryId);
             Brand? brand = await this.brandRepository.GetByIdAsync(inData.BrandId);
 
-            if (category == null) { throw new Exception($"Invalid Category Id {inData.CategoryId}"); }
-            ;
-            if (brand == null) { throw new Exception($"Invalid Brand Id {inData.BrandId}"); }
-            ;
+            if (category == null)
+            {
+                throw new Exception(string.Format(Catalog_C.InvalidCategoryId, inData.CategoryId));
+            }
+
+            if (brand == null)
+            {
+                throw new Exception(string.Format(Catalog_C.InvalidBrandId, inData.BrandId));
+            }
 
             Image image = await this.imageService.SaveImageAsync(inData.Thumbnail);
 
@@ -76,7 +82,7 @@ namespace server.Service
             Product? existingProduct = await GetProductById(productId);
             if (existingProduct == null)
             {
-                throw new Exception($"Product with ID {productId} not found.");
+                throw new Exception(string.Format(Catalog_C.ProductNotFound, productId));
             }
 
             existingProduct.Name = updatedProduct.Name;
@@ -101,7 +107,10 @@ namespace server.Service
         public async Task DeleteBrand(int brandId)
         {
             Brand? brand = await this.brandRepository.GetByIdAsync(brandId);
-            if (brand == null) { throw new Exception($"Invalid Brand Id {brandId}"); }
+            if (brand == null)
+            {
+                throw new Exception(string.Format(Catalog_C.InvalidBrandId, brandId));
+            }
             ;
 
             if (brand.ImageId != null)
@@ -115,7 +124,7 @@ namespace server.Service
         public async Task DeleteCategery(int categeryId)
         {
             Category? category = await this.categoryRepository.GetByIdAsync(categeryId);
-            if (category == null) { throw new Exception($"Invalid Category Id {categeryId}"); }
+            if (category == null) { throw new Exception(string.Format(Catalog_C.InvalidCategoryId, categeryId)); }
             ;
 
             if (category.ImageId != null)
@@ -129,7 +138,10 @@ namespace server.Service
         public async Task DeleteProduct(int productId)
         {
             Product? product = await productRepository.GetByIdAsync(productId);
-            if (product == null) { throw new Exception($"Invalid Product Id {productId}"); }
+            if (product == null)
+            {
+                throw new Exception(string.Format(Catalog_C.InvalidProductId, productId));
+            }
             ;
 
             if (product.ThumbnailId != null)
@@ -151,7 +163,7 @@ namespace server.Service
                 if (products.Count != updateStockDto.Products.Count)
                 {
                     response.IsSuccessed = false;
-                    response.Message = "Some products were not found.";
+                    response.Message = Catalog_C.SomeProductsNotFound;
                     return response;
                 }
 
@@ -163,7 +175,7 @@ namespace server.Service
                     if (product.StockQuantity < productUpdate.QuantityOrdered)
                     {
                         response.IsSuccessed = false;
-                        response.Message = $"Insufficient stock for product ID: {product.Id}";
+                        response.Message = string.Format(Catalog_C.InsufficientStock, product.Id);
                         return response;
                     }
                     product.StockQuantity -= productUpdate.QuantityOrdered;
@@ -171,13 +183,13 @@ namespace server.Service
 
                 await contex.SaveChangesAsync();
                 response.IsSuccessed = true;
-                response.Message = "Stock quantities updated successfully.";
+                response.Message = Catalog_C.StockQtyUpdatedSuccessfully;
                 return response;
             }
             catch (Exception ex)
             {
                 response.IsSuccessed = false;
-                response.Message = $"An error occurred: {ex.Message}";
+                response.Message = string.Format(Catalog_C.ErrorOccurred, ex.Message);
                 return response;
             }
         }

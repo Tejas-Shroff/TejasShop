@@ -23,6 +23,11 @@ namespace server.Service
             this.productRepository = productRepository;
         }
 
+        private int GetMaxAllowedQuantity(int stockQuantity)
+        {
+            return StockQuantityConstants.EvaluateStockQuantity(stockQuantity);
+        }
+
         public async Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity)
         {
             ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
@@ -36,23 +41,26 @@ namespace server.Service
                 await cartRepository.AddAsync(cart);
             }
 
-            var productExists = await productRepository.GetByIdAsync(productId);
-
-            if (productExists is null)
+            var product = await productRepository.GetByIdAsync(productId);
+            if (product is null)
             {
-                return new ResponseDto { IsSuccessed = false, Message = Cart.ProductNotFound }; 
+                return new ResponseDto { IsSuccessed = false, Message = Cart.ProductNotFound };
             }
+
+            int stockQuantity = product.StockQuantity;
+            int maxAllowedQuantity = GetMaxAllowedQuantity(stockQuantity);
 
             List<ShoppingCartItem> cartItems = await cartItemRepository.GetAllByCartId(cart.Id);
             ShoppingCartItem item = cartItems.FirstOrDefault(x => x.ProductId == productId);
+
             int currentQuantity = item != null ? item.Quantity : 0;
 
-            if (currentQuantity + quantity > 3)
+            if (currentQuantity + quantity > maxAllowedQuantity)
             {
                 return new ResponseDto
                 {
                     IsSuccessed = false,
-                    Message = Cart.MaxQuantityExceeded
+                    Message = string.Format(Cart.MaxQuantityExceeded, maxAllowedQuantity)
                 };
             }
 
@@ -74,6 +82,39 @@ namespace server.Service
 
             return new ResponseDto { IsSuccessed = true };
         }
+        public async Task UpdateCartItem(int userId, int cartItemId, int quantity)
+        {
+            ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
+                ?? throw new Exception(Cart.ItemNotFound);
+
+            ShoppingCart cart = await cartRepository.GetByIdAsync(shoppingCartItem.ShoppingCartId)
+                ?? throw new Exception(Cart.CartNotFound);
+
+            if (cart.UserId != userId)
+            {
+                throw new Exception(Cart.UnauthorizedItemUpdate);
+            }
+
+            var product = await productRepository.GetByIdAsync(shoppingCartItem.ProductId)
+                ?? throw new Exception(Cart.ProductNotFound);
+
+            int stockQuantity = product.StockQuantity;
+            int maxAllowedQuantity = GetMaxAllowedQuantity(stockQuantity);
+
+            if (quantity > maxAllowedQuantity)
+            {
+                throw new Exception(string.Format(Cart.MaxQuantityExceeded, maxAllowedQuantity));
+            }
+
+            if (quantity <= 0)
+            {
+                await cartItemRepository.DeleteAsync(shoppingCartItem);
+                return;
+            }
+
+            shoppingCartItem.Quantity = quantity;
+            await cartItemRepository.UpdateAsync(shoppingCartItem);
+        }
 
         public async Task DeleteCart(int cartId)
         {
@@ -82,9 +123,6 @@ namespace server.Service
             {
                 await cartItemRepository.DeleteAsync(item);
             }
-
-            // ShoppingCart cart = await cartRepository.GetByIdAsync(cartId);
-            // await cartRepository.DeleteAsync(cart);
 
         }
 
@@ -118,28 +156,6 @@ namespace server.Service
             }
             await cartItemRepository.DeleteAsync(shoppingCartItem);
         }
-
-        public async Task UpdateCartItem(int userId, int cartItemId, int quantity)
-        {
-            ShoppingCartItem shoppingCartItem = await cartItemRepository.GetByIdAsync(cartItemId)
-           ?? throw new Exception(Cart.ItemNotFound);
-
-            ShoppingCart cart = await cartRepository.GetByIdAsync(shoppingCartItem.ShoppingCartId)
-            ?? throw new Exception(Cart.CartNotFound);
-            if (cart.UserId != userId)
-            {
-                throw new Exception(Cart.UnauthorizedItemUpdate);
-            }
-            if (quantity <= 0)
-            {
-                await cartItemRepository.DeleteAsync(shoppingCartItem);
-                return;
-            }
-            shoppingCartItem.Quantity = quantity;
-            await cartItemRepository.UpdateAsync(shoppingCartItem);
-
-        }
-
 
     }
 }

@@ -21,5 +21,10 @@ namespace server.Repository
                         .Where(x => x.ShoppingCartId == cartId)
                         .ToListAsync();
         }
+        public async Task<ShoppingCartItem?> GetItemByCartIdAndProductId(int cartId, int productId)
+        {
+            return await contex.ShopcartItems
+                .FirstOrDefaultAsync(item => item.ShoppingCartId == cartId && item.ProductId == productId);
+        }
     }
 }

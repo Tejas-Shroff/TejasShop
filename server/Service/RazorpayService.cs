@@ -1,4 +1,5 @@
 using Razorpay.Api;
+using server.Constants;
 
 namespace server.Service;
 public class RazorpayService
@@ -9,8 +10,8 @@ public class RazorpayService
 
     public RazorpayService(IConfiguration configuration)
     {
-        _key = configuration["Razorpay:KeyId"];
-        _secret = configuration["Razorpay:KeySecret"];
+        _key = configuration[Payment_C.RazorKeyId];
+        _secret = configuration[Payment_C.RazorKeySecret];
 
         _client = new RazorpayClient(_key, _secret);
     }
@@ -21,9 +22,9 @@ public class RazorpayService
         var client = new RazorpayClient(_key, _secret);
         var attributes = new Dictionary<string, string>
         {
-            { "razorpay_order_id", orderId },
-            { "razorpay_payment_id", paymentId },
-            { "razorpay_signature", signature }
+            { Payment_C.RazorOrderId, orderId },
+            { Payment_C.RazorPaymentId, paymentId },
+            { Payment_C.RazorSignature, signature }
         };
 
         try

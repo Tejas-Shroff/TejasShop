@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using server.Dto;
+﻿using server.Constants;
 using server.Entities;
 using server.Exceptions;
 using server.Interface.Repository;
 using server.Interface.Service;
-using server.Repository;
 
 namespace server.Service
 {
@@ -47,7 +45,7 @@ namespace server.Service
 
             if (productExists is null)
             {
-                throw new Exception("Product not found.");
+                throw new Exception(Wishlist_C.ProductNotFound);
             }
 
             var itemExists = wishlist.WishlistItems.Any(wi => wi.ProductId == productId);
@@ -67,14 +65,14 @@ namespace server.Service
 
             if (wishlist == null)
             {
-                throw new NotFoundException("Wishlist not found.");
+                throw new NotFoundException(Wishlist_C.WishlistNotFound);
             }
 
             var wishlistItem = wishlist.WishlistItems.FirstOrDefault(wi => wi.ProductId == productId);
 
             if (wishlistItem == null)
             {
-                throw new NotFoundException("Product not found in wishlist.");
+                throw new NotFoundException(Wishlist_C.ProductNotFoundInWishList);
             }
             await wishListItemRepository.DeleteAsync(wishlistItem);
         }

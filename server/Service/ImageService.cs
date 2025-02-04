@@ -1,4 +1,5 @@
-﻿using server.Entities;
+﻿using server.Constants;
+using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
 
@@ -17,9 +18,9 @@ namespace server.Service
         public async Task DeleteImageAsync(int Id)
         {
             Image? image = await imageRepository.GetByIdAsync(Id);
-            if (image == null) throw new ArgumentNullException($"No Image fount with id {Id}");
+            if (image == null)  throw new ArgumentNullException($"{Image_C.NoImageFound}{Id}");
             var contentPath = environment.ContentRootPath;  // this will get the root path of the application.
-            var imagePath = Path.Combine(contentPath, "Uploads");  
+            var imagePath = Path.Combine(contentPath, Image_C.Uploads);  
             var fileNameWithPath = Path.Combine(imagePath, image.ImageUrl);
 
             if (Directory.Exists(fileNameWithPath))
@@ -31,10 +32,10 @@ namespace server.Service
 
         public async Task<Image> SaveImageAsync(IFormFile file)
         {
-            if(file == null) throw new ArgumentNullException("File is empty");
+            if(file == null) throw new ArgumentNullException(Image_C.FileNotFound);
 
             var contentPath = environment.ContentRootPath;
-            var imagePath = Path.Combine(contentPath, "Uploads");
+            var imagePath = Path.Combine(contentPath, Image_C.Uploads);
 
             if (!Directory.Exists(imagePath)) 
             {
