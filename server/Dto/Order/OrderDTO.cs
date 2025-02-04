@@ -13,7 +13,7 @@ namespace server.Dto.Order
         public decimal TotalPriceAfterDiscount { get; set; }
         public decimal TotalDiscount { get; set; }
         public decimal TotalPrice { get; set; }
-        public string Status { get; set; } // e.g., Pending, Completed, Cancelled
-        public ICollection<OrderItemDTO> OrderItems { get; set; }
+        public string? Status { get; set; } // e.g., Pending, Completed, Cancelled
+        public ICollection<OrderItemDTO>? OrderItems { get; set; }
     }
 }

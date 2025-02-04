@@ -1,10 +1,10 @@
-namespace server.Enum
-{
-    public enum PaymentStatus
-    {
-        Pending,
-        Completed,
-        Failed,
-        Refund
-    }
-}
+// namespace server.Enum
+// {
+//     public enum PaymentStatus
+//     {
+//         Pending,
+//         Completed,
+//         Failed,
+//         Refund
+//     }
+// }

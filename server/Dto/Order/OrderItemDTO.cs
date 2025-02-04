@@ -10,7 +10,7 @@ namespace server.Dto.Order
         public int Id { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
-        public ProductResDto Product { get; set; }
+        public ProductResDto? Product { get; set; }
         public int Quantity { get; set; }
         public decimal TotalPriceAfterDiscount { get; set; }
         public decimal TotalDiscount { get; set; }

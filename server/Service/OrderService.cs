@@ -5,7 +5,6 @@ using server.Data;
 using server.Dto;
 using server.Dto.Order;
 using server.Entities;
-using server.Enum;
 using server.Interface.Repository;
 using server.Interface.Service;
 
@@ -58,7 +57,7 @@ namespace server.Service
             ShippingAddress shippingAddress = _mapper.Map<ShippingAddress>(address);
             shippingAddress.OrderId = order.Id;
             await _shippingAddressRepository.AddAsync(shippingAddress);
-            foreach (var item in shoppingCart.ShoppingCartItems)
+            foreach (var item in shoppingCart.ShoppingCartItems ?? Enumerable.Empty<ShoppingCartItem>())
             {
                 var orderItem = new OrderItem()
                 {

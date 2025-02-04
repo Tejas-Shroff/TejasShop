@@ -4,10 +4,11 @@ namespace server.Dto
 {
     public class ImageDtoRes
     {
-        private string _imageUrl;
+        private string? _imageUrl;
         public int Id { get; set; }
-        public string ImageUrl {
-            get { return Path.Combine("image", _imageUrl) ; }
+        public string ImageUrl
+        {
+            get => Path.Combine("image", _imageUrl);
             set { this._imageUrl = value; }
         }
 

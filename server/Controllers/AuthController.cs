@@ -29,7 +29,7 @@ namespace server.Controllers
         [Route("login")]
         public async Task<ActionResult<ResponseDto>> Login([FromBody] LoginUserReqDto req)
         {
-            User? user =await this.userRepository.GetUserByEmail(req.Email);
+            User? user =await this.userRepository.GetUserByEmail(req.Email!);
             ResponseDto res = new ResponseDto();
 
             if (user == null)
@@ -69,7 +69,7 @@ namespace server.Controllers
         [Route("register")]
         public async Task<ActionResult<ResponseDto>> Register([FromBody] RegisterUserReqDto req)
         {
-            User? user = await this.userRepository.GetUserByEmail(req.Email);
+            User? user = await this.userRepository.GetUserByEmail(req.Email!);
             ResponseDto res = new ResponseDto();
             if (user != null)
             {
@@ -83,8 +83,8 @@ namespace server.Controllers
                 UserName = req.UserName,
                 Email = req.Email,
                 Address = req.Address,
-                Role = req.Role.ToUpper(),
-                Password = BCrypt.Net.BCrypt.HashPassword(req.Password),  // it genrates unique hash everytime you enter the password, even for same password, it is resistant to brute force attacks.
+                Role = req?.Role?.ToUpper(),
+                Password = BCrypt.Net.BCrypt.HashPassword(req?.Password),  // it genrates unique hash everytime you enter the password, even for same password, it is resistant to brute force attacks.
                 RefreshToken="",
                 RefreshTokenExpire=DateTime.Now.AddDays(2)  // we can set expiration of token here, as currently it will set for 2 days for the particular user.
             };
@@ -150,7 +150,7 @@ namespace server.Controllers
              var principal = helper.GetPrincipalFromExpiredToken(accessToken);
              var email = principal?.Identity?.Name;
 
-             User? user = await this.userRepository.GetUserByEmail(email);
+             User? user = await this.userRepository.GetUserByEmail(email!);
 
              if(user==null || user.RefreshToken!=refreshToken || user.RefreshTokenExpire<=DateTime.Now){
                 res.IsSuccessed=false;
@@ -188,7 +188,7 @@ namespace server.Controllers
          {
             ResponseDto res = new ResponseDto();
             var email = User?.Identity?.Name;
-             User? user = await this.userRepository.GetUserByEmail(email);
+             User? user = await this.userRepository.GetUserByEmail(email!);
              if(user==null){
                 res.IsSuccessed=false;
                 res.Message = Constants.Auth.InvalidRequest;

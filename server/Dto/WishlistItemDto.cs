@@ -6,6 +6,6 @@ namespace server.Dto
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public ProductResDto Product { get; set; }
+        public ProductResDto? Product { get; set; }
     }
 }

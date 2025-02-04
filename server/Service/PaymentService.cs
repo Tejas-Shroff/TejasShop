@@ -1,7 +1,6 @@
 using Razorpay.Api;
 using server.Constants;
 using server.Entities;
-using server.Enum;
 using server.Interface.Repository;
 using server.Interface.Service;
 
@@ -42,9 +41,9 @@ namespace server.Service
                      }
                  );
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

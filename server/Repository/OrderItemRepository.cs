@@ -21,6 +21,8 @@ namespace server.Repository
             .ThenInclude(p => p.Thumbnail)
             .Where(o => o.OrderId == orderId)
             .ToListAsync();
-        }
+            
+        }   
+        
     }
 }

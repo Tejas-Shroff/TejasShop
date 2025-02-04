@@ -1,9 +1,11 @@
 ﻿
+using server.Constants;
+
 namespace server.Dto
 {
     public class ResponseDto
     {
-        public string Message { get; set; } = "Success";
+        public string Message { get; set; } = UserClass.Success;
         public bool IsSuccessed { get; set; } = true;
         public object? Data { get; set; } = null;
 

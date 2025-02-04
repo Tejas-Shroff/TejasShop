@@ -128,5 +128,24 @@ namespace server.Constants
             _ => 5
         };
     }
+    public enum OrderStatus
+    {
+
+        Placed,        // 0
+        Confirmed,
+        Shipped,
+        OutForDelivery,     // 2
+        Delivered,      // 3
+        Cancelled,      // 4
+        Returned,       // 5
+        Failed          // 
+    }
+     public enum PaymentStatus
+    {
+        Pending,
+        Completed,
+        Failed,
+        Refund
+    }
 }
 

@@ -68,7 +68,7 @@ namespace server.Service
                 throw new NotFoundException(Wishlist_C.WishlistNotFound);
             }
 
-            var wishlistItem = wishlist.WishlistItems.FirstOrDefault(wi => wi.ProductId == productId);
+            var wishlistItem = wishlist?.WishlistItems?.FirstOrDefault(wi => wi.ProductId == productId);
 
             if (wishlistItem == null)
             {

@@ -40,7 +40,7 @@ namespace server.Controllers
             }
             var res = new ResponseDto();
 
-            Order createdOrder = await orderService.CreateOrderAsync(userId, order.CartId, order.ShipToAddress);
+            Order createdOrder = await orderService.CreateOrderAsync(userId, order.CartId, order.ShipToAddress!);
 
             PaymentDetails details = await paymentService.InitializePayment(userId, createdOrder.Id, createdOrder.TotalPriceAfterDiscount);
             return Ok(res.success(OrderClass.OrderSuccessfullyCreated, details));

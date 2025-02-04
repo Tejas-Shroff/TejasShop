@@ -30,7 +30,7 @@ namespace server.Service
 
         public async Task<ResponseDto> AddItemToCart(int userId, int productId, int quantity)
         {
-            ShoppingCart cart = await cartRepository.FindCartByUserId(userId);
+            ShoppingCart cart = await cartRepository.FindCartByUserId(userId) ?? new ShoppingCart();
             if (cart == null)
             {
                 cart = new ShoppingCart()

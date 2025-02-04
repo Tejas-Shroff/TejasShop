@@ -42,9 +42,9 @@ public class PaymentController : ControllerBase
     public async Task<IActionResult> UpdatePayment([FromBody] PaymentVerificationRequest verificationRequest)
     {
         await _razorpayService.VerifyPaymentSignature(
-            verificationRequest.OrderId,
-            verificationRequest.PaymentId,
-            verificationRequest.Signature
+            verificationRequest.OrderId!,
+            verificationRequest.PaymentId!,
+            verificationRequest.Signature!
         );
         ResponseDto res = new ResponseDto();
         return Ok(res.success(Payment_C.PaymentUpdated));
@@ -54,13 +54,13 @@ public class PaymentController : ControllerBase
     public async Task<IActionResult> UpdatePaymentDetails([FromBody] RetryPaymentVerificationRequest retryVerificationRequest)
     {
         await _razorpayService.VerifyPaymentSignature(
-            retryVerificationRequest.OrderId,
-            retryVerificationRequest.PaymentId,
-            retryVerificationRequest.Signature
+            retryVerificationRequest.OrderId!,
+            retryVerificationRequest.PaymentId!,
+            retryVerificationRequest.Signature!
         );
 
         // Update the payment status and retry count
-        var payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(retryVerificationRequest.OrderId);
+        var payment = await _paymentDetailRepository.GetPaymentDetailsByRPId(retryVerificationRequest.OrderId!);
         if (payment == null)
         {
             return NotFound(Payment_C.PaymentDetailsNotFound);

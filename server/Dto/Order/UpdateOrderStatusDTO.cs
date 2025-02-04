@@ -8,6 +8,6 @@ namespace server.Dto.Order
     public class UpdateOrderStatusDTO
     {
         public int OrderId { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 }
