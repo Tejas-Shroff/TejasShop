@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { NotificationModule } from '../notification/notification.module';
+import { Routes } from '@angular/router';
 import { AddProductComponent } from './add-product/add-product.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
@@ -23,6 +24,8 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { NotificationService } from '../notification/notification.service';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+
+
 
 @NgModule({
   declarations: [
