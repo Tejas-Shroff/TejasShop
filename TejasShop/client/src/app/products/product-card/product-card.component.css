@@ -4,6 +4,7 @@
     border-radius: 10px;
     padding: 16px;
     position: relative;
+    max-height: 390px;
 }
 .product-card:hover{
     border: 1px solid var(--primary-color);
@@ -77,20 +78,13 @@
     margin: 10px 0;
 }
 
-.rating {
-    display: flex;
-    align-items: center;
-}
+
 
 .star {
     color: #FFD700;
 }
 
-.rating-value {
-    font-size: 14px;
-    margin-left: 8px;
-    color: gray;
-}
+
 
 .mat-card-actions {
     display: flex;
@@ -121,6 +115,7 @@
     display: flex;
     justify-content: space-between;
     padding: 0 8px;
+    margin-top: -5px;
 }
 
 .product-name {
@@ -145,3 +140,7 @@
 .app-btn-primary:hover {
     background-color: #0056b3; /* Darker blue for hover effect */
 }
+
+.favorite-icon {
+    color: red; /* Change this to your desired color */
+  }

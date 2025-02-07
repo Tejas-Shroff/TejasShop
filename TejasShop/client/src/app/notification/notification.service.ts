@@ -1,62 +1,68 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from './model';
-
-
+import { NOTIFICATION_MESSAGES } from '../constants/messages';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   notifications$ = this.notificationsSubject.asObservable();
 
   private notifications: Notification[] = [];
-  constructor() { }
-  
+  constructor() {}
+
   private addNotification(notification: Notification) {
     this.notifications.push(notification);
     this.notificationsSubject.next(this.notifications);
 
     if (notification.duration) {
-      setTimeout(() => this.removeNotification(notification), notification.duration);
+      setTimeout(
+        () => this.removeNotification(notification),
+        notification.duration
+      );
     }
   }
 
   removeNotification(notification: Notification) {
-    this.notifications = this.notifications.filter(n => n !== notification);
+    this.notifications = this.notifications.filter((n) => n !== notification);
     this.notificationsSubject.next(this.notifications);
   }
- 
 
-  Success(message: string = 'Success!', duration: number = 30000) {
+  clearNotifications() {
+    this.notifications = [];
+    this.notificationsSubject.next(this.notifications);
+  }
+
+  Success(message: string = NOTIFICATION_MESSAGES.SUCCESS, duration: number = 2000) {
     this.addNotification({
       message,
       type: 'success',
-      duration
+      duration,
     });
   }
 
-  Error(message: string = 'Error!', duration: number = 3000) {
+  Error(message: string = NOTIFICATION_MESSAGES.ERROR, duration: number = 3000) {
     this.addNotification({
       message,
       type: 'error',
-      duration
+      duration,
     });
   }
 
-  Warning(message: string = 'Warning!', duration: number = 3000) {
+  Warning(message: string = NOTIFICATION_MESSAGES.WARNING, duration: number = 3000) {
     this.addNotification({
       message,
       type: 'warning',
-      duration
+      duration,
     });
   }
-  Info(message: string = 'Warning!', duration: number = 3000) {
+  Info(message: string = NOTIFICATION_MESSAGES.WARNING, duration: number = 3000) {
     this.addNotification({
       message,
       type: 'info',
-      duration
+      duration,
     });
   }
 }

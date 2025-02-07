@@ -1,28 +1,15 @@
-.footer{
-    background-color: #f0f3f2;;
-    padding: 4rem 0;
-}
 .footer {
-    background-color: #f0f3f2;
-    padding: 4rem 0
-}
+    background-color: #ececec;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
 
-.footer .nav .nav-item .nav-link {
-    color:#5c6c75;
-    padding: 0
-}
+  }
+  
 
-.footer .nav .nav-item .nav-link:hover {
-    color: #368bfa;
-}
-
-.footer .social-links {
-    color: #5c6c75;
-}
-
-.footer .social-links:hover {
-    color:  #368bfa;
-}
-h2{
+  
+  h2 {
     font-size: 1rem;
-}
+  }

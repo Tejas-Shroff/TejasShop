@@ -2,7 +2,7 @@
 
 namespace server.Interface.Repository
 {
-    public interface IImageRepository:IGenericRepository<Image>
+    public interface IImageRepository : IGenericRepository<Image>
     {
     }
 }

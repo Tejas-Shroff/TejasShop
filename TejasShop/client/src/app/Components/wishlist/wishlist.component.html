@@ -1,5 +1,7 @@
 <section class="mt-5 mb-5">
+    <mat-card>
     <div class="container">
+     
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-1">My Wishlist</h2>
@@ -13,7 +15,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <!-- <th scope="col"></th> -->
                         <th scope="col">Product</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Status</th>
@@ -23,7 +25,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of wishlistItems;">
-                        <th scope="row"><mat-checkbox></mat-checkbox></th>
+                        <!-- <th scope="row"><mat-checkbox></mat-checkbox></th> -->
                         <td>
                             <img [src]="imageUrl+item.product.thumbnail?.imageUrl" alt="{{item.product.name}}" width="50">
                             <div class="product-name">{{item.product.name}}</div>
@@ -32,7 +34,7 @@
                         <td>
                             <div class="price">
                                 <span class="current-price">{{ item.product.newPrice|currency:'INR' }}</span>
-                                <span class="old-price" *ngIf="item.product.originalPrice">{{ item.product.originalPrice|currency:'INR' }}</span>
+                                <span class="old-price" *ngIf="item.product.isOnDiscount">{{ item.product.originalPrice|currency:'INR' }}</span>
                             </div>
                         </td>
                         <td >
@@ -40,9 +42,9 @@
                             <span *ngIf="!item.product.inStock" class="badge badge-danger">Out of Stock</span>
                         </td>
                         <td>
-                            <button *ngIf="item.product.inStock" class="btn btn-sm btn-primary" (click)="addToCart(item.productId)">Add to
+                            <button *ngIf="item.product.inStock" class="btn btn-sm btn-primary"  (click)="addToCart(item.productId)">Add to
                                 Cart</button>
-                            <button *ngIf="!item.product.inStock" class="btn btn-sm btn-danger" (click)="contactUs(item)">Contact
+                            <button *ngIf="!item.product.inStock" class="btn btn-sm btn-danger" (click)="NotifyUs(item)">Notify
                                 us</button>
                         </td>
                         <td>
@@ -54,6 +56,11 @@
                 </tbody>
             </table>
         </ng-container>
+        
+   
 
     </div>
+</mat-card>
+<br><br><br><br><br>
 </section>
+

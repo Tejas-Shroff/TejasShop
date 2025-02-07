@@ -5,45 +5,54 @@ import { AddAddressDto, AddressDto } from '../Models/address';
 import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserAddressService {
-  
-  private address = new BehaviorSubject<AddressDto[]>([]);
-  address$=this.address.asObservable();
-  constructor(private http:HttpClient) { }
+  public address = new BehaviorSubject<AddressDto[]>([]);
+  address$ = this.address.asObservable();
 
-  loadAddress(userId:Number){
-    this.getAllAddressByUserId(userId).subscribe(res=>{
-      if(res.isSuccessed && res.data) this.address.next(res.data);
-    })
-  }
-  
+  constructor(private http: HttpClient) {}
 
-
-
-
-  private getAllAddressByUserId(userId:Number){
-     return this.http.get<ResponseDto<AddressDto[]>>("User/GetAllAddressByUserId/"+userId);
+  loadAddress(userId: Number) {
+    this.getAllAddressByUserId(userId).subscribe((res) => {
+      if (res.isSuccessed && res.data) {
+        this.address.next(res.data);
+      }
+    });
   }
 
-  addAddress(address:AddAddressDto){
-    return this.http.post<ResponseDto<null>>("User/AddAddress",address).pipe(
-      tap(res=>{
-        if(res.isSuccessed){
-          if(address.userId) this.loadAddress(address.userId);
+  private getAllAddressByUserId(userId: Number) {
+    return this.http.get<ResponseDto<AddressDto[]>>(
+      'User/GetAllAddressByUserId/' + userId
+    );
+  }
+
+  addAddress(address: AddAddressDto) {
+    return this.http.post<ResponseDto<null>>('User/AddAddress', address).pipe(
+      tap((res) => {
+        if (res.isSuccessed) {
+          if (address.userId) this.loadAddress(address.userId);
         }
       })
     );
   }
 
-  deleteAddress(userId:Number){
-    return this.http.delete<ResponseDto<null>>("User/DeleteAddress/"+userId).pipe(
-      tap(res=>{
-        if(res.isSuccessed){
-          this.loadAddress(userId);
-        }
-      })
-    );
+  DeleteAddress(addressId: number, userId: number) {
+    const updatedAddresses = this.address
+      .getValue()
+      .filter((a) => a.id !== addressId);
+    this.address.next(updatedAddresses); 
+    return this.http
+      .delete<ResponseDto<null>>(`User/DeleteAddress/${addressId}`)
+      .pipe(
+        tap((res) => {
+          if (res.isSuccessed) {
+           
+            this.loadAddress(userId); 
+          } else {
+            
+          }
+        })
+      );
   }
 }

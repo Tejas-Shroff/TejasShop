@@ -1,58 +1,60 @@
 <section class="mt-5 mb-5">
     <div class="container">
         <div class="row">
-            <!-- col -->
+       
             <div class="col-12">
                <div>
-                  <div class="mb-8">
+                  <div [ngClass]="{'blur': isRazorpayOpen}" class="mb-8">
                      <h2 class="fw-bold mb-0">Checkout</h2>
                   </div>
                </div>
             </div>
          </div>
-         <div class="row">
+         <div [ngClass]="{'blur': isRazorpayOpen}" class="row">
             <div class="col-xl-7 col-lg-6 col-md-12">
     
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <!-- heading one -->
+              
                     <div  class="fs-5 text-inherit collapsed h4">
                        <h3>Add delivery address</h3>
                     </div>
-                    <!-- btn -->
+                   
                     <div  class="btn btn-outline-primary btn-sm app-btn-primary" (click)="openModal(add_address_template)" >Add a new address</div>
                  </div>
-                 <div class="mt-5">
-                    <div class="row">
-                       <div *ngFor="let address of addressService.address$|async" class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-                          <!-- input -->
-                          <div class="card card-body p-6">
-                             <div class="form-check mb-1 d-flex justify-content-between">
-                                <input class="form-check-input" type="radio" [value]="address" [(ngModel)]="shipToAddress" name="flexRadioDefault"  id="officeRadio">
-                                <div class="col-1">
-                                 <mat-icon class="text-danger" matTooltip="Remove From Cart" (click)="removeAddress(address.id)">delete</mat-icon>
+               
+                  <div class="mt-5">
+                     <div class="row">
+                       <div *ngFor="let address of addressService.address$ | async" class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
+                         <div class="card card-body p-6 selectable-card" 
+                              [class.selected]="isSelected(address)" 
+                              (click)="toggleAddressSelection(address)">
+                           <div class="form-check mb-1 d-flex justify-content-between">
+                             <input class="form-check-input" type="radio" [value]="address" [(ngModel)]="shipToAddress" name="flexRadioDefault" id="officeRadio" [checked]="isSelected(address)" style="display: none;">
+                             <div class="col-1">
+                               <mat-icon class="delete-button" matTooltip="Remove From Cart" (click)="removeAddress(address.id); $event.stopPropagation();">delete</mat-icon>
                              </div>
-                             </div>
-                             <address>
-                                <strong>{{address.firstName+' '+address.lastName}}</strong>
-                                <br>
-                                {{address.addressLine1}},
-                                <br>
-                                {{address.addressLine2}}
-                                <br>
-                                <br>
-                                {{address.city}},{{address.state}}
-                                <br>
-                                {{address.country}}
-                                <br>
-                                <abbr title="Phone">zipcode: {{address.postalCode}}</abbr>
-                             </address>
-                          </div>
+                           </div>
+                           <address>
+                             <strong>{{address.firstName + ' ' + address.lastName}}</strong>
+                             <br>
+                             {{address.addressLine1}},
+                             <br>
+                             {{address.addressLine2}}
+                             <br>
+                             <br>
+                             {{address.city}}, {{address.state}}
+                             <br>
+                             {{address.country}}
+                             <br>
+                             <abbr title="Phone">zipcode: {{address.postalCode}}</abbr>
+                           </address>
+                         </div>
                        </div>
-                    </div>
-                 </div>
+                     </div>
+                   </div>
                  
             </div>
-            <div class="col-md-12 offset-xl-1 col-xl-4 col-lg-6">
+            <div [ngClass]="{'blur': isRazorpayOpen}" class="col-md-12 offset-xl-1 col-xl-4 col-lg-6">
                 <ng-container *ngIf="cart$|async as cart">
                     <div class="mt-4 mt-lg-0">
                         <div class="card shadow-sm">
@@ -73,7 +75,7 @@
                                     <div class="col-3 text-lg-end text-start text-md-end col-md-3">
                                         <div class="price">
                                             <span  class="current-price">{{item.product.newPrice|currency:'INR'}}</span>
-                                            <span class="old-price ng-star-inserted">{{item.product.originalPrice|currency:'INR'}}</span>
+                                            <span class="old-price ng-star-inserted" *ngIf="item.product.isOnDiscount" >{{item.product.originalPrice|currency:'INR'}}</span>
                                          </div>
                                     </div>
                                  </div>
@@ -89,7 +91,7 @@
                                     <div class="fw-bold">{{cart.totalDiscount|currency:'INR'}}</div>
                                  </div>
                               </li>
-                              <!-- list group item -->
+                       
                               <li class="list-group-item px-4 py-3">
                                  <div class="d-flex align-items-center justify-content-between fw-bold">
                                     <div>Subtotal</div>
@@ -100,25 +102,28 @@
                         </div>
                      </div>
                      <div class="d-flex align-items-center justify-content-center">
+                        <br><br><br>
                         <button 
                           mat-raised-button class="app-btn-primary w-100"
                           (click)="MakePayment(cart.id)"
                         >Make Payment</button>
                        </div>
+                       
                 </ng-container>
 
             </div>
          </div>
     </div>
-<ng-template #add_address_template>
-  <div class="modal-header">
+<ng-template  #add_address_template>
+  <div [ngClass]="{'blur': isRazorpayOpen}" class="modal-header">
     <h4 class="modal-title pull-left">Address</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <app-address-form></app-address-form>
+    <app-address-form (addressAdded)="onAddressAdded()"></app-address-form>
   </div>
 </ng-template>
 </section>
+<div id="loading-message" class="loading-message">Redirecting to order details page to retry payment...</div>

@@ -16,7 +16,6 @@ import { loadCart, resetCart } from './redux/cart/cart.action';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'client';
   categories$: Observable<CategoryResDto[]>;
   refreshTokenSub!:Subscription;
 
@@ -28,7 +27,7 @@ export class AppComponent implements OnInit {
     // Check if products list is empty and dispatch loadProducts action
     this.categories$
       .pipe(
-        // Tap operator to side-effect (i.e., dispatch action when necessary)
+        // Tap operator to side-effect that is for dispatching action on request basis when necessary)
         tap((categories) => {
           if (categories.length === 0) {
             // Dispatch the action to load products if the list is empty

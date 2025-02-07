@@ -317,6 +317,7 @@ C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.csproj.CoreCompileInputs.cache
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.sourcelink.json
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\staticwebassets\msbuild.server.Microsoft.AspNetCore.StaticWebAssets.props
@@ -331,4 +332,3 @@ C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.pdb
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.genruntimeconfig.cache
 C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\ref\server.dll
-C:\Users\10731033\OneDrive - LTIMindtree\Desktop\TejasShop\TejasShop\server\obj\Debug\net8.0\server.sourcelink.json

@@ -24,11 +24,11 @@
                                 </div>
                                 <div class="col-2">
                                    <div class="qauntity-action">
-                                    <button class="btn btn-sm" (click)="updateCartItem(item.id,item.quantity-1)" >
+                                    <button class="btn btn-sm" (click)="updateCartItem(item.id,item.quantity-1, item.product.stockQuantity)" >
                                        -
                                     </button>
                                     <span class="quantity">{{item.quantity}}</span>
-                                    <button class="btn btn-sm" (click)="updateCartItem(item.id,item.quantity+1)">
+                                    <button class="btn btn-sm" (click)="updateCartItem(item.id,item.quantity+1,item.product.stockQuantity)">
                                        +
                                     </button>
                                    </div>
@@ -37,7 +37,7 @@
                                 <div class="col-2 text-lg-end text-start text-md-end">
                                  <div class="price">
                                     <span  class="current-price">{{item.product.newPrice|currency:'INR'}}</span>
-                                    <span class="old-price ng-star-inserted">{{item.product.originalPrice|currency:'INR'}}</span>
+                                    <span class="old-price ng-star-inserted" *ngIf="item.product.isOnDiscount">{{item.product.originalPrice|currency:'INR'}}</span>
                                  </div>
                                 </div>
                                 <div class="col-1">

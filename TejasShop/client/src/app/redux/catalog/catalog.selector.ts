@@ -15,11 +15,3 @@ export const selectBrands = createSelector(
     selectCatalogState,
     (state: CatalogState) => state.brands
 );
-
-
-// // Select the selected product based on the selectedProductId
-// export const selectSelectedProduct = createSelector(
-//     selectAllProducts,
-//     selectSelectedProductId,
-//     (products, selectedProductId) => products.find((product) => product.id === selectedProductId)
-//   );

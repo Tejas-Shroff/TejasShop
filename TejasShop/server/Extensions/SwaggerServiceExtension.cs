@@ -1,5 +1,7 @@
 
 
+using server.Constants;
+
 namespace server.Extensions
 {
     public static class SwaggerServiceExtension
@@ -8,26 +10,26 @@ namespace server.Extensions
         {
             services.AddSwaggerGen(options =>
             {
-                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                options.AddSecurityDefinition(Jwt_Swagger_Ext.Bearer, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
-                    Name = "Authorization",
+                    Name = Jwt_Swagger_Ext.Authorization,
                     Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
+                    Scheme = Jwt_Swagger_Ext.Bearer,
+                    BearerFormat = Jwt_Swagger_Ext.JWT,
                     In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
+                    Description = JwtClass.swaggerJwtDescription
                 });
                 options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme {
-                    Reference = new Microsoft.OpenApi.Models.OpenApiReference {
-                        Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                    }
-                },
-                new string[] {}
-        }
-    });
+                {
+                    new Microsoft.OpenApi.Models.OpenApiSecurityScheme {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = Jwt_Swagger_Ext.Bearer
+                            }
+                        },
+                        new string[] {}
+                }
+            });
             });
             return services;
         }

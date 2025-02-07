@@ -297,6 +297,9 @@ namespace server.Migrations
                     b.Property<string>("Razorpay_signature")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -317,9 +320,6 @@ namespace server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("AverageRating")
-                        .HasColumnType("float");
-
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
@@ -335,9 +335,6 @@ namespace server.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("DiscountAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("DiscountPercentage")
                         .HasColumnType("decimal(5,2)");
@@ -368,9 +365,6 @@ namespace server.Migrations
                     b.Property<int?>("ThumbnailId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalReviews")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
@@ -382,51 +376,6 @@ namespace server.Migrations
                         .HasFilter("[ThumbnailId] IS NOT NULL");
 
                     b.ToTable("products");
-                });
-
-            modelBuilder.Entity("server.Entities.ProductReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ProductReviews");
                 });
 
             modelBuilder.Entity("server.Entities.ShippingAddress", b =>
@@ -686,25 +635,6 @@ namespace server.Migrations
                     b.Navigation("Thumbnail");
                 });
 
-            modelBuilder.Entity("server.Entities.ProductReview", b =>
-                {
-                    b.HasOne("server.Entities.Product", "Product")
-                        .WithMany("ProductReviews")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("server.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("server.Entities.ShoppingCart", b =>
                 {
                     b.HasOne("server.Entities.User", "User")
@@ -780,11 +710,6 @@ namespace server.Migrations
             modelBuilder.Entity("server.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("server.Entities.Product", b =>
-                {
-                    b.Navigation("ProductReviews");
                 });
 
             modelBuilder.Entity("server.Entities.ShoppingCart", b =>

@@ -20,6 +20,8 @@ import { AuthService } from './core/Services/auth.service';
 import { AuthIntercetorInterceptor } from './core/interceptor/auth-intercetor.interceptor';
 import { appEffects, appStore } from './redux/store';
 import { NotificationModule } from './notification/notification.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AdminModule } from './admin/admin.module';
 
 
 
@@ -42,12 +44,14 @@ import { NotificationModule } from './notification/notification.module';
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('accestoken'),
-        allowedDomains: ["example.com"],
-        disallowedRoutes: ["http://example.com/examplebadroute/"],
+        allowedDomains: [" "],
+        disallowedRoutes: [" "],
       }
     }
     ),
-    NotificationModule
+    NotificationModule,
+    MatSnackBarModule,
+    AdminModule
    ],
   providers: [
     {

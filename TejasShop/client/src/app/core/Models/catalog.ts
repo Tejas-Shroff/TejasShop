@@ -1,69 +1,55 @@
-import { ImageDtoRes } from "./image";
-import { Pagination } from "./pagination";
+import { ImageDtoRes } from './image';
+import { Pagination } from './pagination';
 
 export interface CategoryResDto {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 
-    image: ImageDtoRes | null;
+  image: ImageDtoRes | null;
 }
 
 export interface BrandResDto {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 
-    image: ImageDtoRes | null;
+  image: ImageDtoRes | null;
 }
 
 export interface ProductResDto {
-    id: number;
-    name: string;
-    description: string;
-    originalPrice: number;
-    discountPercentage: number | null;
-    discountAmount: number | null;
-    newPrice: number;
-    isOnDiscount: boolean;
-    stockQuantity: number;
-    averageRating: number;
-    totalReviews: number;
-    inStock: boolean;
-
-    isFeatured: boolean;
-    category: CategoryResDto;
-    brand: BrandResDto;
-    
-
-    thumbnail: ImageDtoRes | null;
+  id: number;
+  name: string;
+  description: string;
+  originalPrice: number;
+  discountPercentage: number | null;
+  newPrice: number;
+  isOnDiscount: boolean;
+  stockQuantity: number;
+  inStock: boolean;
+  isFeatured: boolean;
+  category: CategoryResDto;
+  brand: BrandResDto;
+  thumbnail: ImageDtoRes | null;
 }
 
+export interface SortFilter {
+  sort?: string;
+}
 export interface ProductFilters {
-    pageIndex: number;
-    pageSize: number;
-    brandIds?: number[];
-    categoryIds?: number[] ;
-    ratings?: number[] ;
-    search?: string ;
-    inStock?: boolean ;
-    minPrice?: number ;
-    maxPrice?: number ;
-    sort?: string ;
-    sortOrder?: string;
+  sort?: string;
+  brandIds?: number[];
+  categoryIds?: number[];
+  search?: string;
+  inStock?: boolean;
 }
-
-export interface ProductPaginationRes extends Pagination<ProductResDto>{
-    minPrice?: number ;
-    maxPrice?: number ;
-}
-
 
 export interface addProductDTO {
-    thumbnailFile(arg0: string, thumbnailFile: any): unknown;
-    name: string;
-    description: string;
-    originalPrice: number;
-    stockQuantity: number;
-    categoryId: number; 
-    brandId: number;  
-    thumbnail: ImageDtoRes | null;
+  thumbnailFile(arg0: string, thumbnailFile: any): unknown;
+  name: string;
+  description: string;
+  originalPrice: number;
+  discountPercentage: number;
+  stockQuantity: number;
+  categoryId: number;
+  brandId: number;
+  thumbnail: ImageDtoRes | null;
 }

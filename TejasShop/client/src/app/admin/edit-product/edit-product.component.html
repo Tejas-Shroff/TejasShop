@@ -1,0 +1,83 @@
+<app-notification></app-notification>
+<br>
+<h1 mat-dialog-title>Edit Product</h1>
+<div mat-dialog-content class="mat-dialog-content">
+  <form [formGroup]="editProductForm">
+    <mat-form-field class="mat-form-field">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <div *ngIf="editProductForm.get('name')?.invalid && editProductForm.get('name')?.touched" class="error-message">
+        Name is required.
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      <div *ngIf="editProductForm.get('description')?.invalid && editProductForm.get('description')?.touched" class="error-message">
+        Description is required.
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Original Price</mat-label>
+      <input matInput formControlName="originalPrice" type="number" min="1000" max="250000" (input)="onInput($event)">
+      <div *ngIf="editProductForm.get('originalPrice')?.touched">
+        <div *ngIf="editProductForm.get('originalPrice')?.errors?.['required']" class="error-message">
+          Original Price is required.
+        </div>
+        <div *ngIf="editProductForm.get('originalPrice')?.errors?.['min']" class="error-message">
+          Minimum price is 1000.
+        </div>
+        <div *ngIf="editProductForm.get('originalPrice')?.errors?.['max']" class="error-message">
+          Price should not exceed Rs. 250000.
+        </div>
+        <div *ngIf="editProductForm.get('originalPrice')?.errors?.['nonNegative']" class="error-message">
+          Price must be non-negative.
+        </div>
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Discount Percentage(%)</mat-label>
+      <input matInput formControlName="discountPercentage" type="number" (input)="onInput($event)">
+      <div *ngIf="editProductForm.get('discountPercentage')?.touched">
+        <div *ngIf="editProductForm.get('discountPercentage')?.errors?.['nonNegative']" class="error-message">
+          Discount must be non-negative.
+        </div>
+        <div *ngIf="editProductForm.get('discountPercentage')?.errors?.['max']" class="error-message">
+          Discount cannot exceed 100%.
+        </div>
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Stock Quantity</mat-label>
+      <input matInput formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)">
+      <div *ngIf="editProductForm.get('stockQuantity')?.invalid && editProductForm.get('stockQuantity')?.touched" class="error-message">
+        Stock Quantity is required.
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Category ID</mat-label>
+      <input matInput formControlName="categoryId" type="number" min="0" (input)="onInput($event)">
+      <div *ngIf="editProductForm.get('categoryId')?.invalid && editProductForm.get('categoryId')?.touched" class="error-message">
+        Category ID is required.
+      </div>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field">
+      <mat-label>Brand ID</mat-label>
+      <input matInput formControlName="brandId" type="number" min="0" (input)="onInput($event)">
+      <div *ngIf="editProductForm.get('brandId')?.invalid && editProductForm.get('brandId')?.touched" class="error-message">
+        Brand ID is required.
+      </div>
+    </mat-form-field>
+    <div class="form-group">
+      <label for="thumbnail">Change Thumbnail</label>
+      <input id="thumbnail" type="file" (change)="onFileChange($event)">
+      <div *ngIf="thumbnailError" class="error-message">
+        {{ thumbnailError }}
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button class="cancel-button" (click)="onCancel()">Cancel</button>
+  <button mat-button class="save-button" (click)="onSave()">Save</button>
+</div>

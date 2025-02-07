@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using server.Dto;
+﻿using server.Constants;
 using server.Entities;
 using server.Exceptions;
 using server.Interface.Repository;
 using server.Interface.Service;
-using server.Repository;
 
 namespace server.Service
 {
@@ -43,14 +41,8 @@ namespace server.Service
                 await repo.AddAsync(wishlist);
             }
 
-            var productExists = await productRepository.GetByIdAsync(productId);
-
-            if (productExists is null)
-            {
-                throw new Exception("Product not found.");
-            }
-
-            var itemExists = wishlist.WishlistItems.Any(wi => wi.ProductId == productId);
+            var productExists = await productRepository.GetByIdAsync(productId) ?? throw new Exception(Wishlist_C.ProductNotFound);
+            var itemExists = (wishlist.WishlistItems ?? Enumerable.Empty<WishlistItem>()).Any(wi => wi.ProductId == productId);
             if (!itemExists)
             {
                 await wishListItemRepository.AddAsync(new WishlistItem
@@ -67,14 +59,14 @@ namespace server.Service
 
             if (wishlist == null)
             {
-                throw new NotFoundException("Wishlist not found.");
+                throw new NotFoundException(Wishlist_C.WishlistNotFound);
             }
 
-            var wishlistItem = wishlist.WishlistItems.FirstOrDefault(wi => wi.ProductId == productId);
+            var wishlistItem = wishlist?.WishlistItems?.FirstOrDefault(wi => wi.ProductId == productId);
 
             if (wishlistItem == null)
             {
-                throw new NotFoundException("Product not found in wishlist.");
+                throw new NotFoundException(Wishlist_C.ProductNotFoundInWishList);
             }
             await wishListItemRepository.DeleteAsync(wishlistItem);
         }

@@ -9,6 +9,7 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import {BASE_API} from '../token/baseUrl.token'
 import { NotificationService } from 'src/app/notification/notification.service';
+import { ApiInterceptor_c } from 'src/app/constants/messages';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -27,16 +28,16 @@ export class ApiInterceptor implements HttpInterceptor {
       // Pass the cloned request instead of the original request
       return next.handle(apiReq).pipe(
         catchError((error: HttpErrorResponse) => {
-          debugger
+          // debugger
           let errorMsg = '';
           if (error.error instanceof ErrorEvent) {
-            console.log('This is client side error');
+            console.log(ApiInterceptor_c.ClientSideErr);
             errorMsg = `Error: ${error.error.message}`;
           } else {
-            console.log('This is server side error');
+            console.log(ApiInterceptor_c.ServerSideErr);
             errorMsg = `Error Code: ${error.status},  Message: ${error.error?.message?error.error?.message: error.message}`;
           }
-          this.toastify.Error(errorMsg);
+
           return throwError(()=>errorMsg);
         }));;
     }

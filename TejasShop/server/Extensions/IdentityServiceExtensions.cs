@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using server.Constants;
 
 namespace server.Extensions
 {
@@ -12,7 +13,7 @@ namespace server.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]);
+            var key = Encoding.UTF8.GetBytes(configuration[JwtClass.JwtKey]!);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -26,8 +27,8 @@ namespace server.Extensions
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Issuer"],
+                    ValidIssuer = configuration[JwtClass.JwtIssuer],
+                    ValidAudience = configuration[JwtClass.JwtIssuer],
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     RequireExpirationTime = true,
                     ValidateLifetime = true,

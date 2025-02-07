@@ -1,7 +1,10 @@
+
 <div class="container mb-5">
-    <div class="my-3">
-        <app-order-tracker [paymentStatus]="details.paymentDetails.status"></app-order-tracker>
-    </div>
+    <div *ngIf="details?.order && details?.paymentDetails">
+        <app-order-tracker [orderStatus]="details.order.status" [paymentStatus]="details.paymentDetails.status"></app-order-tracker>
+      </div>
+      <div *ngIf="!details?.order || !details?.paymentDetails">Loading...</div> <br>
+
     <div class="row">
         <div class="col-7">
             <mat-card class="mb-5">
@@ -9,17 +12,21 @@
                     <div class="form-group row">
                         <label for="staticEmail" class="col-sm-2 col-form-label fw-bold">Order Id</label>
                         <div class="col-sm-10">
-                            <div class="form-control-plaintext">
+                            <div class="form-control-plaintext" *ngIf="details?.order">
                                 {{details.order.id}}
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row align-items-center">
                         <label for="staticEmail" class="col-sm-2 col-form-label fw-bold">Cancel Order</label>
-                        <div class="col-sm-9"><button class="btn btn-danger">Cancel</button>
+                        <div class="col-sm-9">
+                            <button *ngIf="details?.order?.status !== 'Cancelled' && !isOrderOlderThan30Days(details.order.orderDate)" class="btn btn-danger" (click)="cancelOrder(details.order.id)">Cancel</button>
+                            <span *ngIf="details?.order?.status === 'Cancelled'" class="text-danger">Order is cancelled</span>
+                            <span *ngIf="isOrderOlderThan30Days(details.order.orderDate)" class="text-danger">Order cannot be cancelled after 30 days</span>
                         </div>
                     </div>
                 </mat-card-content>
+                
             </mat-card>
             <ul class="list-group">
                 <li class="list-group-item app-btn-primary">
@@ -36,7 +43,7 @@
 
                     </div>
                 </li>
-                <li class="list-group-item" *ngFor="let item of details.order.orderItems">
+                <li class="list-group-item" *ngFor="let item of details?.order?.orderItems">
                     <div class="row align-items-center">
                         <div class="col-8">
                             <div class="d-flex">
@@ -77,7 +84,7 @@
                     <div class="form-group row">
                         <label for="razorPayOrderId" class="col-sm-4 col-form-label fw-bold">razorPayOrderId</label>
                         <div class="col-sm-8">
-                            <div class="form-control-plaintext">
+                            <div class="form-control-plaintext" *ngIf="details?.paymentDetails">
                                 {{details.paymentDetails.razorPayOrderId}}
                             </div>
                         </div>
@@ -85,7 +92,7 @@
                     <div class="form-group row">
                         <label for="razorpay_payment_id" class="col-sm-4 col-form-label fw-bold">razorpay_payment_id</label>
                         <div class="col-sm-8">
-                            <div class="form-control-plaintext">
+                            <div class="form-control-plaintext" *ngIf="details?.paymentDetails">
                                 {{details.paymentDetails.razorpay_payment_id}}
                             </div>
                         </div>
@@ -93,7 +100,7 @@
                     <div class="form-group row">
                         <label for="razorpay_signature" class="col-sm-4 col-form-label fw-bold">razorpay_signature</label>
                         <div class="col-sm-8">
-                            <div class="form-control-plaintext text-overflow">
+                            <div class="form-control-plaintext text-overflow" *ngIf="details?.paymentDetails" >
                                 {{details.paymentDetails.razorpay_signature}}
                             </div>
                         </div>
@@ -101,22 +108,35 @@
                     <div class="form-group row">
                         <label for="amount" class="col-sm-4 col-form-label fw-bold">Amount</label>
                         <div class="col-sm-8">
-                            <div class="form-control-plaintext" id="amount">
+                            <div class="form-control-plaintext" id="amount" *ngIf="details?.paymentDetails">
                                 {{details.paymentDetails.amount|currency:'INR'}}
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="payment-status" class="col-sm-4 col-form-label fw-bold">Status</label>
-                        <div class="col-sm-8">
-                            <div class="form-control-plaintext d-flex align-items-center" id="payment-status">
-                                <mat-chip>{{details.paymentDetails.status}}</mat-chip>
-                                <mat-icon class="text-primary" *ngIf="details.paymentDetails.status=='Pending'">refresh</mat-icon>
-                            </div>
+                    <label for="payment-status" class="col-sm-4 col-form-label fw-bold">Status</label>
+                    <div class="col-sm-8">
+                        <div class="form-control-plaintext d-flex align-items-center" id="payment-status" *ngIf="details?.paymentDetails">
+                          <mat-chip>{{ details.paymentDetails.status }}</mat-chip>
+                          
                         </div>
+                        
+                        <!-- Retry Payment Button and Message -->
+                        <div *ngIf="details?.paymentDetails?.status === 'Pending' && details?.order?.status !== 'Cancelled'">
+                          <button class="retry-payment-button app-btn-primary" mat-raised-button (click)="retryPayment(details.order.id)">
+                            Pay Now
+                          </button>
+                          <p class="payment-status-message" *ngIf="retryFailedTwice">
+                            Online payment failed twice, updated your payment status to Cash on Delivery.
+                          </p>
+                        </div>
+                      </div>
                     </div>
+
                 </mat-card-content>
             </mat-card>
+<!-- 
+
             <mat-card class="mt-5" *ngIf="details.shippingAddress as address">
                 <mat-card-header >
                     <mat-card-title>Shipping Details</mat-card-title>
@@ -137,8 +157,10 @@
                         <abbr title="Phone">zipcode: {{address.postalCode}}</abbr>
                      </address>
                 </mat-card-content>
+             </mat-card> -->
 
-             </mat-card>
+
         </div>
     </div>
 </div>
+

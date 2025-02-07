@@ -27,12 +27,69 @@
     background-color: #ddd; 
     border-top-color:#ddd;
 }
-.confirmed{
-color: green;
+
+.confirmed {
+  color: green;
 }
 
-.failed{
+.failed {
   color: red;
 }
-
+.cancelled {
+  color: red; /* Change the color to red for cancelled orders */
+  font-weight: bold; /* Optional: Make it bold to ensure visibility */
   
+}
+.refund-initiated {
+  color: blue;
+}
+
+.not-applicable {
+  color: rgb(242, 255, 0);
+}
+.payment-status {
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.payment-status mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.failed {
+  color: red;
+
+}
+
+.confirmed {
+  color: green;
+
+}
+
+.pending {
+  color: orange;
+ 
+}
+
+.refund-initiated {
+  color: blue;
+
+}
+
+.refund-not-applicable {
+  color: rgb(102, 102, 102);
+
+}
+
+.pending-cash-on-delivery {
+  color: purple;
+
+}
+
+.payment-completed {
+  color: green;
+
+}

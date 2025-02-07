@@ -1,0 +1,123 @@
+
+.header-container {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 130px;
+   }
+   form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-group:last-child {
+    margin-right: 0;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form textarea {
+    height: 60px;
+    resize: vertical;
+}
+
+/* Specific layout adjustments */
+.form-row:nth-child(1) .form-group {
+    flex: 1;
+}
+
+.form-row:nth-child(2) .form-group {
+    flex: 1;
+}
+
+.form-row:nth-child(3) .form-group {
+    flex: 1;
+}
+
+.form-row:nth-child(4) .form-group {
+    flex: 1;
+    margin-right: 0;
+}
+  
+   .button-container {
+    text-align: center;
+   }
+   button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+   }
+   button[type="submit"]:hover {
+    background-color: #0056b3;
+   }
+   .error-message {
+    color: red;
+    font-size: 1.1em;
+    font-weight: bold  ;
+  }
+
+  .navbar-custom {
+    background-color: #f4f4f4; 
+    border-bottom: 2px solid #000000; /* Border at the downside */
+    z-index: 1;
+  }
+  .navbar-custom .navbar-text {
+    margin-left: 30px; /* Adjust this value as needed */
+    color: #000000; /* Black text */
+    font-weight: bold; /* Text bold */
+  }
+  .navbar-custom .navbar-text {
+    color: #000000; /* Black text */
+    font-weight: bold; /* text bold */
+  }
+  .navbar-custom img {
+    height: 80px; /* Adjust height */
+    width: 150px; /* Adjust width to be more than height */
+  }
+  .admin-dashboard-container {
+    margin-top: 70px;
+  }
+
+  
+.mat-icon-account-cicle { /* for account information */
+    font-size: 1.6rem;
+    z-index: 2;
+}
+
+

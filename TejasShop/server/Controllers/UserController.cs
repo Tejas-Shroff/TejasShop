@@ -1,10 +1,10 @@
 ﻿using server.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Interface.Repository;
 using server.Entities;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
+using server.Constants;
 
 namespace server.Controllers
 {
@@ -16,7 +16,7 @@ namespace server.Controllers
         private readonly IMapper mapper;
 
         private readonly IUserRepository userRepository;
-        public UserController(IUserRepository userRepository,IMapper mapper)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
             this.mapper = mapper;
             this.userRepository = userRepository;
@@ -33,23 +33,27 @@ namespace server.Controllers
             ResponseDto responseDto = new ResponseDto();
             return Ok(
                 responseDto.success(
-                    "Success",
+                    UserClass.Success,
                     addresses
                 )
             );
         }
         [HttpPost("AddAddress")]
-        public async Task<ActionResult<ResponseDto>> AddAddress([FromBody] AddAddressDto address){
+        public async Task<ActionResult<ResponseDto>> AddAddress([FromBody] AddAddressDto address)
+        {
             ResponseDto responseDto = new ResponseDto();
             Address address1 = mapper.Map<Address>(address);
-             await this.userRepository.AddAddress(address1);
-            return Ok(responseDto.success("Success"));
+            await this.userRepository.AddAddress(address1);
+
+            return Ok(responseDto.success(UserClass.Success));
         }
+        
         [HttpDelete("DeleteAddress/{addressId}")]
-        public async Task<ActionResult<ResponseDto>> DeleteAddress(int addressId){
+        public async Task<ActionResult<ResponseDto>> DeleteAddress(int addressId)
+        {
             ResponseDto responseDto = new ResponseDto();
-             await this.userRepository.RemoveAddress(addressId);
-            return Ok(responseDto.success("Success"));
+            await this.userRepository.RemoveAddress(addressId);
+            return Ok(responseDto.success(UserClass.Success));
         }
     }
 }

@@ -1,38 +1,73 @@
 <section class="mt-5 mb-5">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <div class="py-1 border-0 mb-8">
-                    <h2>Your Orders</h2>
-                </div>       
+          <div class="col-12">
+            <div class="py-1 border-0 mb-8">
+              <h2>Your Orders :  <div class="order-found">{{ filteredOrders.length }} orders found for {{ selectedFilter }}</div> </h2>
+              
+              <div class="filter-container">
+         
+                <mat-form-field class="filter-field">
+                  <mat-label class="filterbymatlabel">Filter by</mat-label>
+                  <mat-select [(value)]="selectedFilter" (selectionChange)="filterOrders()">
+                    <mat-option value="all">All</mat-option>
+                    <mat-option value="today">Today</mat-option>
+                    <mat-option value="1month">1 Month</mat-option>
+                    <mat-option value="2months">2 Months</mat-option>
+                    <mat-option value="3months">3 Months</mat-option>
+                    <mat-option value="6months">6 Months</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
+          </div>
+          
         </div>
-        <div class="row mt-5">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Order Id</th>
-                        <th scope="col">Order Date</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let order of orders">
-                        <td>{{order.id}}</td>
-                        <td>{{order.orderDate| date: 'dd/MM/yyyy hh:mm'}}</td>
-                        <td class="text-primary">{{order.totalPriceAfterDiscount|currency:'INR'}}</td>
-                        <td>{{order.status}}</td>
-                        <td>      
-                            <button  mat-icon-button matTooltip="View Details"
-                             [routerLink]="['/orders/detail',order.id]"
-                            ><mat-icon >visibility</mat-icon></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
+        <button class="view-selected-orders" mat-raised-button (click)="viewSelectedOrders()">View Selected Orders</button>
+                <button class="expand-all" mat-raised-button (click)="expandAll()">Expand All</button>
+       
+      
+      <div class="row mt-5">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Select</th>
+              <th scope="col">Order Id</th>
+              <th scope="col">Order Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Status</th>
+              <th scope="col">View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let order of paginatedOrders">
+                <tr (click)="toggleRow(order)" [class.expanded-row]="order.expanded">
+                    <td (click)="$event.stopPropagation()">
+                      <mat-checkbox [(ngModel)]="order.selected" (change)="onCheckboxChange(order)"></mat-checkbox>
+                    </td>
+                <td>{{ order.id }}</td>
+                <td>{{ order.orderDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                <td class="text-primary">{{ order.totalPriceAfterDiscount | currency: 'INR' }}</td>
+                <td>{{ order.status }}</td>
+                <td>
+                  <button mat-icon-button matTooltip="View Details" [routerLink]="['/orders/detail', order.id]">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="order.expanded">
+                <td colspan="6" class="expanded-details">
+                  <app-order-details [orderId]="order.id"></app-order-details>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <mat-paginator [length]="filteredOrders.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" (page)="paginate($event)"></mat-paginator>
+      </div>
     </div>
-</section>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br>
+  </section>

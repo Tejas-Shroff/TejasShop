@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, Observable, of, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from '../Services/auth.service';
+import { ApiInterceptor_c } from 'src/app/constants/messages';
 
 @Injectable()
 export class AuthIntercetorInterceptor implements HttpInterceptor {
@@ -20,7 +21,7 @@ export class AuthIntercetorInterceptor implements HttpInterceptor {
     
     if (this.authService.UserLoggedIn()) {
       request = request.clone({
-        headers: request.headers.set('Authorization', 'Bearer ' + this.authService.getAccessToken())
+        headers: request.headers.set(ApiInterceptor_c.Authorization_i, ApiInterceptor_c.Bearer_i + this.authService.getAccessToken())
       })
     }
 
@@ -36,7 +37,7 @@ export class AuthIntercetorInterceptor implements HttpInterceptor {
                 this.isUserRefreshing.next(false) 
                 if (res) {
                   return next.handle(request.clone({
-                    headers: request.headers.set('Authorization', 'Bearer ' + this.authService.getAccessToken())
+                    headers: request.headers.set(ApiInterceptor_c.Authorization_i, ApiInterceptor_c.Bearer_i + this.authService.getAccessToken())
                   }))
                 }
                 else {
@@ -57,7 +58,7 @@ export class AuthIntercetorInterceptor implements HttpInterceptor {
             take(1),
             switchMap(()=>{
               return next.handle(request.clone({
-                headers: request.headers.set('Authorization', 'Bearer ' + this.authService.getAccessToken())
+                headers: request.headers.set(ApiInterceptor_c.Authorization_i, ApiInterceptor_c.Bearer_i + this.authService.getAccessToken())
               }))
             })
           )

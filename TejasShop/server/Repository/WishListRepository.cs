@@ -24,9 +24,9 @@ namespace server.Repository
         public async Task<Wishlist?> GetWishlistByUserIdIncludeProductAsync(int userId)
         {
             return await context.Wishlists
-                .Include(w => w.WishlistItems)
+                .Include(w => w.WishlistItems!)
                 .ThenInclude(wi => wi.Product)
-                .ThenInclude(p=>p.Thumbnail)
+                .ThenInclude(p=>p!.Thumbnail!)
                 .FirstOrDefaultAsync(w => w.UserId == userId);
         }
     }

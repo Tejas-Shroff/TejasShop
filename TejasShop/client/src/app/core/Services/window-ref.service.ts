@@ -11,11 +11,11 @@ function _window(): any {
 })
 export class WindowRefService {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object) { } // Injects the PLATFORM_ID token to determine the platform
 
   get nativeWindow(): any {
-    if (isPlatformBrowser(this.platformId)) {
-      return _window();
-    }
+    if (isPlatformBrowser(this.platformId)) {  // this checks if code is application is running in browser.
+      return _window();   // Checks if the code is running in a browser using isPlatformBrowser. If true, it returns the window object.
+    }   // to ensure the window object is only accessed when the code is running in a browser environment
   }
 }

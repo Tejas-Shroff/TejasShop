@@ -1,22 +1,21 @@
-import { UserDto } from "./user"
+import { UserDto } from './user';
 
-export interface RegisterUserData{
-    userName:string,
-    email:string,
-    password:string,
-    address :string
-    role: string
+export interface RegisterUserData {
+  userName: string;
+  email: string;
+  password: string;
+  address: string;
+  role: string;
 }
 
-export interface LoginReq{
-    email:string,
-    password:string
+export interface LoginReq {
+  email: string;
+  role: string;
+  password: string;
 }
 
-export interface LoginResData{
-
-    accessToken:string;
-    refreshToken:string;
-    userData:UserDto;
-
+export interface LoginResData {
+  accessToken: string;
+  refreshToken: string;
+  userData: UserDto;
 }

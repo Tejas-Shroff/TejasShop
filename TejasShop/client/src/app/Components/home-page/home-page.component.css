@@ -1,6 +1,10 @@
-.banner-c-img{
-    border-radius:1rem;
+.banner-c-img {
+    border-radius: 1rem;
+    height: 90vh; /* Adjust the height as needed */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    z-index: 1;
 }
+
 .owl-c-card{
     background-color: white;
     margin: 10px 10px;
@@ -15,4 +19,38 @@
 .own-c-img{
     height: 10rem;
     object-fit: contain;
+}
+
+/* Marquee */
+
+.marquee {
+    font-size: 20px;
+    color: #000000;
+    background-color: #f0f0f0;
+    padding: 10px;
+
+
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+
+}
+.marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 10s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.home {
+    min-height: 100vh; /* Ensure the home container takes up at least the full height of the viewport */
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel, .popular-product {
+    flex: 1; /* Allow these sections to grow and take up available space */
 }

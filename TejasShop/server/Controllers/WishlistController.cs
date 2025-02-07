@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Constants;
 using server.Dto;
-using server.Entities;
-using server.Interface.Repository;
 using server.Interface.Service;
 
 namespace server.Controllers
@@ -29,7 +27,7 @@ namespace server.Controllers
         public async Task<ActionResult<IEnumerable<WishListItemResDto>>> GetWishlist()
         {
             //string? email = User?.Identity?.Name;
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -48,7 +46,7 @@ namespace server.Controllers
         [HttpGet("Add/{ProductId}")]
         public async Task<ActionResult<ResponseDto>> AddToWishlist(int ProductId)
         {
-            if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+            if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -57,14 +55,14 @@ namespace server.Controllers
 
             await wishListService.AddToWishlistAsync(userId,ProductId);
 
-            return Ok(res.success("Product added to wishlist."));
+            return Ok(res.success(Wishlist_C.AddedToWishlist));
         }
 
         // DELETE: api/Wishlist/Remove/{userId}/{productId}
         [HttpDelete("Remove/{productId}")]
         public async Task<ActionResult<ResponseDto>> RemoveFromWishlist(int productId)
         {
-             if (!Int32.TryParse(User.FindFirst("UserId")?.Value, out int userId))
+             if (!Int32.TryParse(User.FindFirst(UserId.userId)?.Value, out int userId))
             {
                 return Unauthorized();
             }
@@ -72,7 +70,7 @@ namespace server.Controllers
 
             await wishListService.RemoveFromWishlistAsync(userId, productId);
 
-            return Ok(res.success("Product removed from wishlist."));
+            return Ok(res.success(Wishlist_C.RemovedFromWishlist));
         }
     }
 }

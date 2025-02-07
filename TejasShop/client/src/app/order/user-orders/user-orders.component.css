@@ -1,4 +1,155 @@
-th,td{
-    text-align: center;
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-top: -4rem;
+    color: #212529;
+    border-collapse: collapse;
+  }
+  
+  /* Table header and cell padding, vertical alignment, and border */
+
+  th,td{
+    text-align: left;
     vertical-align: middle;
+    padding: 10px 5px;
+    border-bottom: 1px solid #000000;
 }
+ 
+  
+  /* Form field styling for width and margin */
+  .mat-form-field {
+    width: 200px;
+    margin-right: 20px;
+  }
+  
+  /* Paginator styling for margin and alignment */
+  .mat-paginator {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* Raised button styling for margin */
+  .mat-raised-button {
+    margin-right: 10px;
+  }
+  
+  /* Icon button color */
+  button.mat-icon-button {
+    color: #007bff;
+  }
+  
+  /* Icon button hover effect */
+  button.mat-icon-button:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+  }
+  
+  /* Raised button background color and text color */
+  button.mat-raised-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Raised button hover effect */
+  button.mat-raised-button:hover {
+    background-color: #0056b3;
+  }
+
+/* filter by label */
+
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+  
+  .filter-field {
+    margin-left: auto;
+  }
+
+
+/* for expand hover */
+
+/* Style for the table rows */
+/* Style for the table rows */
+table tr {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for the table rows except the header */
+table tbody tr:hover {
+    background-color: #b2dfdb; /* Darker background color on hover */
+    color: #222a29; /* Darker text color on hover */
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(97, 97, 97); /* Add a subtle shadow effect */
+    transform: scale(1); /* Slightly enlarge the row */
+    border-left: 4px solid #000000; /* Add a border on the left */
+}
+  /* Style for the expanded rows */
+  table tr.expanded-row {
+    background-color: #b2ebf2;
+  }
+  
+  /* Style for the details section */
+  .expanded-details {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-left: 4px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    margin-top: -1px; /* Adjust margin to avoid double border */
+  }
+
+  /* Style for the buttons */
+.view-selected-orders {
+    background-color: #d7d7d7; /* Primary background color */
+    color: rgb(0, 0, 0); /* Text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Padding for the buttons */
+    margin: 10px 5px; /* Margin between buttons */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    margin-bottom: -30px;
+    margin-top: -140px;
+    margin-left: -10px;
+}
+.expand-all{
+    background-color: #d7d7d7; /* Primary background color */
+    color: rgb(0, 0, 0); /* Text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Padding for the buttons */
+    margin: 10px 5px; /* Margin between buttons */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    margin-bottom: -30px;
+    margin-top: -140px;
+
+}
+  
+  /* Hover effect for the buttons */
+  .view-selected-orders:hover, .expand-all:hover {
+    background-color: #aeaeae; /* Darker background color on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+  
+  /* Active effect for the buttons */
+  .view-selected-orders:active, .expand-all:active {
+    background-color: #e1e1e1; /* Even darker background color on active */
+    transform: scale(1); /* Reset scale on active */
+  }
+
+  .order-found{
+    font-size: 1.2rem;
+    margin-left: 130px;
+    margin-top: -22.9px;
+  }
+

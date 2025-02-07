@@ -1,0 +1,107 @@
+<app-notification></app-notification>
+<app-admin-dashboard></app-admin-dashboard>
+<div class="header-container">
+  <h2>Fill the Product Information and all fields are required.</h2>
+</div>
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" />
+      <div *ngIf="addProductForm.get('name')?.invalid && addProductForm.get('name')?.touched" class="error-message">
+        Name is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="originalPrice">Original Price:</label>
+      <input id="originalPrice" formControlName="originalPrice" type="number" min="1000" max="250000"
+        (input)="onInput($event)" />
+      <div *ngIf="addProductForm.get('originalPrice')?.touched">
+        <div *ngIf="addProductForm.get('originalPrice')?.errors?.['required']" class="error-message">
+          Original Price is required.
+        </div>
+        <div *ngIf="addProductForm.get('originalPrice')?.errors?.['min']" class="error-message">
+          Minimum price is 1000.
+        </div>
+        <div *ngIf="addProductForm.get('originalPrice')?.errors?.['max']" class="error-message">
+          Price should not exceed Rs. 250000.
+        </div>
+        <div *ngIf="addProductForm.get('originalPrice')?.errors?.['nonNegative']" class="error-message">
+          Price must be non-negative.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="stockQuantity">Stock Quantity:</label>
+      <input id="stockQuantity" formControlName="stockQuantity" type="number" min="0" (input)="onInput($event)" />
+      <div *ngIf="addProductForm.get('stockQuantity')?.invalid && addProductForm.get('stockQuantity')?.touched"
+        class="error-message">
+        Stock Quantity is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="discountPercentage">Discount Percentage:</label>
+      <input id="discountPercentage" formControlName="discountPercentage" type="number" (input)="onInput($event)" max="100" />
+      <div *ngIf="addProductForm.get('discountPercentage')?.touched">
+        <div *ngIf="addProductForm.get('discountPercentage')?.errors?.['nonNegative']" class="error-message">
+          Discount must be non-negative.
+        </div>
+        <div *ngIf="addProductForm.get('discountPercentage')?.errors?.['max']" class="error-message">
+          Discount cannot exceed 100%.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="categoryId">Category:</label>
+      <select id="categoryId" formControlName="categoryId">
+        <option *ngFor="let category of categories$ | async" [value]="category.id">{{ category.name }}</option>
+      </select>
+      <div *ngIf="addProductForm.get('categoryId')?.invalid && addProductForm.get('categoryId')?.touched"
+        class="error-message">
+        Category is required.
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="brandId">Brand:</label>
+      <select id="brandId" formControlName="brandId">
+        <option *ngFor="let brand of brands$ | async" [value]="brand.id">{{ brand.name }}</option>
+      </select>
+      <div *ngIf="addProductForm.get('brandId')?.invalid && addProductForm.get('brandId')?.touched"
+        class="error-message">
+        Brand is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="thumbnail">Thumbnail:</label>
+      <input id="thumbnail" type="file" (change)="onFileChange($event)" formControlName="image" />
+      <div *ngIf="thumbnailError; else noImage" class="error-message">
+        {{ thumbnailError }}
+      </div>
+      <ng-template #noImage>
+        <div *ngIf="addProductForm.get('thumbnail')?.invalid && addProductForm.get('thumbnail')?.touched"
+          class="error-message">Thumbnail is required</div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <div *ngIf="addProductForm.get('description')?.invalid && addProductForm.get('description')?.touched" class="error-message">
+        <div *ngIf="addProductForm.get('description')?.errors?.['required']">
+            Description is required.
+        </div>
+        <div *ngIf="addProductForm.get('description')?.errors?.['maxlength']">
+            Description cannot exceed 512 characters.
+        </div>
+    </div>
+</div>
+  <br>
+  <div class="button-container">
+    <button type="submit">Add Product</button>
+  </div>
+  <br>
+</form>

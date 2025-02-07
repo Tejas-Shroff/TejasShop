@@ -3,22 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 
-
 const routes: Routes = [
   {
-    path:'',
-    component:UserOrdersComponent,
-    pathMatch:'full'
+    path: '',
+    component: UserOrdersComponent,
+    pathMatch: 'full',
   },
   {
-    path:'detail/:orderId',
-    component:OrderDetailsComponent,
-    pathMatch:'full'
-  }
+    path: 'detail/:orderId',
+    component: OrderDetailsComponent,
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class OrderRoutingModule { }
+export class OrderRoutingModule {}

@@ -5,6 +5,7 @@ import { AddToWishList, loadWishList, loadWishListFailure, loadWishListSuccess, 
 import { catchError, map, mergeMap, of, switchMap } from "rxjs";
 import { AuthService } from "src/app/core/Services/auth.service";
 import { Router } from "@angular/router";
+import { Wishlist_c } from "src/app/constants/messages";
 
 @Injectable()
 export class WishlistEffects {
@@ -28,7 +29,7 @@ export class WishlistEffects {
         }
         else {
           //this.router.navigate(['/login']);
-          return of(loadWishListFailure({ error: 'User not logged in' }));
+          return of(loadWishListFailure({ error: Wishlist_c.UserNotLoggedIn_E }));
         }
       }
       )
@@ -48,7 +49,7 @@ export class WishlistEffects {
         }
         else {
           this.router.navigate(['/auth/login']);
-          return of(loadWishListFailure({ error: 'User not logged in' }));
+          return of(loadWishListFailure({ error: Wishlist_c.UserNotLoggedIn_E }));
         }
       }
 
@@ -68,8 +69,7 @@ export class WishlistEffects {
           )
         }
         else {
-          //this.router.navigate(['/login']);
-          return of(loadWishListFailure({ error: 'User not logged in' }));
+          return of(loadWishListFailure({ error: Wishlist_c.UserNotLoggedIn_E }));
         }
       }
       )

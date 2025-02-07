@@ -41,3 +41,38 @@
     display: flex;
     justify-content: space-between;
 }
+
+.form-group.row.align-items-center {
+    display: flex;
+    align-items: center;
+  }
+  
+  .text-danger {
+    color: red;
+    font-weight: 600;
+  }
+
+  .list-group {
+    margin-top: -20px;
+  }
+
+  .retry-payment-button {
+    max-width: 200px; 
+    margin-top: -5px;
+    margin-left: 100px;
+    margin-top: -67px;    
+  }
+  
+
+  .payment-status-message {
+    color: #dc3545; 
+    font-size: 14px;
+    margin-top: 10px; 
+    font-weight: 500;
+  }
+  
+
+  .d-flex.align-items-center {
+    gap: 8px; 
+  }
+
